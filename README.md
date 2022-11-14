@@ -1,4 +1,4 @@
-# jetbrains-language-fsh
+# jetbrains-plugin-fhir
 
 A plugin that add supports for the [IG Publisher](https://github.com/HL7/fhir-ig-publisher) and
 the [FHIR Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html) (_FSH_).
@@ -22,9 +22,9 @@ allow/facilitate the work of the plugin.
 To regenerate the Java implementation:
 
 ```shell
-cd /src/main/java/ch/qligier/jetbrains/fsh/grammar
-java -jar ./antlr-4.11.1-complete.jar FSHLexer.g4 -package ch.qligier.jetbrains.fsh.grammar
-java -jar ./antlr-4.11.1-complete.jar FSH.g4 -package ch.qligier.jetbrains.fsh.grammar
+cd /src/main/java/ch/qligier/jetbrains/plugin/fhir/fsh/grammar
+java -jar ./antlr-4.11.1-complete.jar FSHLexer.g4 -package ch.qligier.jetbrains.plugin.fhir.fsh.grammar
+java -jar ./antlr-4.11.1-complete.jar FSH.g4 -package ch.qligier.jetbrains.plugin.fhir.fsh.grammar
 ```
 
 ### Notice

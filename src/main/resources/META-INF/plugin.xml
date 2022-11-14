@@ -3,11 +3,11 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>ch.qligier.jetbrains.jetbrains-language-fsh</id>
+    <id>ch.qligier.jetbrains.plugin.fhir</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>SUSHI Support</name>
+    <name>FHIR and SUSHI Support</name>
 
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
@@ -32,29 +32,35 @@
         <!-- The FSH language -->
         <fileType
                 name="FSH"
-                implementationClass="ch.qligier.jetbrains.fsh.language.FshFileType"
+                implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshFileType"
                 fieldName="INSTANCE"
                 language="FSH"
                 extensions="fsh"/>
         <lang.parserDefinition language="FSH"
-                               implementationClass="ch.qligier.jetbrains.fsh.parser.FshParserDefinition"/>
+                               implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.FshParserDefinition"/>
         <lang.ast.factory language="FSH"
-                          implementationClass="ch.qligier.jetbrains.fsh.parser.ast.FshAstFactory"/>
+                          implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.ast.FshAstFactory"/>
         <lang.syntaxHighlighterFactory language="FSH"
-                                       implementationClass="ch.qligier.jetbrains.fsh.highlighter.FshSyntaxHighlighterFactory"/>
+                                       implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.highlighter.FshSyntaxHighlighterFactory"/>
         <lang.commenter language="FSH"
-                        implementationClass="ch.qligier.jetbrains.fsh.language.FshCommenter"/>
+                        implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshCommenter"/>
         <lang.foldingBuilder language="FSH"
-                             implementationClass="ch.qligier.jetbrains.fsh.language.FshFoldingBuilder"/>
-        <navbar implementation="ch.qligier.jetbrains.fsh.language.FshStructureAwareNavbar"/>
+                             implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshFoldingBuilder"/>
+        <navbar implementation="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshStructureAwareNavbar"/>
+        <lang.documentationProvider
+                language="FSH"
+                implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.documentation.FshDocumentationProvider"/>
+
+        <!-- Inspections for FSH -->
+        <localInspection language="FSH"
+                         shortName="AliasDollarNameInspection"
+                         displayName="Aliases should start with '$'"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.AliasDollarNameInspection"/>
 
         <!-- The IG Publisher Configuration type -->
         <configurationType
-                implementation="ch.qligier.jetbrains.fsh.configuration.IgPublisherConfigurationType"/>
-
-        <!-- The FSH Documentation provider -->
-        <lang.documentationProvider
-                language="FSH"
-                implementationClass="ch.qligier.jetbrains.fsh.documentation.FshDocumentationProvider"/>
+                implementation="ch.qligier.jetbrains.plugin.fhir.configuration.IgPublisherConfigurationType"/>
     </extensions>
 </idea-plugin>

@@ -1,8 +1,10 @@
 RuleSet: composition-ruleset
-Parent: Composition
+Parent : Composition
 Severity: #error
 Id: composition-rule-set
 
+* text ^short = "Plain text representation"
+* text ^short = "...Plain text representation"
 * confidentiality insert codeableconcept-ruleset
 * confidentiality.code = #17621005
 * confidentiality.system = $sct
@@ -14,6 +16,5 @@ Id: composition-rule-set
 * action.definition[x] only Canonical(ActivityDefinition or PlanDefinition or Patient)
 * performer only Reference(PrimaryCarePhysician or EmergencyRoomPhysician)
 * ^context[0].type = #element
-* text ^short = "Plain text representation"
 * statusReason 0..12
 * statusReason 0..*
