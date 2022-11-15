@@ -93,6 +93,7 @@ STRING:                 QUOTE (~[\\"] | '\\r' | '\\n' | '\\t' | '\\"' | '\\\\')*
 MULTILINE_STRING:       TRIPLE_QUOTE .*? TRIPLE_QUOTE;
 UNIT:                   SIMPLE_QUOTE (~[\\'])* SIMPLE_QUOTE;
 CONCEPT_STRING:         QUOTE (~[ \t\r\n\f\u00A0\\"] | '\\"' | '\\\\')+ (WS (~[ \t\r\n\f\u00A0\\"] | '\\"' | '\\\\')+)* QUOTE;
+REGEX:                  SLASH ('\\/' | ~[*/\r\n])('\\/' | ~[/\r\n])* SLASH;
 
 DATETIME:               [0-9][0-9][0-9][0-9]('-'[0-9][0-9]('-'[0-9][0-9]('T' TIME)?)?)?;
 //                             YEAR           -   MONTH     -    DAY      T TIME
