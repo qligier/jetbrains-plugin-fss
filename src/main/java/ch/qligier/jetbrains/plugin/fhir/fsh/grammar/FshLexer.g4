@@ -90,6 +90,7 @@ URN:                    'urn:' NON_WS+;
 
 EXTEND_STRING:          QUOTE TRIPLE_DOT (~[\\"] | '\\r' | '\\n' | '\\t' | '\\"' | '\\\\')* QUOTE;
 STRING:                 QUOTE (~[\\"] | '\\r' | '\\n' | '\\t' | '\\"' | '\\\\')* QUOTE;
+MULTILINE_STRING:       TRIPLE_QUOTE .*? TRIPLE_QUOTE;
 UNIT:                   SIMPLE_QUOTE (~[\\'])* SIMPLE_QUOTE;
 CONCEPT_STRING:         QUOTE (~[ \t\r\n\f\u00A0\\"] | '\\"' | '\\\\')+ (WS (~[ \t\r\n\f\u00A0\\"] | '\\"' | '\\\\')+)* QUOTE;
 
