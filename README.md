@@ -22,9 +22,9 @@ allow/facilitate the work of the plugin.
 To regenerate the Java implementation:
 
 ```shell
-cd /src/main/java/ch/qligier/jetbrains/plugin/fhir/fsh/grammar
-java -jar ./antlr-4.11.1-complete.jar FSHLexer.g4 -package ch.qligier.jetbrains.plugin.fhir.fsh.grammar
-java -jar ./antlr-4.11.1-complete.jar FSH.g4 -package ch.qligier.jetbrains.plugin.fhir.fsh.grammar
+cd ./src/main/java/ch/qligier/jetbrains/plugin/fhir/fsh/grammar
+java -jar ./antlr-4.11.1-complete.jar FshLexer.g4 -package ch.qligier.jetbrains.plugin.fhir.fsh.grammar
+java -jar ./antlr-4.11.1-complete.jar Fsh.g4 -package ch.qligier.jetbrains.plugin.fhir.fsh.grammar
 ```
 
 ### Notice
