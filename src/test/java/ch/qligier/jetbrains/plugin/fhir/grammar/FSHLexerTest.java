@@ -1,4 +1,4 @@
-package ch.qligier.jetbrains.fsh.grammar;
+package ch.qligier.jetbrains.plugin.fhir.grammar;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshLexer;
 import org.antlr.v4.runtime.CharStreams;

@@ -2,7 +2,7 @@ package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFileBase;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifier;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.item.FshAliasItem;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.metadata.FshIdMetadata;
 import com.intellij.codeInspection.InspectionManager;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
@@ -18,13 +18,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 /**
- * An inspection that verifies alias names start with the '$' sign.
+ * An inspection that verifies item IDs are derived from the name.
  *
  * @author Quentin Ligier
  **/
-public class AliasDollarNameInspection extends FshInspectionBase {
+public class IdDerivedFromNameInspection extends FshInspectionBase {
 
     /**
      * Override to report problems at file level.
@@ -42,29 +44,47 @@ public class AliasDollarNameInspection extends FshInspectionBase {
         if (!(file instanceof FshFileBase)) {
             return null;
         }
+
         final List<ProblemDescriptor> descriptors = new ArrayList<>(0);
         for (final var item : ((FshFileBase) file).getItems()) {
-            if (!(item instanceof FshAliasItem)) {
+            final var id = Optional.ofNullable(item.getItemIdElement())
+                    .map(FshIdMetadata::getValueElement)
+                    .map(FshIdentifier::getName)
+                    .orElse(null);
+            if (id == null) {
                 continue;
             }
-            final var aliasNameElement = ((FshAliasItem) item).getIdentifier();
-            if (aliasNameElement == null) {
+            final var name = Optional.ofNullable(item.getItemNameElement())
+                    .map(FshIdentifier::getName)
+                    .orElse(null);
+            if (name == null) {
                 continue;
             }
-            if (!aliasNameElement.getText().startsWith("$")) {
-                descriptors.add(manager.createProblemDescriptor(aliasNameElement,
-                                                                (TextRange) null, // The entire element
-                                                                "An alias name SHOULD start with a $ sign",
-                                                                ProblemHighlightType.WEAK_WARNING,
-                                                                true,
-                                                                new AliasDollarNameQuickFix()));
+
+            final var expectedId = name.substring(0, Math.min(name.length(), 64))
+                    .replace("_", "-")
+                    .toLowerCase(Locale.ROOT);
+            if (!expectedId.equals(id)) {
+                descriptors.add(manager.createProblemDescriptor(
+                        item.getItemIdElement(),
+                        (TextRange) null, // The entire element
+                        String.format("An item ID SHOULD be derived from the name (expected '%s')", expectedId),
+                        ProblemHighlightType.WEAK_WARNING,
+                        true,
+                        new IdDerivedFromNameQuickFix(expectedId)));
             }
         }
 
         return descriptors.toArray(new ProblemDescriptor[0]);
     }
 
-    private static final class AliasDollarNameQuickFix implements LocalQuickFix {
+    private static final class IdDerivedFromNameQuickFix implements LocalQuickFix {
+
+        private final String rightId;
+
+        public IdDerivedFromNameQuickFix(@NotNull final String rightId) {
+            this.rightId = rightId;
+        }
 
         /**
          * @return text to appear in "Apply Fix" popup when multiple Quick Fixes exist (in the results of batch code
@@ -74,7 +94,7 @@ public class AliasDollarNameInspection extends FshInspectionBase {
          */
         @Override
         public @IntentionFamilyName @NotNull String getFamilyName() {
-            return "Prefix the name with a $ sign";
+            return "Derive the ID from the name";
         }
 
         /**
@@ -92,7 +112,7 @@ public class AliasDollarNameInspection extends FshInspectionBase {
             if (!(element instanceof FshIdentifier)) {
                 return;
             }
-            ((FshIdentifier) element).setName("$" + element.getText());
+            ((FshIdentifier) element).setName(this.rightId);
         }
     }
 }

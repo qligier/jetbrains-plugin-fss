@@ -51,9 +51,16 @@ KW_SYSTEM:              'system';
 KW_EXACTLY:             'exactly';
 KW_INSERT:              'insert';
 KW_CONTENTREFERENCE:    'contentReference';
-KW_IS_A:                'is-a';
 KW_REFERENCE:           'Reference';
 KW_CANONICAL:           'Canonical';
+KW_IS_A:                'is-a';
+KW_DESCENDEND_OF:       'descendent-of';
+KW_IS_NOT_A:            'is-not-a';
+KW_REGEX:               'regex';
+KW_IN:                  'in';
+KW_NOT_IN:              'not-in';
+KW_GENERALIZES:         'generalizes';
+KW_EXISTS:              'exists';
 
 // SYMBOLS
 COLON:                  ':';
@@ -88,7 +95,6 @@ IDENTIFIER:             DOLLAR? [a-zA-Z0-9-_]+;
 URL:                    'http' 's'? '://' NON_WS+;
 URN:                    'urn:' NON_WS+;
 
-EXTEND_STRING:          QUOTE TRIPLE_DOT (~[\\"] | '\\r' | '\\n' | '\\t' | '\\"' | '\\\\')* QUOTE;
 STRING:                 QUOTE (~[\\"] | '\\r' | '\\n' | '\\t' | '\\"' | '\\\\')* QUOTE;
 MULTILINE_STRING:       TRIPLE_QUOTE .*? TRIPLE_QUOTE;
 UNIT:                   SIMPLE_QUOTE (~[\\'])* SIMPLE_QUOTE;

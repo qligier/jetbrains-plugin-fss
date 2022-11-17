@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.intellij") version "1.9.0"
 }
 
-group = "ch.qligier.jetbrains"
+group = "ch.qligier.jetbrains.plugin.fhir"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -25,7 +25,7 @@ intellij {
     version.set("2021.3.3")
     type.set("IC") // Target IDE Platform
 
-    plugins.set(listOf(/* Plugin Dependencies */))
+    plugins.set(listOf("org.intellij.intelliLang"))
 }
 
 tasks {
@@ -54,5 +54,3 @@ tasks {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
 }
-
-

@@ -19,6 +19,6 @@ public abstract class FshInspectionBase extends LocalInspectionTool {
      */
     @Override
     public @Nls(capitalization = Nls.Capitalization.Sentence) @NotNull String getGroupDisplayName() {
-        return "FHIR Shorthand (FSH)";
+        return "FSH";
     }
 }

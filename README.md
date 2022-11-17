@@ -29,4 +29,6 @@ java -jar ./antlr-4.11.1-complete.jar Fsh.g4 -package ch.qligier.jetbrains.plugi
 
 ### Notice
 
-The FHIR Shorthand ![FSH icon](src/main/resources/icons/language.png) is maybe copyrighted?
+The FHIR
+Shorthand ![FSH icon](https://github.com/qligier/jetbrains-plugin-fhir/raw/master/src/main/resources/icons/fsh_flame.png)
+is maybe copyrighted?

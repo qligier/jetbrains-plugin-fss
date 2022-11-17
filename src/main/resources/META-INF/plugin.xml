@@ -47,17 +47,26 @@
         <lang.foldingBuilder language="FSH"
                              implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshFoldingBuilder"/>
         <navbar implementation="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshStructureAwareNavbar"/>
-        <lang.documentationProvider
-                language="FSH"
-                implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.documentation.FshDocumentationProvider"/>
+        <lang.braceMatcher language="FSH"
+                           implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshPairedBraceMatcher"/>
+        <languageInjectionContributor language="FSH"
+                                      implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.highlighter.FshLanguageInjectionContributor"/>
 
         <!-- Inspections for FSH -->
+        <annotator language="FSH"
+                   implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.FshAnnotator"/>
         <localInspection language="FSH"
                          shortName="AliasDollarNameInspection"
-                         displayName="Aliases should start with '$'"
+                         displayName="Alias names SHOULD begin with the $ sign"
                          enabledByDefault="true"
                          level="WARNING"
                          implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.AliasDollarNameInspection"/>
+        <localInspection language="FSH"
+                         shortName="IdDerivedFromNameInspection"
+                         displayName="Item IDs SHOULD be derived from the name"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.IdDerivedFromNameInspection"/>
 
         <!-- The IG Publisher Configuration type -->
         <configurationType

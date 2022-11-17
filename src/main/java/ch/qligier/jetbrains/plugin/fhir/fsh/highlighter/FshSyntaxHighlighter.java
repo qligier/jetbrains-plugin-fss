@@ -26,19 +26,20 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
 
     public static final TextAttributesKey ID =
-            createTextAttributesKey("SAMPLE_ID", DefaultLanguageHighlighterColors.IDENTIFIER);
+            createTextAttributesKey("FSH_ID", DefaultLanguageHighlighterColors.IDENTIFIER);
     public static final TextAttributesKey KEYWORD =
-            createTextAttributesKey("SAMPLE_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
+            createTextAttributesKey("FSH_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
     public static final TextAttributesKey STRING =
-            createTextAttributesKey("SAMPLE_STRING", DefaultLanguageHighlighterColors.STRING);
+            createTextAttributesKey("FSH_STRING", DefaultLanguageHighlighterColors.STRING);
     public static final TextAttributesKey LINE_COMMENT =
-            createTextAttributesKey("SAMPLE_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+            createTextAttributesKey("FSH_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey BLOCK_COMMENT =
-            createTextAttributesKey("SAMPLE_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
+            createTextAttributesKey("FSH_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
     public static final TextAttributesKey NUMBER =
-            createTextAttributesKey("SAMPLE_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
+            createTextAttributesKey("FSH_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
     public static final TextAttributesKey METADATA =
-            createTextAttributesKey("SAMPLE_METADATA", DefaultLanguageHighlighterColors.METADATA);
+            createTextAttributesKey("FSH_METADATA", DefaultLanguageHighlighterColors.METADATA);
+
 
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
@@ -72,10 +73,21 @@ public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
         switch (tokenType.getANTLRTokenType()) {
             // Entity declaration
             case FshParser.KW_ALIAS:
+            case FshParser.KW_PROFILE:
+            case FshParser.KW_EXTENSION:
+            case FshParser.KW_INVARIANT:
+            case FshParser.KW_INSTANCE:
+            case FshParser.KW_VALUESET:
+            case FshParser.KW_CODESYSTEM:
+            case FshParser.KW_RULESET:
+            case FshParser.KW_MAPPING:
+            case FshParser.KW_LOGICAL:
+            case FshParser.KW_RESOURCE:
                 return pack(KEYWORD);
 
             case FshParser.IDENTIFIER:
-                return pack(ID);
+                return pack(createTextAttributesKey("FSH_CLASS_NAME", DefaultLanguageHighlighterColors.CLASS_NAME));
+
             case FshParser.KW_INSERT:
             case FshParser.KW_EXACTLY:
             case FshParser.KW_FROM:
@@ -85,17 +97,37 @@ public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
             case FshParser.KW_FALSE:
             case FshParser.KW_INCLUDE:
             case FshParser.KW_EXCLUDE:
+            case FshParser.KW_OBEYS:
                 return pack(KEYWORD);
-            /*case FshParser.STRING:
+
+            // Metadata declaration
+            case FshParser.KW_PARENT:
+            case FshParser.KW_ID:
+            case FshParser.KW_TITLE:
+            case FshParser.KW_DESCRIPTION:
+            case FshParser.KW_SOURCE:
+            case FshParser.KW_TARGET:
+            case FshParser.KW_INSTANCEOF:
+            case FshParser.KW_USAGE:
+            case FshParser.KW_EXPRESSION:
+            case FshParser.KW_XPATH:
+            case FshParser.KW_SEVERITY:
+                return pack(METADATA);
+
+            case FshParser.STRING:
             case FshParser.MULTILINE_STRING:
-                return pack(STRING);*/
+                return pack(STRING);
+
             case FshParser.LINE_COMMENT:
                 return pack(LINE_COMMENT);
-            /*case FshParser.BLOCK_COMMENT:
+
+            case FshParser.COMMENT:
                 return pack(BLOCK_COMMENT);
-            case FshParser.CARD:
+
+            case FshParser.DIGIT:
             case FshParser.DATETIME:
-                return pack(NUMBER);*/
+                return pack(NUMBER);
+
             // Flags
             case FshParser.KW_MOD:
             case FshParser.KW_MS:
@@ -104,6 +136,18 @@ public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
             case FshParser.KW_NORMATIVE:
             case FshParser.KW_DRAFT:
                 return pack(METADATA);
+
+            case FshParser.DOT:
+            case FshParser.DOUBLE_DOT:
+            case FshParser.TRIPLE_DOT:
+            case FshParser.ARROW:
+            case FshParser.STAR:
+            case FshParser.EQUAL:
+            case FshParser.PLUS:
+            case FshParser.MINUS:
+            case FshParser.COMMA:
+                return pack(createTextAttributesKey("FSH_SYMBOLS", DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL));
+
             default:
                 return EMPTY_KEYS;
         }

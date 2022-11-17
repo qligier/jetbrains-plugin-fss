@@ -1,6 +1,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.language;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFileBase;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.item.FshAliasItem;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.folding.FoldingBuilderEx;
 import com.intellij.lang.folding.FoldingDescriptor;
@@ -10,6 +11,8 @@ import com.intellij.openapi.project.DumbAware;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
 
 /**
  * Allows this plugin to define rules for folding code in the FSH language.
@@ -51,10 +54,20 @@ public class FshFoldingBuilder extends FoldingBuilderEx implements DumbAware {
             LOG.warn("PsiElement is not an instance of FshPsiFileBase, unable to build fold regions");
             return new FoldingDescriptor[0];
         }
+        final var descriptors = new ArrayList<FoldingDescriptor>(1);
         final var fshFile = (FshFileBase) root;
-        // TODO
-        //
-        return new FoldingDescriptor[0];
+        for (final var item : fshFile.getItems()) {
+            if (item instanceof FshAliasItem) {
+                // No need to fold an alias declaration
+                continue;
+            }
+            descriptors.add(new FoldingDescriptor(item,
+                                                  item.getTextRange().getStartOffset(),
+                                                  item.getTextRange().getEndOffset(),
+                                                  null,
+                                                  item.getFoldedPlaceholder()));
+        }
+        return descriptors.toArray(new FoldingDescriptor[0]);
     }
 
     /**

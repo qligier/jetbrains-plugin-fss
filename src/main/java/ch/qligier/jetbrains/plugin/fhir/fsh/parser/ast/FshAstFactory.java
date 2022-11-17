@@ -1,8 +1,10 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.ast;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshParser;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshAliasItem;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifier;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshString;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.item.*;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.metadata.FshIdMetadata;
 import com.intellij.lang.ASTFactory;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -16,7 +18,10 @@ import org.antlr.intellij.adaptor.lexer.TokenIElementType;
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
 
 /**
- * jetbrains-language-fsh
+ * An expert-level extension point for exercising fine-grained control over abstract syntax tree (AST) element
+ * generation, when PSI is not enough (see the <a
+ * href="https://plugins.jetbrains.com/docs/intellij/implementing-parser-and-psi.html">Implementing Parser and PSI</a>
+ * section for description of PSI/AST relation).
  *
  * @author Quentin Ligier
  **/
@@ -26,23 +31,37 @@ public class FshAstFactory extends ASTFactory {
         if (node.getElementType() instanceof RuleIElementType) {
             final var rule = (RuleIElementType) node.getElementType();
             //System.out.println("createElement: rule " + rule.getRuleIndex());
-            if (rule.getRuleIndex() == FshParser.RULE_alias) {
-                return new FshAliasItem(node);
+            switch (rule.getRuleIndex()) {
+                // Items
+                case FshParser.RULE_alias:
+                    return new FshAliasItem(node);
+                case FshParser.RULE_profile:
+                    return new FshProfileItem(node);
+                case FshParser.RULE_extension:
+                    return new FshExtensionItem(node);
+                case FshParser.RULE_invariant:
+                    return new FshInvariantItem(node);
+                case FshParser.RULE_instance:
+                    return new FshInstanceItem(node);
+                case FshParser.RULE_valueSet:
+                    return new FshValueSetItem(node);
+                case FshParser.RULE_codeSystem:
+                    return new FshCodeSystemItem(node);
+                case FshParser.RULE_ruleSet:
+                    return new FshRuleSetItem(node);
+                case FshParser.RULE_mapping:
+                    return new FshMappingItem(node);
+                case FshParser.RULE_logical:
+                    return new FshLogicalItem(node);
+                case FshParser.RULE_resource:
+                    return new FshResourceItem(node);
+
+                // Metadata
+                case FshParser.RULE_id:
+                    return new FshIdMetadata(node);
             }
         }
-        //System.out.println("createElement: type " + node.getClass());
         return new ANTLRPsiNode(node);
-
-        /*PsiElement t;
-        IElementType tokenType = node.getElementType();
-        PsiElementFactory factory = ruleElementTypeToPsiFactory.get(tokenType);
-        if (factory != null) {
-            t = factory.createElement(node);
-        } else {
-            t = new ASTWrapperPsiElement(node);
-        }
-
-        return t;*/
     }
 
     /**
@@ -68,19 +87,11 @@ public class FshAstFactory extends ASTFactory {
             //System.out.println("token " + tokenType.getANTLRTokenType());
             if (tokenType.getANTLRTokenType() == FshParser.IDENTIFIER) {
                 return new FshIdentifier(type, text);
+            } else if (tokenType.getANTLRTokenType() == FshParser.STRING
+                    || tokenType.getANTLRTokenType() == FshParser.MULTILINE_STRING) {
+                return new FshString(type, text);
             }
         }
-        LeafElement t;
-        /*if (type == FshTokenTypes.TOKEN_ELEMENT_TYPES.get(FSHLexer.RULE_REF)) {
-            t = new ParserRuleRefNode(type, text);
-        } else if (type == FshTokenTypes.TOKEN_ELEMENT_TYPES.get(FSHLexer.TOKEN_REF)) {
-            t = new LexerRuleRefNode(type, text);
-        } else if (type == FshTokenTypes.TOKEN_ELEMENT_TYPES.get(FSHLexer.STRING_LITERAL)) {
-            t = new StringLiteralElement(type, text);
-        } else {
-            t = new LeafPsiElement(type, text);
-        }*/
-        //System.out.println("Creating LeafPsiElement");
         return super.createLeaf(type, text);
     }
 }

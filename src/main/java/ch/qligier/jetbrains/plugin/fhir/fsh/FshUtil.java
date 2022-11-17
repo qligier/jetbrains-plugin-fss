@@ -2,7 +2,7 @@ package ch.qligier.jetbrains.plugin.fhir.fsh;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.language.FshFileType;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFileBase;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshItem;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.item.FshItem;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.FileTypeIndex;
@@ -10,11 +10,10 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
- * jetbrains-language-fsh
+ * Utilities for the FSH language.
  *
  * @author Quentin Ligier
  * @see <a
@@ -29,13 +28,9 @@ public class FshUtil {
         for (final var virtualFile : virtualFiles) {
             final var fshFile = (FshFileBase) PsiManager.getInstance(project).findFile(virtualFile);
             if (fshFile != null) {
-                FshItem[] items = PsiTreeUtil.getChildrenOfType(fshFile, FshItem.class);
-                if (items != null) {
-                    Collections.addAll(result, items);
-                }
+                result.addAll(PsiTreeUtil.getChildrenOfTypeAsList(fshFile, FshItem.class));
             }
         }
         return result;
     }
-
 }

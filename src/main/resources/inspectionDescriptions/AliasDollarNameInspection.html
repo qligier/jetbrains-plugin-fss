@@ -1,19 +1,15 @@
 <html>
 <body>
-Write your description here.
-Start the description with a verb in 3rd person singular, like reports, detects, highlights.
-In the first sentence, briefly explain what exactly the inspection helps you detect.
-Make sure the sentence is not very long and complicated.
+Reports alias names that don't begin with the $ sign.
 <p>
-    The first sentence must be in a dedicated paragraph separated from the rest of the text. This will make the description easier to read.
-    Make sure the description doesn’t just repeat the inspection title.
+    In contrast with other names in FSH (for profiles, extensions, etc.), alias names optionally begin with a dollar sign ($).
+    If you define an alias with a leading $, implementations can more easily check for misspellings.
+    For example, if you choose the alias name $RaceAndEthnicity and accidentally type $RaceEthnicity, implementations can easily detect there is no alias by that name.
+    Without the $ sign, implementations are forced to look through FHIR Core and all external implementation guides for anything with that name or id, or in some contexts, assume it is a new item, with unpredictable results.
 </p>
 <p>
-    See https://jetbrains.design/intellij/text/inspections/#descriptions for more information.
+    See <a href="https://build.fhir.org/ig/HL7/fhir-shorthand/reference.html#defining-aliases">https://build.fhir.org/ig/HL7/fhir-shorthand/reference.html#defining-aliases</a> for more information.
 </p>
 <!-- tooltip end -->
-<p>Text after this comment will only be shown in the settings of the inspection.</p>
-
-<p>To open related settings directly from the description, add a link with `settings://$` optionally followed by `?$` to pre-select a UI element.</p>
 </body>
 </html>
