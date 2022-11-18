@@ -1,1 +1,1 @@
-rootProject.name = "jetbrains-language-fsh"
+rootProject.name = "jetbrains-plugin-fhir"
