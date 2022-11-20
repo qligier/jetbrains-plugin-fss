@@ -1,7 +1,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.item;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.language.FshNameType;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifier;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifierDecl;
 import com.intellij.lang.ASTNode;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +32,7 @@ public class FshAliasItem extends FshItem {
         return "Alias: " + this.getSafeName();
     }
 
-    public FshIdentifier getIdentifier() {
-        return this.findChildByClass(FshIdentifier.class);
+    public FshIdentifierDecl getIdentifier() {
+        return this.findChildByClass(FshIdentifierDecl.class);
     }
 }

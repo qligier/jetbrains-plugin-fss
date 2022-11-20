@@ -1,7 +1,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.language.FshNameType;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifier;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifierDecl;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.item.FshItem;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.metadata.FshIdMetadata;
 import com.intellij.codeInspection.ProblemHighlightType;
@@ -37,12 +37,12 @@ public class FshAnnotator implements Annotator {
      */
     @Override
     public void annotate(@NotNull final PsiElement element, @NotNull final AnnotationHolder holder) {
-        if (element instanceof FshIdentifier) {
-            this.annotateIdentifier((FshIdentifier) element, holder);
+        if (element instanceof FshIdentifierDecl) {
+            this.annotateIdentifier((FshIdentifierDecl) element, holder);
         }
     }
 
-    protected void annotateIdentifier(@NotNull final FshIdentifier identifierElement,
+    protected void annotateIdentifier(@NotNull final FshIdentifierDecl identifierElement,
                                       @NotNull final AnnotationHolder holder) {
         if (identifierElement.getParent() instanceof FshItem) {
             this.annotateItemName(identifierElement, holder);
@@ -51,7 +51,7 @@ public class FshAnnotator implements Annotator {
         }
     }
 
-    protected void annotateItemName(@NotNull final FshIdentifier itemNameElement,
+    protected void annotateItemName(@NotNull final FshIdentifierDecl itemNameElement,
                                     @NotNull final AnnotationHolder holder) {
         final FshItem item = (FshItem) itemNameElement.getParent();
 
@@ -72,7 +72,7 @@ public class FshAnnotator implements Annotator {
         }
     }
 
-    protected void annotateItemId(@NotNull final FshIdentifier itemIdElement,
+    protected void annotateItemId(@NotNull final FshIdentifierDecl itemIdElement,
                                   @NotNull final AnnotationHolder holder) {
         if (Objects.requireNonNull(itemIdElement.getName()).length() > 64) {
             holder.newAnnotation(HighlightSeverity.ERROR,

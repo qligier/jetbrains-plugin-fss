@@ -1,7 +1,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.ast;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshParser;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifier;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifierDecl;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshString;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.item.*;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.metadata.FshIdMetadata;
@@ -86,7 +86,8 @@ public class FshAstFactory extends ASTFactory {
             final var tokenType = (TokenIElementType) type;
             //System.out.println("token " + tokenType.getANTLRTokenType());
             if (tokenType.getANTLRTokenType() == FshParser.IDENTIFIER) {
-                return new FshIdentifier(type, text);
+                // An identifier can be a declaration of a reference
+                return new FshIdentifierDecl(type, text);
             } else if (tokenType.getANTLRTokenType() == FshParser.STRING
                     || tokenType.getANTLRTokenType() == FshParser.MULTILINE_STRING) {
                 return new FshString(type, text);

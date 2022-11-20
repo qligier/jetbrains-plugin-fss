@@ -14,13 +14,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * jetbrains-language-fsh
+ * A PSI model for the declaration of an identifier.
  *
  * @author Quentin Ligier
  **/
-public class FshIdentifier extends ANTLRPsiLeafNode implements PsiNameIdentifierOwner {
+public class FshIdentifierDecl extends ANTLRPsiLeafNode implements PsiNameIdentifierOwner {
 
-    public FshIdentifier(final IElementType type, final CharSequence text) {
+    public FshIdentifierDecl(final IElementType type, final CharSequence text) {
         super(type, text);
     }
 

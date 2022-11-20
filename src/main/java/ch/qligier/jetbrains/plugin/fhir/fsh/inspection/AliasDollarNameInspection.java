@@ -1,7 +1,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFileBase;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifier;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifierDecl;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.item.FshAliasItem;
 import com.intellij.codeInspection.InspectionManager;
 import com.intellij.codeInspection.LocalQuickFix;
@@ -89,10 +89,10 @@ public class AliasDollarNameInspection extends FshInspectionBase {
         @Override
         public void applyFix(@NotNull final Project project, @NotNull final ProblemDescriptor descriptor) {
             final PsiElement element = descriptor.getPsiElement();
-            if (!(element instanceof FshIdentifier)) {
+            if (!(element instanceof FshIdentifierDecl)) {
                 return;
             }
-            ((FshIdentifier) element).setName("$" + element.getText());
+            ((FshIdentifierDecl) element).setName("$" + element.getText());
         }
     }
 }

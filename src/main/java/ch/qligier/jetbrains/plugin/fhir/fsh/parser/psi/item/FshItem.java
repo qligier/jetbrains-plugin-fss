@@ -1,7 +1,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.item;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.language.FshNameType;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifier;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifierDecl;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.metadata.FshIdMetadata;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.metadata.FshMetadata;
 import com.intellij.lang.ASTNode;
@@ -37,8 +37,8 @@ public abstract class FshItem extends ANTLRPsiNode {
      *
      * @return the PSI element or {@code null}.
      */
-    public @Nullable FshIdentifier getItemNameElement() {
-        return PsiTreeUtil.getChildOfType(this, FshIdentifier.class);
+    public @Nullable FshIdentifierDecl getItemNameElement() {
+        return PsiTreeUtil.getChildOfType(this, FshIdentifierDecl.class);
     }
 
     /**
@@ -46,7 +46,7 @@ public abstract class FshItem extends ANTLRPsiNode {
      */
     public @NotNull String getSafeName() {
         return Optional.ofNullable(this.getItemNameElement())
-                .map(FshIdentifier::getName)
+                .map(FshIdentifierDecl::getName)
                 .orElse("noname");
     }
 

@@ -1,7 +1,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.metadata;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshParser;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifier;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifierDecl;
 import com.intellij.lang.ASTNode;
 import org.intellij.lang.annotations.MagicConstant;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +23,7 @@ public class FshIdMetadata extends FshMetadata {
         return FshParser.RULE_id;
     }
 
-    public @Nullable FshIdentifier getValueElement() {
-        return this.findChildByClass(FshIdentifier.class);
+    public @Nullable FshIdentifierDecl getValueElement() {
+        return this.findChildByClass(FshIdentifierDecl.class);
     }
 }

@@ -1,7 +1,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFileBase;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifier;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifierDecl;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.metadata.FshIdMetadata;
 import com.intellij.codeInspection.InspectionManager;
 import com.intellij.codeInspection.LocalQuickFix;
@@ -49,13 +49,13 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
         for (final var item : ((FshFileBase) file).getItems()) {
             final var id = Optional.ofNullable(item.getItemIdElement())
                     .map(FshIdMetadata::getValueElement)
-                    .map(FshIdentifier::getName)
+                    .map(FshIdentifierDecl::getName)
                     .orElse(null);
             if (id == null) {
                 continue;
             }
             final var name = Optional.ofNullable(item.getItemNameElement())
-                    .map(FshIdentifier::getName)
+                    .map(FshIdentifierDecl::getName)
                     .orElse(null);
             if (name == null) {
                 continue;
@@ -109,10 +109,10 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
         @Override
         public void applyFix(@NotNull final Project project, @NotNull final ProblemDescriptor descriptor) {
             final PsiElement element = descriptor.getPsiElement();
-            if (!(element instanceof FshIdentifier)) {
+            if (!(element instanceof FshIdentifierDecl)) {
                 return;
             }
-            ((FshIdentifier) element).setName(this.rightId);
+            ((FshIdentifierDecl) element).setName(this.rightId);
         }
     }
 }
