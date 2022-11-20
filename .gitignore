@@ -4,6 +4,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 antlr*.jar
+idea-flex.skeleton
+jflex*.jar
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

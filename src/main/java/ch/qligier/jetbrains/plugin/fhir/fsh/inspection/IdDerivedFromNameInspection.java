@@ -1,25 +1,20 @@
+// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+
 package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFileBase;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifierDecl;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.metadata.FshIdMetadata;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFile;
 import com.intellij.codeInspection.InspectionManager;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.util.IntentionFamilyName;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.TextRange;
 import com.intellij.profile.codeInspection.ProjectInspectionProfileManager;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 
 /**
  * An inspection that verifies item IDs are derived from the name.
@@ -41,13 +36,13 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
     public ProblemDescriptor @Nullable [] checkFile(@NotNull final PsiFile file,
                                                     @NotNull final InspectionManager manager,
                                                     final boolean isOnTheFly) {
-        if (!(file instanceof FshFileBase)) {
+        if (!(file instanceof FshFile)) {
             return null;
         }
 
         final List<ProblemDescriptor> descriptors = new ArrayList<>(0);
-        for (final var item : ((FshFileBase) file).getItems()) {
-            final var id = Optional.ofNullable(item.getItemIdElement())
+        for (final var item : ((FshFile) file).getItems()) {
+            /*final var id = Optional.ofNullable(item.getItemIdElement())
                     .map(FshIdMetadata::getValueElement)
                     .map(FshIdentifierDecl::getName)
                     .orElse(null);
@@ -72,7 +67,7 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
                         ProblemHighlightType.WEAK_WARNING,
                         true,
                         new IdDerivedFromNameQuickFix(expectedId)));
-            }
+            }*/
         }
 
         return descriptors.toArray(new ProblemDescriptor[0]);
@@ -93,7 +88,8 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
          * element, simply return {@link #getName()}.
          */
         @Override
-        public @IntentionFamilyName @NotNull String getFamilyName() {
+        public @IntentionFamilyName
+        @NotNull String getFamilyName() {
             return "Derive the ID from the name";
         }
 
@@ -108,11 +104,11 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
          */
         @Override
         public void applyFix(@NotNull final Project project, @NotNull final ProblemDescriptor descriptor) {
-            final PsiElement element = descriptor.getPsiElement();
+            /*final PsiElement element = descriptor.getPsiElement();
             if (!(element instanceof FshIdentifierDecl)) {
                 return;
             }
-            ((FshIdentifierDecl) element).setName(this.rightId);
+            ((FshIdentifierDecl) element).setName(this.rightId);*/
         }
     }
 }

@@ -13,6 +13,7 @@ KW_RULESET:             'RuleSet';
 KW_MAPPING:             'Mapping';
 KW_LOGICAL:             'Logical';
 KW_RESOURCE:            'Resource';
+
 KW_PARENT:              'Parent';
 KW_ID:                  'Id';
 KW_TITLE:               'Title';
@@ -23,6 +24,7 @@ KW_SEVERITY:            'Severity';
 KW_USAGE:               'Usage';
 KW_SOURCE:              'Source';
 KW_TARGET:              'Target';
+
 KW_MOD:                 '?!';
 KW_MS:                  'MS';
 KW_SU:                  'SU';
@@ -50,9 +52,11 @@ KW_VSREFERENCE:         'valueset';
 KW_SYSTEM:              'system';
 KW_EXACTLY:             'exactly';
 KW_INSERT:              'insert';
+
 KW_CONTENTREFERENCE:    'contentReference';
 KW_REFERENCE:           'Reference';
 KW_CANONICAL:           'Canonical';
+
 KW_IS_A:                'is-a';
 KW_DESCENDEND_OF:       'descendent-of';
 KW_IS_NOT_A:            'is-not-a';

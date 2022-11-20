@@ -1,10 +1,12 @@
+// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser;
 
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshLexer;
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshParser;
-import ch.qligier.jetbrains.plugin.fhir.fsh.language.FshLanguage;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.ast.FshAstFactory;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFileBase;
+import ch.qligier.jetbrains.plugin.fhir.fsh.FshLanguage;
+import ch.qligier.jetbrains.plugin.fhir.fsh.lexer.FshLexerAdapter;
+import ch.qligier.jetbrains.plugin.fhir.fsh.lexer.FshTokenSets;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFile;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
@@ -15,14 +17,8 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.TokenType;
-import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor;
-import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory;
-import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor;
-import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,12 +30,6 @@ public class FshParserDefinition implements ParserDefinition {
     public static final Logger LOG = Logger.getInstance("FSHParserDefinition");
     public static final IFileElementType FILE =
             new IFileElementType(FshLanguage.INSTANCE);
-
-    static {
-        PSIElementTypeFactory.defineLanguageIElementTypes(FshLanguage.INSTANCE,
-                                                          FshParser.tokenNames,
-                                                          FshParser.ruleNames);
-    }
 
     public FshParserDefinition() {
         LOG.info("FshParserDefinition");
@@ -54,8 +44,7 @@ public class FshParserDefinition implements ParserDefinition {
      */
     @Override
     public @NotNull Lexer createLexer(final Project project) {
-        final var lexer = new FshLexer(null);
-        return new ANTLRLexerAdaptor(FshLanguage.INSTANCE, lexer);
+        return new FshLexerAdapter();
     }
 
     /**
@@ -66,13 +55,7 @@ public class FshParserDefinition implements ParserDefinition {
      */
     @Override
     public @NotNull PsiParser createParser(final Project project) {
-        final var parser = new FshParser(null);
-        return new ANTLRParserAdaptor(FshLanguage.INSTANCE, parser) {
-            @Override
-            protected ParseTree parse(final Parser parser, final IElementType root) {
-                return ((FshParser) parser).doc();
-            }
-        };
+        return new FshParser();
     }
 
     /**
@@ -87,7 +70,7 @@ public class FshParserDefinition implements ParserDefinition {
      */
     @Override
     public @NotNull TokenSet getWhitespaceTokens() {
-        return FshTokenTypes.WHITESPACE;
+        return FshTokenSets.WHITESPACE;
     }
 
     /**
@@ -99,7 +82,7 @@ public class FshParserDefinition implements ParserDefinition {
      */
     @Override
     public @NotNull TokenSet getCommentTokens() {
-        return FshTokenTypes.COMMENTS;
+        return TokenSet.EMPTY; // TODO
     }
 
     /**
@@ -110,7 +93,7 @@ public class FshParserDefinition implements ParserDefinition {
      */
     @Override
     public @NotNull TokenSet getStringLiteralElements() {
-        return FshTokenTypes.STRING;
+        return FshTokenSets.STRING;
     }
 
     /**
@@ -148,7 +131,7 @@ public class FshParserDefinition implements ParserDefinition {
      */
     @Override
     public @NotNull PsiFile createFile(@NotNull final FileViewProvider viewProvider) {
-        return new FshFileBase(viewProvider);
+        return new FshFile(viewProvider);
     }
 
     /**
@@ -170,7 +153,6 @@ public class FshParserDefinition implements ParserDefinition {
      */
     @Override
     public @NotNull PsiElement createElement(final ASTNode node) {
-        return FshAstFactory.createInternalParseTreeNode(node);
-        /**/
+        return FshTypes.Factory.createElement(node);
     }
 }

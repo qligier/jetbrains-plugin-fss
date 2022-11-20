@@ -1,17 +1,12 @@
+// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+
 package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
-import ch.qligier.jetbrains.plugin.fhir.fsh.language.FshNameType;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshIdentifierDecl;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.item.FshItem;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.metadata.FshIdMetadata;
-import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
-import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -37,11 +32,11 @@ public class FshAnnotator implements Annotator {
      */
     @Override
     public void annotate(@NotNull final PsiElement element, @NotNull final AnnotationHolder holder) {
-        if (element instanceof FshIdentifierDecl) {
+        /*if (element instanceof FshIdentifierDecl) {
             this.annotateIdentifier((FshIdentifierDecl) element, holder);
-        }
+        }*/
     }
-
+/*
     protected void annotateIdentifier(@NotNull final FshIdentifierDecl identifierElement,
                                       @NotNull final AnnotationHolder holder) {
         if (identifierElement.getParent() instanceof FshItem) {
@@ -80,5 +75,5 @@ public class FshAnnotator implements Annotator {
                     .highlightType(ProblemHighlightType.ERROR)
                     .create();
         }
-    }
+    }*/
 }

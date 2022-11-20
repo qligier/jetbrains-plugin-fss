@@ -1,0 +1,147 @@
+/*
+ * Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+ */
+
+{
+  generate=[java="11"]
+
+  parserClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.FshParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Fsh"
+  psiImplClassSuffix="Impl"
+  psiPackage="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi"
+  psiImplPackage="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl"
+
+  elementTypeHolderClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes"
+  elementTypeClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshElementType"
+  tokenTypeClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTokenType"
+}
+
+fshFile                   ::= item_*
+
+private item_             ::= (alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet | mapping | logical | resource)*
+
+// Declaration: ALIAS
+alias                     ::= KwAlias Colon Identifier Equal aliasValue;
+aliasValue                ::= (Urn | Url);
+
+// Declaration: PROFILE
+profile                   ::= KwProfile Colon Identifier sdMetadata_+ sdRule*;
+
+// Declaration: EXTENSION
+extension                 ::= KwExtension Colon Identifier sdMetadata_* sdRule*;
+
+// Declaration: INVARIANT
+invariant                 ::= KwInvariant Colon Identifier invariantMetadata_+;
+private invariantMetadata_ ::=  description | expression | xpath | severity;
+
+// Declaration: INSTANCE
+instance                  ::= KwInstance Colon Identifier instanceMetadata_* instanceRule*;
+private instanceMetadata_ ::= instanceOf | title | description | usage;
+instanceRule              ::= fixedValueRule | insertRule | pathRule;
+
+// Declaration: VALUESET
+valueSet                  ::= KwValueSet Colon Identifier vsMetadata_*
+                    /* rule */ (vsComponent | caretValueRule | insertRule)*;
+private vsMetadata_       ::= id | title | description;
+vsComponent               ::= ruleStart (KwInclude | KwExclude)? (vsConceptComponent | vsFilterComponent);
+vsConceptComponent        ::= (code vsComponentFrom?) | (code (KwAnd code)* vsComponentFrom);
+vsFilterComponent         ::= KwCodes vsComponentFrom (KwWhere vsFilterList)?;
+vsComponentFrom           ::= KwFrom (vsFromSystem (KwAnd vsFromValueset)? | vsFromValueset (KwAnd vsFromSystem)?);
+vsFromSystem              ::= KwSystem itemIdentifier;
+vsFromValueset            ::= KwValueSetRef itemIdentifier (KwAnd itemIdentifier)*;
+vsFilterList              ::= vsFilterDefinition (KwAnd vsFilterDefinition)*;
+vsFilterDefinition        ::= Identifier vsFilterOperator vsFilterValue?;
+vsFilterOperator          ::= Equal | KwCodeOperator;
+vsFilterValue             ::= code | KwBoolean | Regex | String;
+
+// Declaration: CODESYSTEM
+codeSystem                ::= KwCodeSystem Colon Identifier csMetadata_* csRule*;
+private csMetadata_       ::= id | title | description;
+csRule                    ::= concept | codeCaretValueRule | codeInsertRule;
+
+// Declaration: RULESET
+ruleSet                   ::= KwRuleSet Colon ruleSetReference ruleSetRule+;
+ruleSetRule               ::= sdRule | addElementRule | addCRElementRule | concept | codeCaretValueRule | codeInsertRule | vsComponent | mappingRule;
+
+// Declaration: MAPPING
+mapping                   ::= KwMapping Colon Identifier mappingMetadata* mappingEntityRule*;
+mappingMetadata           ::=id | source | target | description | title;
+mappingEntityRule         ::=mappingRule | insertRule | pathRule;
+
+// Declaration: LOGICAL
+logical                   ::= KwLogical Colon Identifier sdMetadata_* lrRule*;
+
+// Declaration: RESOURCE
+resource                  ::= KwResource Colon Identifier sdMetadata_* lrRule*;
+
+// Metadata
+parent                    ::= KwParent Colon itemIdentifier;
+id                        ::= KwId Colon Identifier;
+title                     ::= KwTitle Colon String;
+description               ::= KwDescription Colon (String | MultilineString);
+expression                ::= KwExpression Colon String;
+xpath                     ::= KwXPath Colon String;
+severity                  ::= KwSeverity Colon code;
+instanceOf                ::= KwInstanceOf Colon itemIdentifier;
+usage                     ::= KwUsage Colon code;
+source                    ::= KwSource Colon Identifier;
+target                    ::= KwTarget Colon String;
+private sdMetadata_       ::= (parent | id | title | description);
+
+// Rules
+sdRule                    ::= cardRule | flagRule | valueSetRule | fixedValueRule | containsRule | onlyRule | obeysRule | caretValueRule | insertRule | pathRule;
+lrRule                    ::= sdRule | addElementRule | addCRElementRule;
+ruleStart                 ::= WhiteSpace* Star;
+cardRule                  ::= ruleStart path cardinality KwFlag*;
+flagRule                  ::= ruleStart path KwFlag+ (KwAnd path)*;
+valueSetRule              ::= ruleStart path KwFrom itemIdentifier strength?;
+fixedValueRule            ::= ruleStart path Equal value (LeftParen KwExactly RightParen)?;
+containsRule              ::= ruleStart path KwContains item (KwAnd item)*;
+onlyRule                  ::= ruleStart path KwOnly targetType (KwOr targetType)*;
+obeysRule                 ::= ruleStart path? KwObeys Identifier (KwAnd Identifier)*;
+caretValueRule            ::= ruleStart path? Caret path Equal value;
+codeCaretValueRule        ::= ruleStart code* Caret path Equal value;
+mappingRule               ::= ruleStart path? Arrow String String? code?;
+insertRule                ::= ruleStart path? KwInsert ruleSetReference;
+codeInsertRule            ::= ruleStart code* KwInsert ruleSetReference;
+addCRElementRule          ::= ruleStart path cardinality KwFlag* KwContentReference Url String (String | MultilineString)?;
+addElementRule            ::= ruleStart path cardinality KwFlag* targetType (KwOr targetType)* String (String | MultilineString)?;
+pathRule                  ::= ruleStart path;
+
+// Path
+path                      ::= Dot | (pathPart (Dot pathPart)*);
+pathPart                  ::= (Identifier | KwSystem) bracketSuffix*; // TODO: other keywords may be allowed here
+bracketSuffix             ::= LeftBracket (Identifier | Url | integer | Equal | Plus) RightBracket;
+
+// Types
+cardinality               ::= integer? DoubleDot (integer | Star)?;
+number                    ::= (Plus | Minus)? integer (Dot integer)?;
+integer                   ::= Digit+;
+code                      ::= (Url | (Identifier | Urn)? Hash (Identifier | ConceptString))) String?;
+strength                  ::= LeftParen KwBindingStrength RightParen;
+ratio                     ::= (number | quantity) Colon (number | quantity);
+quantity                  ::= number (Unit | code) String?;
+referenceType             ::= KwReference LeftParen itemIdentifier (KwOr itemIdentifier)* RightParen;
+itemIdentifier            ::= Identifier | Url;
+canonical                 ::= KwCanonical LeftParen itemIdentifier (Pipe itemIdentifier)? (KwOr itemIdentifier (Pipe itemIdentifier)?)* RightParen;
+targetType                ::= Identifier | referenceType | canonical;
+value                     ::= String | MultilineString | number | Datetime | Time | referenceType | canonical | code | quantity | ratio | KwBoolean;
+item                      ::= itemIdentifier (KwNamed Identifier)? cardinality KwFlag*;
+concept                   ::= ruleStart code+ String? (String | MultilineString)?;
+ruleSetReference          ::= Identifier (LeftParen Identifier (Comma Identifier)* RightParen)?;
+
+/*
+Documentation: https://github.com/JetBrains/Grammar-Kit
+
+Rule modifiers:
+1. private (PSI tree): skip node creation and let its child nodes be included in its parent.
+2. left (PSI tree): take an AST node on the left (previous sibling) and enclose it by becoming its parent.
+3. inner (PSI tree): take an AST node on the left (previous sibling) and inject itself into it by becoming its child.
+4. upper (PSI tree): take the parent node and replace it by adopting all its children.
+5. meta (parser): a parametrized rule; its parse function can take other parse functions as parameters.
+6. external (parser): a rule with a hand-written parse function; no parsing code is generated.
+7. fake (PSI classes): a rule for shaping the generated PSI classes; only PSI classes are generated.
+ */

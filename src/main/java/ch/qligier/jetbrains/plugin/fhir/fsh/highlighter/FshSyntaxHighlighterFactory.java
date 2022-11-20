@@ -1,3 +1,5 @@
+// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+
 package ch.qligier.jetbrains.plugin.fhir.fsh.highlighter;
 
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
@@ -8,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * jetbrains-language-fsh
+ * The factory of syntax highlighter. Nothing fancy here :)
  *
  * @author Quentin Ligier
  **/
@@ -18,8 +20,6 @@ public class FshSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
      * Override this method to provide syntax highlighting (coloring) capabilities for your language implementation. By
      * syntax highlighting we mean highlighting of keywords, comments, braces etc. where lexing the file content is
      * enough to identify proper highlighting attributes.
-     * <p/>
-     * Default implementation doesn't highlight anything.
      *
      * @param project     might be necessary to gather various project settings from.
      * @param virtualFile might be necessary to collect file specific settings

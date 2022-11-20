@@ -1,21 +1,23 @@
+// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+
 package ch.qligier.jetbrains.plugin.fhir.fsh.highlighter;
 
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshLexer;
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshParser;
-import ch.qligier.jetbrains.plugin.fhir.fsh.language.FshLanguage;
+import ch.qligier.jetbrains.plugin.fhir.fsh.lexer.FshLexerAdapter;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
-import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor;
-import org.antlr.intellij.adaptor.lexer.TokenIElementType;
 import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 /**
- * jetbrains-language-fsh
+ * The syntax highlighter for the FSH language. It associates token types to highlighting color (or highlighting
+ * types).
+ * <p>
+ * Default highlighting types are defined in {@link DefaultLanguageHighlighterColors}.
  *
  * @author Quentin Ligier
  * @see <a href="https://plugins.jetbrains.com/docs/intellij/syntax-highlighter-and-color-settings-page.html">Syntax
@@ -51,8 +53,7 @@ public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
      */
     @Override
     public @NotNull Lexer getHighlightingLexer() {
-        final var lexer = new FshLexer(null);
-        return new ANTLRLexerAdaptor(FshLanguage.INSTANCE, lexer);
+        return new FshLexerAdapter();
     }
 
     /**
@@ -65,91 +66,72 @@ public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
      */
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(final IElementType type) {
-        if (!(type instanceof TokenIElementType)) {
-            return EMPTY_KEYS;
-        }
-        final var tokenType = (TokenIElementType) type;
-
-        switch (tokenType.getANTLRTokenType()) {
-            // Entity declaration
-            case FshParser.KW_ALIAS:
-            case FshParser.KW_PROFILE:
-            case FshParser.KW_EXTENSION:
-            case FshParser.KW_INVARIANT:
-            case FshParser.KW_INSTANCE:
-            case FshParser.KW_VALUESET:
-            case FshParser.KW_CODESYSTEM:
-            case FshParser.KW_RULESET:
-            case FshParser.KW_MAPPING:
-            case FshParser.KW_LOGICAL:
-            case FshParser.KW_RESOURCE:
-                return pack(KEYWORD);
-
-            case FshParser.IDENTIFIER:
-                return pack(createTextAttributesKey("FSH_CLASS_NAME", DefaultLanguageHighlighterColors.CLASS_NAME));
-
-            case FshParser.KW_INSERT:
-            case FshParser.KW_EXACTLY:
-            case FshParser.KW_FROM:
-            case FshParser.KW_ONLY:
-            case FshParser.KW_OR:
-            case FshParser.KW_TRUE:
-            case FshParser.KW_FALSE:
-            case FshParser.KW_INCLUDE:
-            case FshParser.KW_EXCLUDE:
-            case FshParser.KW_OBEYS:
-                return pack(KEYWORD);
+        // Entity declaration
+        if (FshTypes.KWALIAS.equals(type)
+                || FshTypes.KWPROFILE.equals(type)
+                || FshTypes.KWEXTENSION.equals(type)
+                || FshTypes.KWINVARIANT.equals(type)
+                || FshTypes.KWINSTANCE.equals(type)
+                || FshTypes.KWVALUESET.equals(type)
+                || FshTypes.KWCODESYSTEM.equals(type)
+                || FshTypes.KWRULESET.equals(type)
+                || FshTypes.KWMAPPING.equals(type)
+                || FshTypes.KWLOGICAL.equals(type)
+                || FshTypes.KWRESOURCE.equals(type)) {
+            return pack(KEYWORD);
+        } else if (FshTypes.IDENTIFIER.equals(type)) {
+            return pack(createTextAttributesKey("FSH_CLASS_NAME", DefaultLanguageHighlighterColors.CLASS_NAME));
+        } else if (FshTypes.KWINSERT.equals(type)
+                || FshTypes.KWEXACTLY.equals(type)
+                || FshTypes.KWFROM.equals(type)
+                || FshTypes.KWONLY.equals(type)
+                || FshTypes.KWOR.equals(type)
+                || FshTypes.KWBOOLEAN.equals(type)
+                || FshTypes.KWINCLUDE.equals(type)
+                || FshTypes.KWEXCLUDE.equals(type)
+                || FshTypes.KWOBEYS.equals(type)) {
+            return pack(KEYWORD);
 
             // Metadata declaration
-            case FshParser.KW_PARENT:
-            case FshParser.KW_ID:
-            case FshParser.KW_TITLE:
-            case FshParser.KW_DESCRIPTION:
-            case FshParser.KW_SOURCE:
-            case FshParser.KW_TARGET:
-            case FshParser.KW_INSTANCEOF:
-            case FshParser.KW_USAGE:
-            case FshParser.KW_EXPRESSION:
-            case FshParser.KW_XPATH:
-            case FshParser.KW_SEVERITY:
-                return pack(METADATA);
-
-            case FshParser.STRING:
-            case FshParser.MULTILINE_STRING:
-                return pack(STRING);
-
-            case FshParser.LINE_COMMENT:
+        } else if (FshTypes.KWPARENT.equals(type)
+                || FshTypes.KWID.equals(type)
+                || FshTypes.KWTITLE.equals(type)
+                || FshTypes.KWDESCRIPTION.equals(type)
+                || FshTypes.KWSOURCE.equals(type)
+                || FshTypes.KWTARGET.equals(type)
+                || FshTypes.KWINSTANCEOF.equals(type)
+                || FshTypes.KWUSAGE.equals(type)
+                || FshTypes.KWEXPRESSION.equals(type)
+                || FshTypes.KWXPATH.equals(type)
+                || FshTypes.KWSEVERITY.equals(type)) {
+            return pack(METADATA);
+        } else if (FshTypes.STRING.equals(type)
+                || FshTypes.MULTILINESTRING.equals(type)) {
+            return pack(STRING);
+/* TODO
+            case FshTypes.LINE_COMMENT:
                 return pack(LINE_COMMENT);
 
-            case FshParser.COMMENT:
+            case FshTypes.COMMENT:
                 return pack(BLOCK_COMMENT);
-
-            case FshParser.DIGIT:
-            case FshParser.DATETIME:
-                return pack(NUMBER);
+*/
+        } else if (FshTypes.DIGIT.equals(type)
+                || FshTypes.DATETIME.equals(type)) {
+            return pack(NUMBER);
 
             // Flags
-            case FshParser.KW_MOD:
-            case FshParser.KW_MS:
-            case FshParser.KW_SU:
-            case FshParser.KW_TU:
-            case FshParser.KW_NORMATIVE:
-            case FshParser.KW_DRAFT:
-                return pack(METADATA);
-
-            case FshParser.DOT:
-            case FshParser.DOUBLE_DOT:
-            case FshParser.TRIPLE_DOT:
-            case FshParser.ARROW:
-            case FshParser.STAR:
-            case FshParser.EQUAL:
-            case FshParser.PLUS:
-            case FshParser.MINUS:
-            case FshParser.COMMA:
-                return pack(createTextAttributesKey("FSH_SYMBOLS", DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL));
-
-            default:
-                return EMPTY_KEYS;
+        } else if (FshTypes.KWFLAG.equals(type)) {
+            return pack(METADATA);
+        } else if (FshTypes.DOT.equals(type)
+                || FshTypes.DOUBLEDOT.equals(type)
+                || FshTypes.ARROW.equals(type)
+                || FshTypes.STAR.equals(type)
+                || FshTypes.EQUAL.equals(type)
+                || FshTypes.PLUS.equals(type)
+                || FshTypes.MINUS.equals(type)
+                || FshTypes.COMMA.equals(type)) {
+            return pack(createTextAttributesKey("FSH_SYMBOLS", DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL));
         }
+        return EMPTY_KEYS;
     }
 }

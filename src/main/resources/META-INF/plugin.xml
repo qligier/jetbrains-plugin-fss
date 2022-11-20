@@ -1,4 +1,6 @@
-<!-- // Copyright 2022 Quentin Ligier and other contributors. Use of this source code is governed by the MIT license -->
+<!--
+  ~ Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+  -->
 
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
@@ -32,23 +34,21 @@
         <!-- The FSH language -->
         <fileType
                 name="FSH"
-                implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshFileType"
+                implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.FshFileType"
                 fieldName="INSTANCE"
                 language="FSH"
                 extensions="fsh"/>
         <lang.parserDefinition language="FSH"
                                implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.FshParserDefinition"/>
-        <lang.ast.factory language="FSH"
-                          implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.ast.FshAstFactory"/>
         <lang.syntaxHighlighterFactory language="FSH"
                                        implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.highlighter.FshSyntaxHighlighterFactory"/>
         <lang.commenter language="FSH"
-                        implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshCommenter"/>
+                        implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.FshCommenter"/>
         <lang.foldingBuilder language="FSH"
-                             implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshFoldingBuilder"/>
-        <navbar implementation="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshStructureAwareNavbar"/>
+                             implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.FshFoldingBuilder"/>
+        <navbar implementation="ch.qligier.jetbrains.plugin.fhir.fsh.FshStructureAwareNavbar"/>
         <lang.braceMatcher language="FSH"
-                           implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshPairedBraceMatcher"/>
+                           implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.FshPairedBraceMatcher"/>
         <languageInjectionContributor language="FSH"
                                       implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.highlighter.FshLanguageInjectionContributor"/>
 

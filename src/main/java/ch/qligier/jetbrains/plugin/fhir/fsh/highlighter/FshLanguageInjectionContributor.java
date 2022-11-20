@@ -1,19 +1,14 @@
+// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+
 package ch.qligier.jetbrains.plugin.fhir.fsh.highlighter;
 
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshParser;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.FshTokenTypes;
-import com.intellij.lang.Language;
 import com.intellij.lang.injection.general.Injection;
 import com.intellij.lang.injection.general.LanguageInjectionContributor;
 import com.intellij.lang.injection.general.LanguageInjectionPerformer;
-import com.intellij.lang.injection.general.SimpleInjection;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLanguageInjectionHost;
-import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 /**
  * Language injection is the way the IntelliJ Platform handles different languages within the same source file.
@@ -37,14 +32,14 @@ public class FshLanguageInjectionContributor implements LanguageInjectionContrib
      */
     @Override
     public @Nullable Injection getInjection(@NotNull final PsiElement context) {
-        if (context instanceof ANTLRPsiNode) {
+        /*if (context instanceof ANTLRPsiNode) {
             final var antlrNode = (ANTLRPsiNode) context;
-            if (antlrNode.getNode().getElementType() == FshTokenTypes.getRuleElementType(FshParser.RULE_value))
+            if (antlrNode.getNode().getElementType() == FshTokenSets.getRuleElementType(FshParser.RULE_value))
                 return new SimpleInjection(Objects.requireNonNull(Language.findLanguageByID("Markdown")),
                                            "",
                                            "",
                                            null);
-        }
+        }*/
         return null;
     }
 }

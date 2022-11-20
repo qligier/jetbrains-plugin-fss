@@ -1,32 +1,42 @@
+// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+
 package ch.qligier.jetbrains.plugin.fhir.grammar;
 
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshLexer;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.Token;
+import ch.qligier.jetbrains.plugin.fhir.fsh.lexer.FshLexerAdapter;
+import com.intellij.lexer.Lexer;
+import com.intellij.testFramework.LexerTestCase;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
 
 /**
  * jetbrains-language-fsh
  *
  * @author Quentin Ligier
  **/
-public class FSHLexerTest {
+public class FSHLexerTest extends LexerTestCase {
 
     @Test
-    void testParser() throws IOException {
+    void testLexer() {
+        final String content = "ValueSet: EventTimingCara\n" +
+                "123\n" +
+                "* http://hl7.org/fhir/event-timing#MORN \"Morning\"\n";
 
-        final var lexer = new FshLexer(CharStreams.fromStream(FSHLexerTest.class.getResourceAsStream("/test1.fsh")));
+        System.out.printf(this.printTokens(content, 0));
 
-        Token token;
-        do {
-            token = lexer.nextToken();
+    }
 
-            System.out.printf("%s [%s]%n",
-                              lexer.getVocabulary().getDisplayName(token.getType()),
-                              token.getText().replace("\n", "\\n"));
+    /**
+     * @return
+     */
+    @Override
+    protected Lexer createLexer() {
+        return new FshLexerAdapter();
+    }
 
-        } while (token.getType() != FshLexer.EOF);
+    /**
+     * @return
+     */
+    @Override
+    protected String getDirPath() {
+        return "";
     }
 }

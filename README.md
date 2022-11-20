@@ -1,9 +1,10 @@
 # jetbrains-plugin-fhir
 
-A plugin that add supports for the [IG Publisher](https://github.com/HL7/fhir-ig-publisher) and
-the [FHIR Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html) (_FSH_).
+A plugin that add supports for the [FHIR Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html) (_
+FSH_) and the [IG Publisher](https://github.com/HL7/fhir-ig-publisher) and [SUSHI](https://github.com/FHIR/sushi/)
+tools.
 
-## FSH support
+## FSH language support
 
 This plugin adds, for FSH files:
 
