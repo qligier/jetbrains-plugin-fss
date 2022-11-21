@@ -3,6 +3,7 @@
 package ch.qligier.jetbrains.plugin.fhir.configuration;
 
 import com.intellij.execution.configurations.RunConfigurationOptions;
+import com.intellij.openapi.components.StoredProperty;
 
 /**
  * The IG Publisher Configuration options.
@@ -10,4 +11,14 @@ import com.intellij.execution.configurations.RunConfigurationOptions;
  * @author Quentin Ligier
  **/
 public class IgPublisherConfigurationOptions extends RunConfigurationOptions {
+
+    private final StoredProperty<String> igpPath = string("").provideDelegate(this, "igpPath");
+
+    public String getIgpPath() {
+        return this.igpPath.getValue(this);
+    }
+
+    public void setIgpPath(final String igpPath) {
+        this.igpPath.setValue(this, igpPath);
+    }
 }
