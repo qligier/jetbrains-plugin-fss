@@ -66,65 +66,64 @@ Time = [0-9][0-9](":"[0-9][0-9](":"[0-9][0-9]("."[0-9]+)?)?)?("Z" | ("+" | "-")[
 <YYINITIAL> {
 
   // Item declaration keywords
-  "Alias"                        { yybegin(YYINITIAL); return FshTypes.KWALIAS; }
-  "Profile"                      { yybegin(YYINITIAL); return FshTypes.KWPROFILE; }
-  "Extension"                    { yybegin(YYINITIAL); return FshTypes.KWEXTENSION; }
-  "Instance"                     { yybegin(YYINITIAL); return FshTypes.KWINSTANCE; }
-  "Invariant"                    { yybegin(YYINITIAL); return FshTypes.KWINVARIANT; }
-  "ValueSet"                     { yybegin(YYINITIAL); return FshTypes.KWVALUESET; }
-  "CodeSystem"                   { yybegin(YYINITIAL); return FshTypes.KWCODESYSTEM; }
-  "RuleSet"                      { yybegin(YYINITIAL); return FshTypes.KWRULESET; }
-  "Mapping"                      { yybegin(YYINITIAL); return FshTypes.KWMAPPING; }
-  "Logical"                      { yybegin(YYINITIAL); return FshTypes.KWLOGICAL; }
-  "Resource"                     { yybegin(YYINITIAL); return FshTypes.KWRESOURCE; }
+  "Alias"                        { return FshTypes.KWALIAS; }
+  "Profile"                      { return FshTypes.KWPROFILE; }
+  "Extension"                    { return FshTypes.KWEXTENSION; }
+  "Instance"                     { return FshTypes.KWINSTANCE; }
+  "Invariant"                    { return FshTypes.KWINVARIANT; }
+  "ValueSet"                     { return FshTypes.KWVALUESET; }
+  "CodeSystem"                   { return FshTypes.KWCODESYSTEM; }
+  "RuleSet"                      { return FshTypes.KWRULESET; }
+  "Mapping"                      { return FshTypes.KWMAPPING; }
+  "Logical"                      { return FshTypes.KWLOGICAL; }
+  "Resource"                     { return FshTypes.KWRESOURCE; }
 
   // Item metadata keywords
-  "Parent"                       { yybegin(YYINITIAL); return FshTypes.KWPARENT; }
-  "Id"                           { yybegin(YYINITIAL); return FshTypes.KWID; }
-  "Title"                        { yybegin(YYINITIAL); return FshTypes.KWTITLE; }
-  "Description"                  { yybegin(YYINITIAL); return FshTypes.KWDESCRIPTION; }
-  "Expression"                   { yybegin(YYINITIAL); return FshTypes.KWEXPRESSION; }
-  "XPath"                        { yybegin(YYINITIAL); return FshTypes.KWXPATH; }
-  "Severity"                     { yybegin(YYINITIAL); return FshTypes.KWSEVERITY; }
-  "InstanceOf"                   { yybegin(YYINITIAL); return FshTypes.KWINSTANCEOF; }
-  "Usage"                        { yybegin(YYINITIAL); return FshTypes.KWUSAGE; }
-  "Source"                       { yybegin(YYINITIAL); return FshTypes.KWSOURCE; }
-  "Target"                       { yybegin(YYINITIAL); return FshTypes.KWTARGET; }
+  "Parent"                       { return FshTypes.KWPARENT; }
+  "Id"                           { return FshTypes.KWID; }
+  "Title"                        { return FshTypes.KWTITLE; }
+  "Description"                  { return FshTypes.KWDESCRIPTION; }
+  "Expression"                   { return FshTypes.KWEXPRESSION; }
+  "XPath"                        { return FshTypes.KWXPATH; }
+  "Severity"                     { return FshTypes.KWSEVERITY; }
+  "InstanceOf"                   { return FshTypes.KWINSTANCEOF; }
+  "Usage"                        { return FshTypes.KWUSAGE; }
+  "Source"                       { return FshTypes.KWSOURCE; }
+  "Target"                       { return FshTypes.KWTARGET; }
 
   // Operators and other keywords
-  "="                            { yybegin(YYINITIAL); return FshTypes.EQUAL; }
-  "+"                            { yybegin(YYINITIAL); return FshTypes.PLUS; }
-  ","                            { yybegin(YYINITIAL); return FshTypes.COMMA; }
-  "->"                           { yybegin(YYINITIAL); return FshTypes.ARROW; }
-  "("                            { yybegin(YYINITIAL); return FshTypes.LEFTPAREN; }
-  ")"                            { yybegin(YYINITIAL); return FshTypes.RIGHTPAREN; }
-  "["                            { yybegin(YYINITIAL); return FshTypes.LEFTBRACKET; }
-  "]"                            { yybegin(YYINITIAL); return FshTypes.RIGHTBRACKET; }
-  "^"                            { yybegin(YYINITIAL); return FshTypes.CARET; }
-  "#"                            { yybegin(YYINITIAL); return FshTypes.HASH; }
-  ".."                           { yybegin(YYINITIAL); return FshTypes.DOUBLEDOT; }
-  "|"                            { yybegin(YYINITIAL); return FshTypes.PIPE; }
-  "*"                            { yybegin(YYINITIAL); return FshTypes.STAR; }
+  "="                            { return FshTypes.EQUAL; }
+  "+"                            { return FshTypes.PLUS; }
+  ","                            { return FshTypes.COMMA; }
+  "->"                           { return FshTypes.ARROW; }
+  "("                            { return FshTypes.LEFTPAREN; }
+  ")"                            { return FshTypes.RIGHTPAREN; }
+  "["                            { return FshTypes.LEFTBRACKET; }
+  "]"                            { return FshTypes.RIGHTBRACKET; }
+  "^"                            { return FshTypes.CARET; }
+  "#"                            { return FshTypes.HASH; }
+  ".."                           { return FshTypes.DOUBLEDOT; }
+  "|"                            { return FshTypes.PIPE; }
+  "*"                            { return FshTypes.STAR; }
 
   // Symbols
   {Digit}                        { return FshTypes.DIGIT; }
-  {Identifier}                   { yybegin(YYINITIAL); return FshTypes.IDENTIFIER; }
-  {Url}                          { yybegin(YYINITIAL); return FshTypes.URL; }
-  {Urn}                          { yybegin(YYINITIAL); return FshTypes.URN; }
-  {MultilineString}              { yybegin(YYINITIAL); return FshTypes.MULTILINESTRING; }
-  {String}                       { yybegin(YYINITIAL); return FshTypes.STRING; }
-  {Unit}                         { yybegin(YYINITIAL); return FshTypes.UNIT; }
-  {ConceptString}                { yybegin(YYINITIAL); return FshTypes.CONCEPTSTRING; }
-  {Regex}                        { yybegin(YYINITIAL); return FshTypes.REGEX; }
-  {Datetime}                     { yybegin(YYINITIAL); return FshTypes.DATETIME; }
-  {Time}                         { yybegin(YYINITIAL); return FshTypes.TIME; }
+  {Identifier}                   { return FshTypes.IDENTIFIER; }
+  {Url}                          { return FshTypes.URL; }
+  {Urn}                          { return FshTypes.URN; }
+  {MultilineString}              { return FshTypes.MULTILINESTRING; }
+  {String}                       { return FshTypes.STRING; }
+  {Unit}                         { return FshTypes.UNIT; }
+  {ConceptString}                { return FshTypes.CONCEPTSTRING; }
+  {Regex}                        { return FshTypes.REGEX; }
+  {Datetime}                     { return FshTypes.DATETIME; }
+  {Time}                         { return FshTypes.TIME; }
 
-  "-"                            { yybegin(YYINITIAL); return FshTypes.MINUS; } // TODO Can't be matched. Why?
-  "."                            { yybegin(YYINITIAL); return FshTypes.DOT; }
-  ":"                            { yybegin(YYINITIAL); return FshTypes.COLON; }
+  "."                            { return FshTypes.DOT; }
+  ":"                            { return FshTypes.COLON; }
 
-  {LineComment}                  { yybegin(YYINITIAL); return null; }
-  {WhiteSpace}+                  { yybegin(YYINITIAL); return FshTypes.WHITESPACE; }
+  {LineComment}                  { return null; }
+  {WhiteSpace}+                  { return FshTypes.WHITESPACE; }
 }
 
 [^]                              { return TokenType.BAD_CHARACTER; }

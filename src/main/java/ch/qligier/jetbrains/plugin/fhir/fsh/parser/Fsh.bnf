@@ -118,7 +118,7 @@ bracketSuffix             ::= LeftBracket (Identifier | Url | integer | Equal | 
 
 // Types
 cardinality               ::= integer? DoubleDot (integer | Star)?;
-number                    ::= (Plus | Minus)? integer (Dot integer)?;
+number                    ::= (Plus | "-")? integer (Dot integer)?; // TODO is it properly matched?
 integer                   ::= Digit+;
 code                      ::= (Url | (Identifier | Urn)? Hash (Identifier | ConceptString))) String?;
 strength                  ::= LeftParen KwBindingStrength RightParen;
