@@ -1,4 +1,4 @@
-//  Copyright 2022 Quentin Ligier and other contributors. Use of this source code is governed by the MIT license
+// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir;
 
@@ -7,9 +7,11 @@ import com.intellij.openapi.util.IconLoader;
 import javax.swing.*;
 
 /**
- * jetbrains-language-fsh
+ * The icons used by this plugin.
  *
  * @author Quentin Ligier
+ * @see <a href="https://plugins.jetbrains.com/docs/intellij/work-with-icons-and-images.html">Working with Icons and
+ * Images</a>
  **/
 public class Icons {
 
