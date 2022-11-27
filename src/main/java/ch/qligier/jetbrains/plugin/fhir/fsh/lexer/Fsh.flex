@@ -65,6 +65,9 @@ Time = [0-9][0-9](":"[0-9][0-9](":"[0-9][0-9]("."[0-9]+)?)?)?("Z" | ("+" | "-")[
 
 <YYINITIAL> {
 
+  {MultilineString}              { return FshTypes.MULTILINESTRING; }
+  {String}                       { return FshTypes.STRING; }
+
   // Item declaration keywords
   "Alias"                        { return FshTypes.KWALIAS; }
   "Profile"                      { return FshTypes.KWPROFILE; }
@@ -111,8 +114,6 @@ Time = [0-9][0-9](":"[0-9][0-9](":"[0-9][0-9]("."[0-9]+)?)?)?("Z" | ("+" | "-")[
   {Identifier}                   { return FshTypes.IDENTIFIER; }
   {Url}                          { return FshTypes.URL; }
   {Urn}                          { return FshTypes.URN; }
-  {MultilineString}              { return FshTypes.MULTILINESTRING; }
-  {String}                       { return FshTypes.STRING; }
   {Unit}                         { return FshTypes.UNIT; }
   {ConceptString}                { return FshTypes.CONCEPTSTRING; }
   {Regex}                        { return FshTypes.REGEX; }

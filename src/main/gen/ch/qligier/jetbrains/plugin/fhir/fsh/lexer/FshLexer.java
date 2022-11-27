@@ -731,12 +731,12 @@ class FshLexer implements FlexLexer {
             // fall through
           case 52: break;
           case 2: 
-            { yybegin(YYINITIAL); return FshTypes.WHITESPACE;
+            { return FshTypes.WHITESPACE;
             } 
             // fall through
           case 53: break;
           case 3: 
-            { yybegin(YYINITIAL); return FshTypes.IDENTIFIER;
+            { return FshTypes.IDENTIFIER;
             } 
             // fall through
           case 54: break;
@@ -746,237 +746,237 @@ class FshLexer implements FlexLexer {
             // fall through
           case 55: break;
           case 5: 
-            { yybegin(YYINITIAL); return FshTypes.COLON;
+            { return FshTypes.COLON;
             } 
             // fall through
           case 56: break;
           case 6: 
-            { yybegin(YYINITIAL); return FshTypes.HASH;
+            { return FshTypes.HASH;
             } 
             // fall through
           case 57: break;
           case 7: 
-            { yybegin(YYINITIAL); return FshTypes.STAR;
+            { return FshTypes.STAR;
             } 
             // fall through
           case 58: break;
           case 8: 
-            { yybegin(YYINITIAL); return FshTypes.DOT;
+            { return FshTypes.DOT;
             } 
             // fall through
           case 59: break;
           case 9: 
-            { yybegin(YYINITIAL); return FshTypes.PLUS;
+            { return FshTypes.PLUS;
             } 
             // fall through
           case 60: break;
           case 10: 
-            { yybegin(YYINITIAL); return FshTypes.EQUAL;
+            { return FshTypes.EQUAL;
             } 
             // fall through
           case 61: break;
           case 11: 
-            { yybegin(YYINITIAL); return FshTypes.COMMA;
+            { return FshTypes.COMMA;
             } 
             // fall through
           case 62: break;
           case 12: 
-            { yybegin(YYINITIAL); return FshTypes.LEFTPAREN;
+            { return FshTypes.LEFTPAREN;
             } 
             // fall through
           case 63: break;
           case 13: 
-            { yybegin(YYINITIAL); return FshTypes.RIGHTPAREN;
+            { return FshTypes.RIGHTPAREN;
             } 
             // fall through
           case 64: break;
           case 14: 
-            { yybegin(YYINITIAL); return FshTypes.LEFTBRACKET;
+            { return FshTypes.LEFTBRACKET;
             } 
             // fall through
           case 65: break;
           case 15: 
-            { yybegin(YYINITIAL); return FshTypes.RIGHTBRACKET;
+            { return FshTypes.RIGHTBRACKET;
             } 
             // fall through
           case 66: break;
           case 16: 
-            { yybegin(YYINITIAL); return FshTypes.CARET;
+            { return FshTypes.CARET;
             } 
             // fall through
           case 67: break;
           case 17: 
-            { yybegin(YYINITIAL); return FshTypes.PIPE;
+            { return FshTypes.PIPE;
             } 
             // fall through
           case 68: break;
           case 18: 
-            { yybegin(YYINITIAL); return null;
+            { return null;
             } 
             // fall through
           case 69: break;
           case 19: 
-            { yybegin(YYINITIAL); return FshTypes.ARROW;
+            { return FshTypes.ARROW;
             } 
             // fall through
           case 70: break;
           case 20: 
-            { yybegin(YYINITIAL); return FshTypes.STRING;
+            { return FshTypes.STRING;
             } 
             // fall through
           case 71: break;
           case 21: 
-            { yybegin(YYINITIAL); return FshTypes.UNIT;
+            { return FshTypes.UNIT;
             } 
             // fall through
           case 72: break;
           case 22: 
-            { yybegin(YYINITIAL); return FshTypes.DOUBLEDOT;
+            { return FshTypes.DOUBLEDOT;
             } 
             // fall through
           case 73: break;
           case 23: 
-            { yybegin(YYINITIAL); return FshTypes.KWID;
+            { return FshTypes.KWID;
             } 
             // fall through
           case 74: break;
           case 24: 
-            { yybegin(YYINITIAL); return FshTypes.REGEX;
+            { return FshTypes.REGEX;
             } 
             // fall through
           case 75: break;
           case 25: 
-            { yybegin(YYINITIAL); return FshTypes.CONCEPTSTRING;
+            { return FshTypes.CONCEPTSTRING;
             } 
             // fall through
           case 76: break;
           case 26: 
-            { yybegin(YYINITIAL); return FshTypes.KWUSAGE;
+            { return FshTypes.KWUSAGE;
             } 
             // fall through
           case 77: break;
           case 27: 
-            { yybegin(YYINITIAL); return FshTypes.KWTITLE;
+            { return FshTypes.KWTITLE;
             } 
             // fall through
           case 78: break;
           case 28: 
-            { yybegin(YYINITIAL); return FshTypes.URN;
+            { return FshTypes.URN;
             } 
             // fall through
           case 79: break;
           case 29: 
-            { yybegin(YYINITIAL); return FshTypes.TIME;
+            { return FshTypes.TIME;
             } 
             // fall through
           case 80: break;
           case 30: 
-            { yybegin(YYINITIAL); return FshTypes.KWALIAS;
+            { return FshTypes.KWALIAS;
             } 
             // fall through
           case 81: break;
           case 31: 
-            { yybegin(YYINITIAL); return FshTypes.KWXPATH;
+            { return FshTypes.KWXPATH;
             } 
             // fall through
           case 82: break;
           case 32: 
-            { yybegin(YYINITIAL); return FshTypes.KWSOURCE;
+            { return FshTypes.KWSOURCE;
             } 
             // fall through
           case 83: break;
           case 33: 
-            { yybegin(YYINITIAL); return FshTypes.KWTARGET;
+            { return FshTypes.KWTARGET;
             } 
             // fall through
           case 84: break;
           case 34: 
-            { yybegin(YYINITIAL); return FshTypes.MULTILINESTRING;
+            { return FshTypes.MULTILINESTRING;
             } 
             // fall through
           case 85: break;
           case 35: 
-            { yybegin(YYINITIAL); return FshTypes.KWPARENT;
+            { return FshTypes.KWPARENT;
             } 
             // fall through
           case 86: break;
           case 36: 
-            { yybegin(YYINITIAL); return FshTypes.KWMAPPING;
+            { return FshTypes.KWMAPPING;
             } 
             // fall through
           case 87: break;
           case 37: 
-            { yybegin(YYINITIAL); return FshTypes.KWRULESET;
+            { return FshTypes.KWRULESET;
             } 
             // fall through
           case 88: break;
           case 38: 
-            { yybegin(YYINITIAL); return FshTypes.KWPROFILE;
+            { return FshTypes.KWPROFILE;
             } 
             // fall through
           case 89: break;
           case 39: 
-            { yybegin(YYINITIAL); return FshTypes.KWLOGICAL;
+            { return FshTypes.KWLOGICAL;
             } 
             // fall through
           case 90: break;
           case 40: 
-            { yybegin(YYINITIAL); return FshTypes.KWSEVERITY;
+            { return FshTypes.KWSEVERITY;
             } 
             // fall through
           case 91: break;
           case 41: 
-            { yybegin(YYINITIAL); return FshTypes.URL;
+            { return FshTypes.URL;
             } 
             // fall through
           case 92: break;
           case 42: 
-            { yybegin(YYINITIAL); return FshTypes.KWRESOURCE;
+            { return FshTypes.KWRESOURCE;
             } 
             // fall through
           case 93: break;
           case 43: 
-            { yybegin(YYINITIAL); return FshTypes.KWINSTANCE;
+            { return FshTypes.KWINSTANCE;
             } 
             // fall through
           case 94: break;
           case 44: 
-            { yybegin(YYINITIAL); return FshTypes.KWVALUESET;
+            { return FshTypes.KWVALUESET;
             } 
             // fall through
           case 95: break;
           case 45: 
-            { yybegin(YYINITIAL); return FshTypes.KWEXTENSION;
+            { return FshTypes.KWEXTENSION;
             } 
             // fall through
           case 96: break;
           case 46: 
-            { yybegin(YYINITIAL); return FshTypes.KWINVARIANT;
+            { return FshTypes.KWINVARIANT;
             } 
             // fall through
           case 97: break;
           case 47: 
-            { yybegin(YYINITIAL); return FshTypes.KWCODESYSTEM;
+            { return FshTypes.KWCODESYSTEM;
             } 
             // fall through
           case 98: break;
           case 48: 
-            { yybegin(YYINITIAL); return FshTypes.KWEXPRESSION;
+            { return FshTypes.KWEXPRESSION;
             } 
             // fall through
           case 99: break;
           case 49: 
-            { yybegin(YYINITIAL); return FshTypes.KWINSTANCEOF;
+            { return FshTypes.KWINSTANCEOF;
             } 
             // fall through
           case 100: break;
           case 50: 
-            { yybegin(YYINITIAL); return FshTypes.KWDESCRIPTION;
+            { return FshTypes.KWDESCRIPTION;
             } 
             // fall through
           case 101: break;
           case 51: 
-            { yybegin(YYINITIAL); return FshTypes.DATETIME;
+            { return FshTypes.DATETIME;
             } 
             // fall through
           case 102: break;

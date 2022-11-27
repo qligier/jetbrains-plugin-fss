@@ -108,10 +108,9 @@ public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
         } else if (FshTypes.STRING.equals(type)
                 || FshTypes.MULTILINESTRING.equals(type)) {
             return pack(STRING);
-/* TODO
-            case FshTypes.LINE_COMMENT:
+        } else if (FshTypes.LINECOMMENT.equals(type)) {
                 return pack(LINE_COMMENT);
-
+/*
             case FshTypes.COMMENT:
                 return pack(BLOCK_COMMENT);
 */
@@ -128,7 +127,6 @@ public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
                 || FshTypes.STAR.equals(type)
                 || FshTypes.EQUAL.equals(type)
                 || FshTypes.PLUS.equals(type)
-                || FshTypes.MINUS.equals(type)
                 || FshTypes.COMMA.equals(type)) {
             return pack(createTextAttributesKey("FSH_SYMBOLS", DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL));
         }

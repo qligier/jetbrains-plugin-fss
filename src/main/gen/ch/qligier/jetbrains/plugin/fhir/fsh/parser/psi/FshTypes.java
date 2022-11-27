@@ -141,6 +141,7 @@ public interface FshTypes {
   IElementType KWXPATH = new FshTokenType("KwXPath");
   IElementType LEFTBRACKET = new FshTokenType("LeftBracket");
   IElementType LEFTPAREN = new FshTokenType("LeftParen");
+  IElementType LINECOMMENT = new FshTokenType("LineComment");
   IElementType MULTILINESTRING = new FshTokenType("MultilineString");
   IElementType PIPE = new FshTokenType("Pipe");
   IElementType PLUS = new FshTokenType("Plus");

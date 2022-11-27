@@ -1006,7 +1006,8 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet | mapping | logical | resource)*
+  // (alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet |
+  //  mapping | logical | resource | LineComment)*
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     while (true) {
@@ -1017,7 +1018,8 @@ public class FshParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet | mapping | logical | resource
+  // alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet |
+  //  mapping | logical | resource | LineComment
   private static boolean item__0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item__0")) return false;
     boolean r;
@@ -1032,6 +1034,7 @@ public class FshParser implements PsiParser, LightPsiParser {
     if (!r) r = mapping(b, l + 1);
     if (!r) r = logical(b, l + 1);
     if (!r) r = resource(b, l + 1);
+    if (!r) r = consumeToken(b, LINECOMMENT);
     return r;
   }
 
@@ -1188,7 +1191,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (Plus | Minus)? integer (Dot integer)?
+  // (Plus | "-")? integer (Dot integer)?
   public static boolean number(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "number")) return false;
     boolean r;
@@ -1200,19 +1203,19 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (Plus | Minus)?
+  // (Plus | "-")?
   private static boolean number_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "number_0")) return false;
     number_0_0(b, l + 1);
     return true;
   }
 
-  // Plus | Minus
+  // Plus | "-"
   private static boolean number_0_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "number_0_0")) return false;
     boolean r;
     r = consumeToken(b, PLUS);
-    if (!r) r = consumeToken(b, MINUS);
+    if (!r) r = consumeToken(b, "-");
     return r;
   }
 

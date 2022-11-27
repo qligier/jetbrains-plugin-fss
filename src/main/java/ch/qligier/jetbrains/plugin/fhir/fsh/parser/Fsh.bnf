@@ -21,7 +21,8 @@
 
 fshFile                   ::= item_*
 
-private item_             ::= (alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet | mapping | logical | resource)*
+private item_             ::= (alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet |
+ mapping | logical | resource | LineComment)*
 
 // Declaration: ALIAS
 alias                     ::= KwAlias Colon Identifier Equal aliasValue;

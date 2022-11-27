@@ -12,8 +12,7 @@ import com.intellij.psi.tree.TokenSet;
  **/
 public class FshTokenSets {
 
-    /*public static final TokenSet COMMENTS = TokenSet.create(FshTypes.LINECOMMENT,
-                                                            FshTypes.BLOCKCOMMENT);*/
+    public static final TokenSet COMMENTS = TokenSet.create(FshTypes.LINECOMMENT);
     public static final TokenSet WHITESPACE = TokenSet.create(FshTypes.WHITESPACE);
     public static final TokenSet STRING = TokenSet.create(FshTypes.STRING,
                                                           FshTypes.MULTILINESTRING);

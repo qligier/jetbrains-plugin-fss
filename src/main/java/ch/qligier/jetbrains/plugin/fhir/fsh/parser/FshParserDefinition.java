@@ -82,7 +82,7 @@ public class FshParserDefinition implements ParserDefinition {
      */
     @Override
     public @NotNull TokenSet getCommentTokens() {
-        return TokenSet.EMPTY; // TODO
+        return FshTokenSets.COMMENTS;
     }
 
     /**
