@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshInvariantImpl extends ASTWrapperPsiElement implements FshInvariant {
+public class FshInvariantImpl extends FshItemImpl implements FshInvariant {
 
   public FshInvariantImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull FshVisitor visitor) {
     visitor.visitInvariant(this);
   }
@@ -29,26 +29,8 @@ public class FshInvariantImpl extends ASTWrapperPsiElement implements FshInvaria
 
   @Override
   @NotNull
-  public List<FshDescription> getDescriptionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshDescription.class);
-  }
-
-  @Override
-  @NotNull
-  public List<FshExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshExpression.class);
-  }
-
-  @Override
-  @NotNull
-  public List<FshSeverity> getSeverityList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshSeverity.class);
-  }
-
-  @Override
-  @NotNull
-  public List<FshXpath> getXpathList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshXpath.class);
+  public List<FshItemMetadata> getItemMetadataList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshItemMetadata.class);
   }
 
 }

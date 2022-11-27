@@ -5,18 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshInvariant extends PsiElement {
+public interface FshInvariant extends FshItem {
 
   @NotNull
-  List<FshDescription> getDescriptionList();
-
-  @NotNull
-  List<FshExpression> getExpressionList();
-
-  @NotNull
-  List<FshSeverity> getSeverityList();
-
-  @NotNull
-  List<FshXpath> getXpathList();
+  List<FshItemMetadata> getItemMetadataList();
 
 }

@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshInstanceOfImpl extends ASTWrapperPsiElement implements FshInstanceOf {
+public class FshInstanceOfImpl extends FshItemMetadataImpl implements FshInstanceOf {
 
   public FshInstanceOfImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull FshVisitor visitor) {
     visitor.visitInstanceOf(this);
   }

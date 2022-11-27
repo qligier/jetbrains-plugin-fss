@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshInsertRuleImpl extends ASTWrapperPsiElement implements FshInsertRule {
+public class FshInsertRuleImpl extends FshRuleImpl implements FshInsertRule {
 
   public FshInsertRuleImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull FshVisitor visitor) {
     visitor.visitInsertRule(this);
   }

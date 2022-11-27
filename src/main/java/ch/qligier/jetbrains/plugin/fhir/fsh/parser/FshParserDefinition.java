@@ -22,7 +22,7 @@ import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * jetbrains-language-fsh
+ * Defines the implementation of a parser for the FSH language.
  *
  * @author Quentin Ligier
  **/

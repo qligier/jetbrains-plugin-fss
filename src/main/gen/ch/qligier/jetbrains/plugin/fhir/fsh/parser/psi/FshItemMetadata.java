@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshRuleSetRule extends PsiElement {
+public interface FshItemMetadata extends PsiElement {
 
   @NotNull
-  FshRule getRule();
+  FshItemMetadata getItemMetadata();
 
 }

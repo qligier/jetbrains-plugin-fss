@@ -28,33 +28,9 @@ public class FshMappingMetadataImpl extends ASTWrapperPsiElement implements FshM
   }
 
   @Override
-  @Nullable
-  public FshDescription getDescription() {
-    return findChildByClass(FshDescription.class);
-  }
-
-  @Override
-  @Nullable
-  public FshId getId() {
-    return findChildByClass(FshId.class);
-  }
-
-  @Override
-  @Nullable
-  public FshSource getSource() {
-    return findChildByClass(FshSource.class);
-  }
-
-  @Override
-  @Nullable
-  public FshTarget getTarget() {
-    return findChildByClass(FshTarget.class);
-  }
-
-  @Override
-  @Nullable
-  public FshTitle getTitle() {
-    return findChildByClass(FshTitle.class);
+  @NotNull
+  public FshItemMetadata getItemMetadata() {
+    return findNotNullChildByClass(FshItemMetadata.class);
   }
 
 }

@@ -7,19 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface FshMappingMetadata extends PsiElement {
 
-  @Nullable
-  FshDescription getDescription();
-
-  @Nullable
-  FshId getId();
-
-  @Nullable
-  FshSource getSource();
-
-  @Nullable
-  FshTarget getTarget();
-
-  @Nullable
-  FshTitle getTitle();
+  @NotNull
+  FshItemMetadata getItemMetadata();
 
 }

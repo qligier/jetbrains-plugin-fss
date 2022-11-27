@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshObeysRule extends PsiElement {
+public interface FshObeysRule extends FshRule {
 
   @Nullable
   FshPath getPath();

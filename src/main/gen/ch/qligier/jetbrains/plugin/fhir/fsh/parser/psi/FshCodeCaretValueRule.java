@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshCodeCaretValueRule extends PsiElement {
+public interface FshCodeCaretValueRule extends FshRule {
 
   @NotNull
   List<FshCode> getCodeList();

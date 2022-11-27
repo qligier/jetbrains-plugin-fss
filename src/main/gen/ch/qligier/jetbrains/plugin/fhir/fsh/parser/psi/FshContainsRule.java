@@ -5,10 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshContainsRule extends PsiElement {
+public interface FshContainsRule extends FshRule {
 
   @NotNull
-  List<FshItem> getItemList();
+  List<FshItemType> getItemTypeList();
 
   @NotNull
   FshPath getPath();

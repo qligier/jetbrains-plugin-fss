@@ -28,21 +28,9 @@ public class FshCsRuleImpl extends ASTWrapperPsiElement implements FshCsRule {
   }
 
   @Override
-  @Nullable
-  public FshCodeCaretValueRule getCodeCaretValueRule() {
-    return findChildByClass(FshCodeCaretValueRule.class);
-  }
-
-  @Override
-  @Nullable
-  public FshCodeInsertRule getCodeInsertRule() {
-    return findChildByClass(FshCodeInsertRule.class);
-  }
-
-  @Override
-  @Nullable
-  public FshConcept getConcept() {
-    return findChildByClass(FshConcept.class);
+  @NotNull
+  public FshRule getRule() {
+    return findNotNullChildByClass(FshRule.class);
   }
 
 }

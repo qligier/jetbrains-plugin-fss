@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshAddCRElementRule extends PsiElement {
+public interface FshAddCRElementRule extends FshRule {
 
   @NotNull
   FshCardinality getCardinality();

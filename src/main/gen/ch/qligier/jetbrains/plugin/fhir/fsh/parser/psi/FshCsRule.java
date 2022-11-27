@@ -7,13 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface FshCsRule extends PsiElement {
 
-  @Nullable
-  FshCodeCaretValueRule getCodeCaretValueRule();
-
-  @Nullable
-  FshCodeInsertRule getCodeInsertRule();
-
-  @Nullable
-  FshConcept getConcept();
+  @NotNull
+  FshRule getRule();
 
 }

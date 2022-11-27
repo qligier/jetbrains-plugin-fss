@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshContainsRuleImpl extends ASTWrapperPsiElement implements FshContainsRule {
+public class FshContainsRuleImpl extends FshRuleImpl implements FshContainsRule {
 
   public FshContainsRuleImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull FshVisitor visitor) {
     visitor.visitContainsRule(this);
   }
@@ -29,8 +29,8 @@ public class FshContainsRuleImpl extends ASTWrapperPsiElement implements FshCont
 
   @Override
   @NotNull
-  public List<FshItem> getItemList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshItem.class);
+  public List<FshItemType> getItemTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshItemType.class);
   }
 
   @Override

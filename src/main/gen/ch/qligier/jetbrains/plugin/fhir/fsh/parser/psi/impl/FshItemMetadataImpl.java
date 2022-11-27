@@ -11,14 +11,14 @@ import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshInstanceRuleImpl extends ASTWrapperPsiElement implements FshInstanceRule {
+public class FshItemMetadataImpl extends ASTWrapperPsiElement implements FshItemMetadata {
 
-  public FshInstanceRuleImpl(@NotNull ASTNode node) {
+  public FshItemMetadataImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FshVisitor visitor) {
-    visitor.visitInstanceRule(this);
+    visitor.visitItemMetadata(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class FshInstanceRuleImpl extends ASTWrapperPsiElement implements FshInst
 
   @Override
   @NotNull
-  public FshRule getRule() {
-    return findNotNullChildByClass(FshRule.class);
+  public FshItemMetadata getItemMetadata() {
+    return findNotNullChildByClass(FshItemMetadata.class);
   }
 
 }

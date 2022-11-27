@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshVsComponent extends PsiElement {
+public interface FshVsComponent extends FshRule {
 
   @NotNull
   FshRuleStart getRuleStart();

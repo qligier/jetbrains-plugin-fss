@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshExtensionImpl extends ASTWrapperPsiElement implements FshExtension {
+public class FshExtensionImpl extends FshItemImpl implements FshExtension {
 
   public FshExtensionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull FshVisitor visitor) {
     visitor.visitExtension(this);
   }
@@ -29,32 +29,14 @@ public class FshExtensionImpl extends ASTWrapperPsiElement implements FshExtensi
 
   @Override
   @NotNull
-  public List<FshDescription> getDescriptionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshDescription.class);
+  public List<FshItemMetadata> getItemMetadataList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshItemMetadata.class);
   }
 
   @Override
   @NotNull
-  public List<FshId> getIdList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshId.class);
-  }
-
-  @Override
-  @NotNull
-  public List<FshParent> getParentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshParent.class);
-  }
-
-  @Override
-  @NotNull
-  public List<FshSdRule> getSdRuleList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshSdRule.class);
-  }
-
-  @Override
-  @NotNull
-  public List<FshTitle> getTitleList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshTitle.class);
+  public List<FshRule> getRuleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshRule.class);
   }
 
 }

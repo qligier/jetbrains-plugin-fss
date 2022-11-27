@@ -36,10 +36,9 @@ public interface FshTypes {
   IElementType INSTANCE_RULE = new FshElementType("INSTANCE_RULE");
   IElementType INTEGER = new FshElementType("INTEGER");
   IElementType INVARIANT = new FshElementType("INVARIANT");
-  IElementType ITEM = new FshElementType("ITEM");
   IElementType ITEM_IDENTIFIER = new FshElementType("ITEM_IDENTIFIER");
+  IElementType ITEM_TYPE = new FshElementType("ITEM_TYPE");
   IElementType LOGICAL = new FshElementType("LOGICAL");
-  IElementType LR_RULE = new FshElementType("LR_RULE");
   IElementType MAPPING = new FshElementType("MAPPING");
   IElementType MAPPING_ENTITY_RULE = new FshElementType("MAPPING_ENTITY_RULE");
   IElementType MAPPING_METADATA = new FshElementType("MAPPING_METADATA");
@@ -60,7 +59,6 @@ public interface FshTypes {
   IElementType RULE_SET_REFERENCE = new FshElementType("RULE_SET_REFERENCE");
   IElementType RULE_SET_RULE = new FshElementType("RULE_SET_RULE");
   IElementType RULE_START = new FshElementType("RULE_START");
-  IElementType SD_RULE = new FshElementType("SD_RULE");
   IElementType SEVERITY = new FshElementType("SEVERITY");
   IElementType SOURCE = new FshElementType("SOURCE");
   IElementType STRENGTH = new FshElementType("STRENGTH");
@@ -84,6 +82,7 @@ public interface FshTypes {
   IElementType XPATH = new FshElementType("XPATH");
 
   IElementType ARROW = new FshTokenType("Arrow");
+  IElementType BLOCKCOMMENT = new FshTokenType("BlockComment");
   IElementType CARET = new FshTokenType("Caret");
   IElementType COLON = new FshTokenType("Colon");
   IElementType COMMA = new FshTokenType("Comma");
@@ -243,17 +242,14 @@ public interface FshTypes {
       else if (type == INVARIANT) {
         return new FshInvariantImpl(node);
       }
-      else if (type == ITEM) {
-        return new FshItemImpl(node);
-      }
       else if (type == ITEM_IDENTIFIER) {
         return new FshItemIdentifierImpl(node);
       }
+      else if (type == ITEM_TYPE) {
+        return new FshItemTypeImpl(node);
+      }
       else if (type == LOGICAL) {
         return new FshLogicalImpl(node);
-      }
-      else if (type == LR_RULE) {
-        return new FshLrRuleImpl(node);
       }
       else if (type == MAPPING) {
         return new FshMappingImpl(node);
@@ -314,9 +310,6 @@ public interface FshTypes {
       }
       else if (type == RULE_START) {
         return new FshRuleStartImpl(node);
-      }
-      else if (type == SD_RULE) {
-        return new FshSdRuleImpl(node);
       }
       else if (type == SEVERITY) {
         return new FshSeverityImpl(node);

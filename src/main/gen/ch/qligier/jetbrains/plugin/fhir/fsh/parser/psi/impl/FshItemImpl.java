@@ -29,14 +29,8 @@ public class FshItemImpl extends ASTWrapperPsiElement implements FshItem {
 
   @Override
   @NotNull
-  public FshCardinality getCardinality() {
-    return findNotNullChildByClass(FshCardinality.class);
-  }
-
-  @Override
-  @NotNull
-  public FshItemIdentifier getItemIdentifier() {
-    return findNotNullChildByClass(FshItemIdentifier.class);
+  public FshItem getItem() {
+    return findNotNullChildByClass(FshItem.class);
   }
 
 }

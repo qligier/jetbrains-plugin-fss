@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshMappingRule extends PsiElement {
+public interface FshMappingRule extends FshRule {
 
   @Nullable
   FshCode getCode();

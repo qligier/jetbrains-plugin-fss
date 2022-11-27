@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface FshItem extends PsiElement {
 
   @NotNull
-  FshCardinality getCardinality();
-
-  @NotNull
-  FshItemIdentifier getItemIdentifier();
+  FshItem getItem();
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshFixedValueRule extends PsiElement {
+public interface FshFixedValueRule extends FshRule {
 
   @NotNull
   FshPath getPath();

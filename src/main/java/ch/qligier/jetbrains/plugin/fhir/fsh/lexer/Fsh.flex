@@ -17,10 +17,11 @@ import com.intellij.psi.TokenType;
 %eof{  return;
 %eof}
 
-LineTerminator = \R
+LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 WhiteSpace = [ \t\r\n\f\u00A0]
 
+BlockComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 LineComment = "//" {InputCharacter}* {LineTerminator}?
 
 KwFlag = "?!" | "MS" | "SU" | "TU" | "N" | "D"
@@ -49,9 +50,9 @@ KwCodeOperator = "is-a" | "descendent-of" | "is-not-a" | "regex" | "in" | "not-i
 
 Digit = [0-9]+
 Identifier = [$]? [a-zA-Z0-9\-_]+
-Url = ("http")("s")?(":\/" "\/")~[ \t\r\n\f\u00A0\#]+
+Url = ("http")("s")?(":\/" "\/")[^ \t\r\n\f\u00A0\#]+
 Urn = "urn:" ~[ \t\r\n\f\u00A0\#]+
-String = "\"" (~[\"] | \r | \n | \t | "\"" | "\\")* "\""
+String = \" ( \\\" | [^\"\n\r] )* \"
 MultilineString = "\"\"\"" .*? "\"\"\""
 Unit = "'" (~[\\'])* "'"
 ConceptString = "\"" {ConceptStringPart}+ ({WhiteSpace} {ConceptStringPart}+)* "\""
@@ -123,7 +124,8 @@ Time = [0-9][0-9](":"[0-9][0-9](":"[0-9][0-9]("."[0-9]+)?)?)?("Z" | ("+" | "-")[
   "."                            { return FshTypes.DOT; }
   ":"                            { return FshTypes.COLON; }
 
-  {LineComment}                  { return null; }
+  {LineComment}                  { return FshTypes.LINECOMMENT; }
+  {BlockComment}                 { return FshTypes.BLOCKCOMMENT; }
   {WhiteSpace}+                  { return FshTypes.WHITESPACE; }
 }
 

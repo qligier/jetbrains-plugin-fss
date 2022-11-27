@@ -11,14 +11,14 @@ import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshLrRuleImpl extends ASTWrapperPsiElement implements FshLrRule {
+public class FshItemTypeImpl extends ASTWrapperPsiElement implements FshItemType {
 
-  public FshLrRuleImpl(@NotNull ASTNode node) {
+  public FshItemTypeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FshVisitor visitor) {
-    visitor.visitLrRule(this);
+    visitor.visitItemType(this);
   }
 
   @Override
@@ -28,21 +28,15 @@ public class FshLrRuleImpl extends ASTWrapperPsiElement implements FshLrRule {
   }
 
   @Override
-  @Nullable
-  public FshAddCRElementRule getAddCRElementRule() {
-    return findChildByClass(FshAddCRElementRule.class);
+  @NotNull
+  public FshCardinality getCardinality() {
+    return findNotNullChildByClass(FshCardinality.class);
   }
 
   @Override
-  @Nullable
-  public FshAddElementRule getAddElementRule() {
-    return findChildByClass(FshAddElementRule.class);
-  }
-
-  @Override
-  @Nullable
-  public FshSdRule getSdRule() {
-    return findChildByClass(FshSdRule.class);
+  @NotNull
+  public FshItemIdentifier getItemIdentifier() {
+    return findNotNullChildByClass(FshItemIdentifier.class);
   }
 
 }

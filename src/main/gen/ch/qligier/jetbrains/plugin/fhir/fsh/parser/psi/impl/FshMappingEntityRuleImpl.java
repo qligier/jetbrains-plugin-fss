@@ -28,21 +28,9 @@ public class FshMappingEntityRuleImpl extends ASTWrapperPsiElement implements Fs
   }
 
   @Override
-  @Nullable
-  public FshInsertRule getInsertRule() {
-    return findChildByClass(FshInsertRule.class);
-  }
-
-  @Override
-  @Nullable
-  public FshMappingRule getMappingRule() {
-    return findChildByClass(FshMappingRule.class);
-  }
-
-  @Override
-  @Nullable
-  public FshPathRule getPathRule() {
-    return findChildByClass(FshPathRule.class);
+  @NotNull
+  public FshRule getRule() {
+    return findNotNullChildByClass(FshRule.class);
   }
 
 }

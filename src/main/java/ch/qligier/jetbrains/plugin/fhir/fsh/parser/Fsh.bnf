@@ -17,22 +17,29 @@
   elementTypeHolderClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes"
   elementTypeClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshElementType"
   tokenTypeClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTokenType"
+
+  extends("(alias|profile|extension|invariant|instance|valueSet|codeSystem|ruleSet|mapping|logical|resource)")=item
+  extends("(parent|id|title|description|expression|xpath|severity|instanceOf|usage|source|target)")=itemMetadata
+  extends("(cardRule|flagRule|valueSetRule|fixedValueRule|containsRule|onlyRule|obeysRule|caretValueRule|insertRule)")=rule
+  extends("(pathRule|addElementRule|addCRElementRule|concept|codeCaretValueRule|codeInsertRule|vsComponent|mappingRule)")=rule
 }
 
 fshFile                   ::= item_*
 
+// LineComment and BlockComment appear here to be included in FshTypes, but they won't be passed to the parser
+// cf. https://plugins.jetbrains.com/docs/intellij/implementing-parser-and-psi.html#whitespace-and-comments
 private item_             ::= (alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet |
- mapping | logical | resource | LineComment)*
+ mapping | logical | resource | LineComment | BlockComment)*
 
 // Declaration: ALIAS
-alias                     ::= KwAlias Colon Identifier Equal aliasValue;
+alias                     ::= KwAlias Colon Identifier Equal aliasValue
 aliasValue                ::= (Urn | Url);
 
 // Declaration: PROFILE
-profile                   ::= KwProfile Colon Identifier sdMetadata_+ sdRule*;
+profile                   ::= KwProfile Colon Identifier sdMetadata_+ sdRule_*;
 
 // Declaration: EXTENSION
-extension                 ::= KwExtension Colon Identifier sdMetadata_* sdRule*;
+extension                 ::= KwExtension Colon Identifier sdMetadata_* sdRule_*;
 
 // Declaration: INVARIANT
 invariant                 ::= KwInvariant Colon Identifier invariantMetadata_+;
@@ -65,7 +72,8 @@ csRule                    ::= concept | codeCaretValueRule | codeInsertRule;
 
 // Declaration: RULESET
 ruleSet                   ::= KwRuleSet Colon ruleSetReference ruleSetRule+;
-ruleSetRule               ::= sdRule | addElementRule | addCRElementRule | concept | codeCaretValueRule | codeInsertRule | vsComponent | mappingRule;
+ruleSetRule               ::= sdRule_ | addElementRule | addCRElementRule | concept | codeCaretValueRule |
+                              codeInsertRule | vsComponent | mappingRule;
 
 // Declaration: MAPPING
 mapping                   ::= KwMapping Colon Identifier mappingMetadata* mappingEntityRule*;
@@ -73,10 +81,10 @@ mappingMetadata           ::=id | source | target | description | title;
 mappingEntityRule         ::=mappingRule | insertRule | pathRule;
 
 // Declaration: LOGICAL
-logical                   ::= KwLogical Colon Identifier sdMetadata_* lrRule*;
+logical                   ::= KwLogical Colon Identifier sdMetadata_* lrRule_*;
 
 // Declaration: RESOURCE
-resource                  ::= KwResource Colon Identifier sdMetadata_* lrRule*;
+resource                  ::= KwResource Colon Identifier sdMetadata_* lrRule_*;
 
 // Metadata
 parent                    ::= KwParent Colon itemIdentifier;
@@ -93,14 +101,15 @@ target                    ::= KwTarget Colon String;
 private sdMetadata_       ::= (parent | id | title | description);
 
 // Rules
-sdRule                    ::= cardRule | flagRule | valueSetRule | fixedValueRule | containsRule | onlyRule | obeysRule | caretValueRule | insertRule | pathRule;
-lrRule                    ::= sdRule | addElementRule | addCRElementRule;
+private sdRule_           ::= cardRule | flagRule | valueSetRule | fixedValueRule | containsRule | onlyRule |
+                              obeysRule | caretValueRule | insertRule | pathRule;
+private lrRule_           ::= sdRule_ | addElementRule | addCRElementRule;
 ruleStart                 ::= WhiteSpace* Star;
 cardRule                  ::= ruleStart path cardinality KwFlag*;
 flagRule                  ::= ruleStart path KwFlag+ (KwAnd path)*;
 valueSetRule              ::= ruleStart path KwFrom itemIdentifier strength?;
 fixedValueRule            ::= ruleStart path Equal value (LeftParen KwExactly RightParen)?;
-containsRule              ::= ruleStart path KwContains item (KwAnd item)*;
+containsRule              ::= ruleStart path KwContains itemType (KwAnd itemType)*;
 onlyRule                  ::= ruleStart path KwOnly targetType (KwOr targetType)*;
 obeysRule                 ::= ruleStart path? KwObeys Identifier (KwAnd Identifier)*;
 caretValueRule            ::= ruleStart path? Caret path Equal value;
@@ -121,7 +130,7 @@ bracketSuffix             ::= LeftBracket (Identifier | Url | integer | Equal | 
 cardinality               ::= integer? DoubleDot (integer | Star)?;
 number                    ::= (Plus | "-")? integer (Dot integer)?; // TODO is it properly matched?
 integer                   ::= Digit+;
-code                      ::= (Url | (Identifier | Urn)? Hash (Identifier | ConceptString))) String?;
+code                      ::= (Url | (Identifier | Urn)? Hash (Identifier | ConceptString)) String?;
 strength                  ::= LeftParen KwBindingStrength RightParen;
 ratio                     ::= (number | quantity) Colon (number | quantity);
 quantity                  ::= number (Unit | code) String?;
@@ -130,7 +139,7 @@ itemIdentifier            ::= Identifier | Url;
 canonical                 ::= KwCanonical LeftParen itemIdentifier (Pipe itemIdentifier)? (KwOr itemIdentifier (Pipe itemIdentifier)?)* RightParen;
 targetType                ::= Identifier | referenceType | canonical;
 value                     ::= String | MultilineString | number | Datetime | Time | referenceType | canonical | code | quantity | ratio | KwBoolean;
-item                      ::= itemIdentifier (KwNamed Identifier)? cardinality KwFlag*;
+itemType                  ::= itemIdentifier (KwNamed Identifier)? cardinality KwFlag*;
 concept                   ::= ruleStart code+ String? (String | MultilineString)?;
 ruleSetReference          ::= Identifier (LeftParen Identifier (Comma Identifier)* RightParen)?;
 
@@ -146,3 +155,11 @@ Rule modifiers:
 6. external (parser): a rule with a hand-written parse function; no parsing code is generated.
 7. fake (PSI classes): a rule for shaping the generated PSI classes; only PSI classes are generated.
  */
+
+// Some fake rules for improving the PSI tree
+fake item ::= (alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet | mapping |
+logical | resource)
+fake itemMetadata ::= (parent | id | title | description | expression | xpath | severity | instanceOf | usage |
+source | target)
+fake rule ::= (cardRule | flagRule | valueSetRule | fixedValueRule | containsRule | onlyRule | obeysRule |
+caretValueRule | insertRule | pathRule | addElementRule | addCRElementRule | concept | codeCaretValueRule | codeInsertRule | vsComponent | mappingRule)

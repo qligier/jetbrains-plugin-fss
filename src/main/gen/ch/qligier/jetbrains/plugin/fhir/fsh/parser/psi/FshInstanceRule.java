@@ -7,13 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface FshInstanceRule extends PsiElement {
 
-  @Nullable
-  FshFixedValueRule getFixedValueRule();
-
-  @Nullable
-  FshInsertRule getInsertRule();
-
-  @Nullable
-  FshPathRule getPathRule();
+  @NotNull
+  FshRule getRule();
 
 }

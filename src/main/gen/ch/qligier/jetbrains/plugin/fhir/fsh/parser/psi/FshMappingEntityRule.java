@@ -7,13 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface FshMappingEntityRule extends PsiElement {
 
-  @Nullable
-  FshInsertRule getInsertRule();
-
-  @Nullable
-  FshMappingRule getMappingRule();
-
-  @Nullable
-  FshPathRule getPathRule();
+  @NotNull
+  FshRule getRule();
 
 }

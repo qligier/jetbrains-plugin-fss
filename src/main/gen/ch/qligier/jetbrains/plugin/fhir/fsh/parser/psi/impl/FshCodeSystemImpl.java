@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshCodeSystemImpl extends ASTWrapperPsiElement implements FshCodeSystem {
+public class FshCodeSystemImpl extends FshItemImpl implements FshCodeSystem {
 
   public FshCodeSystemImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull FshVisitor visitor) {
     visitor.visitCodeSystem(this);
   }
@@ -35,20 +35,8 @@ public class FshCodeSystemImpl extends ASTWrapperPsiElement implements FshCodeSy
 
   @Override
   @NotNull
-  public List<FshDescription> getDescriptionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshDescription.class);
-  }
-
-  @Override
-  @NotNull
-  public List<FshId> getIdList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshId.class);
-  }
-
-  @Override
-  @NotNull
-  public List<FshTitle> getTitleList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshTitle.class);
+  public List<FshItemMetadata> getItemMetadataList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshItemMetadata.class);
   }
 
 }

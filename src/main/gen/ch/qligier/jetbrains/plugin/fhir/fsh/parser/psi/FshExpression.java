@@ -5,6 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshExpression extends PsiElement {
+public interface FshExpression extends FshItemMetadata {
 
 }

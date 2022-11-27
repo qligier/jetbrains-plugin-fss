@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshLrRule extends PsiElement {
+public interface FshRule extends PsiElement {
 
-  @Nullable
-  FshAddCRElementRule getAddCRElementRule();
-
-  @Nullable
-  FshAddElementRule getAddElementRule();
-
-  @Nullable
-  FshSdRule getSdRule();
+  @NotNull
+  FshRule getRule();
 
 }

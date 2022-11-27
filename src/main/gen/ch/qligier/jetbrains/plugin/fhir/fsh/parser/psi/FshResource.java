@@ -5,21 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshResource extends PsiElement {
+public interface FshResource extends FshItem {
 
   @NotNull
-  List<FshDescription> getDescriptionList();
+  List<FshItemMetadata> getItemMetadataList();
 
   @NotNull
-  List<FshId> getIdList();
-
-  @NotNull
-  List<FshLrRule> getLrRuleList();
-
-  @NotNull
-  List<FshParent> getParentList();
-
-  @NotNull
-  List<FshTitle> getTitleList();
+  List<FshRule> getRuleList();
 
 }
