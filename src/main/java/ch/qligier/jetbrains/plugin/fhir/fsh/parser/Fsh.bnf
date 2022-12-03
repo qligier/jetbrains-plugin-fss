@@ -58,9 +58,9 @@ private instanceMetadata_ ::= instanceOf | title | description | usage;
 instanceRule              ::= fixedValueRule | insertRule | pathRule;
 
 // Declaration: VALUESET
-valueSet                  ::= KwValueSet Colon Identifier vsMetadata_*
-                    /* rule */ (vsComponent | caretValueRule | insertRule)*;
-private vsMetadata_       ::= id | title | description;
+valueSet                  ::= KwValueSet Colon Identifier vsMetadata_* vsRule_*;
+private vsMetadata_       ::= (id | title | description);
+private vsRule_           ::= (vsComponent | caretValueRule | insertRule)
 vsComponent               ::= ruleStart (KwInclude | KwExclude)? (vsConceptComponent | vsFilterComponent);
 vsConceptComponent        ::= (code vsComponentFrom?) | (code (KwAnd code)* vsComponentFrom);
 vsFilterComponent         ::= KwCodes vsComponentFrom (KwWhere vsFilterList)?;
