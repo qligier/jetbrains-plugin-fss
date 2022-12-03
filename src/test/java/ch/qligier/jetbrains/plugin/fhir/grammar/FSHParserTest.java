@@ -2,23 +2,49 @@
 
 package ch.qligier.jetbrains.plugin.fhir.grammar;
 
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.FshParserDefinition;
+import com.intellij.testFramework.ParsingTestCase;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
 
 /**
  * jetbrains-language-fsh
  *
  * @author Quentin Ligier
  **/
-public class FSHParserTest {
+public class FSHParserTest extends ParsingTestCase {
+
+    protected FSHParserTest() throws Exception {
+        super("", "fsh", new FshParserDefinition());
+        this.setUp();
+    }
 
     @Test
-    void testParser() throws IOException {
-        /*final var lexer = new FshLexer(CharStreams.fromStream(FSHParserTest.class.getResourceAsStream("/alias.fsh")));
-        final var tokens = new CommonTokenStream(lexer);
-        final var parser = new FshParser(tokens);
-        final var tree = parser.doc();
-*/
+    public void test1() {
+        this.setName("Test1");
+        doTest(true);
+    }
+
+    @Test
+    public void test2() {
+        this.setName("Test2");
+        doTest(true);
+    }
+
+    /**
+     * @return path to test data file directory relative to root of this module.
+     */
+    @Override
+    protected String getTestDataPath() {
+        return "src/test/resources/parser";
+    }
+
+    @Override
+    protected boolean skipSpaces() {
+        return false;
+    }
+
+    @Override
+    protected boolean includeRanges() {
+        return true;
     }
 }

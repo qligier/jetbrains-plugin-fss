@@ -23,6 +23,8 @@ public class FshLexerDump {
         final var lexer = new FshLexerAdapter();
 
         final var out = printTokens(content, 0, lexer);
+
+
         System.out.printf(out);
     }
 
