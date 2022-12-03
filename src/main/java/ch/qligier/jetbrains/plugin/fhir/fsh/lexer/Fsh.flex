@@ -26,27 +26,8 @@ LineComment = "//" {InputCharacter}* {LineTerminator}?
 
 KwFlag = "?!" | "MS" | "SU" | "TU" | "N" | "D"
 KwBindingStrength = "example" | "preferred" | "extensible" | "required"
-KwFrom = "from"
-KwContains = "contains"
-KwNamed = "named"
-KwAnd = "and"
-KwOr = "or"
-KwOnly = "only"
-KwObeys = "obeys"
 KwBoolean = "true" | "false"
-KwInclude = "include"
-KwExclude = "exclude"
-KwCodes = "codes"
-KwWhere = "where"
-KwValueSetRef = "valueset"
-KwSystem = "system"
-KwExactly = "exactly"
-KwInsert = "insert"
-KwContentReference = "contentReference"
-KwReference = "Reference"
-KwCanonical = "Canonical"
 KwCodeOperator = "is-a" | "descendent-of" | "is-not-a" | "regex" | "in" | "not-in" | "generalizes" | "exists"
-
 
 Digit = [0-9]+
 Identifier = [$]? [a-zA-Z0-9\-_]+
@@ -66,8 +47,8 @@ Time = [0-9][0-9](":"[0-9][0-9](":"[0-9][0-9]("."[0-9]+)?)?)?("Z" | ("+" | "-")[
 
 <YYINITIAL> {
 
-  {MultilineString}              { return FshTypes.MULTILINESTRING; }
-  {String}                       { return FshTypes.STRING; }
+  {MultilineString} { return FshTypes.MULTILINESTRING; }
+  {String}          { return FshTypes.STRING; }
 
   // Item declaration keywords
   "Alias"                        { return FshTypes.KWALIAS; }
@@ -82,6 +63,7 @@ Time = [0-9][0-9](":"[0-9][0-9](":"[0-9][0-9]("."[0-9]+)?)?)?("Z" | ("+" | "-")[
   "Logical"                      { return FshTypes.KWLOGICAL; }
   "Resource"                     { return FshTypes.KWRESOURCE; }
 
+
   // Item metadata keywords
   "Parent"                       { return FshTypes.KWPARENT; }
   "Id"                           { return FshTypes.KWID; }
@@ -94,6 +76,32 @@ Time = [0-9][0-9](":"[0-9][0-9](":"[0-9][0-9]("."[0-9]+)?)?)?("Z" | ("+" | "-")[
   "Usage"                        { return FshTypes.KWUSAGE; }
   "Source"                       { return FshTypes.KWSOURCE; }
   "Target"                       { return FshTypes.KWTARGET; }
+
+
+  // Rule keywords
+  "from"              { return FshTypes.KWFROM; }
+  "contains"          { return FshTypes.KWCONTAINS; }
+  "named"             { return FshTypes.KWNAMED; }
+  "and"               { return FshTypes.KWAND; }
+  "or"                { return FshTypes.KWOR; }
+  "only"              { return FshTypes.KWONLY; }
+  "obeys"             { return FshTypes.KWOBEYS; }
+  "include"           { return FshTypes.KWINCLUDE; }
+  "exclude"           { return FshTypes.KWEXCLUDE; }
+  "codes"             { return FshTypes.KWCODES; }
+  "where"             { return FshTypes.KWWHERE; }
+  "valueset"          { return FshTypes.KWVALUESETREF; }
+  "system"            { return FshTypes.KWSYSTEM; }
+  "exactly"           { return FshTypes.KWEXACTLY; }
+  "insert"            { return FshTypes.KWINSERT; }
+  "contentReference"  { return FshTypes.KWCONTENTREFERENCE; }
+  "Reference"         { return FshTypes.KWREFERENCE; }
+  "Canonical"         { return FshTypes.KWCANONICAL; }
+  {KwBoolean}         { return FshTypes.KWBOOLEAN; }
+  {KwFlag}            { return FshTypes.KWFLAG; }
+  {KwBindingStrength} { return FshTypes.KWBINDINGSTRENGTH; }
+  {KwCodeOperator}    { return FshTypes.KWCODEOPERATOR; }
+
 
   // Operators and other keywords
   "="                            { return FshTypes.EQUAL; }
@@ -120,10 +128,8 @@ Time = [0-9][0-9](":"[0-9][0-9](":"[0-9][0-9]("."[0-9]+)?)?)?("Z" | ("+" | "-")[
   {Regex}                        { return FshTypes.REGEX; }
   {Datetime}                     { return FshTypes.DATETIME; }
   {Time}                         { return FshTypes.TIME; }
-
   "."                            { return FshTypes.DOT; }
   ":"                            { return FshTypes.COLON; }
-
   {LineComment}                  { return FshTypes.LINECOMMENT; }
   {BlockComment}                 { return FshTypes.BLOCKCOMMENT; }
   {WhiteSpace}+                  { return FshTypes.WHITESPACE; }
