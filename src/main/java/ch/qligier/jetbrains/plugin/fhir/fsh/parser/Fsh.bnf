@@ -24,12 +24,19 @@
   extends("(pathRule|addElementRule|addCRElementRule|concept|codeCaretValueRule|codeInsertRule|vsComponent|mappingRule)")=rule
 }
 
-fshFile                   ::= item_*
+fshFile                   ::= any_*
+
+// A simple recover
+private recover           ::= !(any_)
+
+// cf. https://github.com/JetBrains/intellij-plugins/blob/master/makefile/grammars/Makefile.bnf
+private any_              ::= !<<eof>> item_ {pin=1 recoverWhile=recover}
+private item_             ::= (alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet |
+                              mapping | logical | resource)
 
 // LineComment and BlockComment appear here to be included in FshTypes, but they won't be passed to the parser
 // cf. https://plugins.jetbrains.com/docs/intellij/implementing-parser-and-psi.html#whitespace-and-comments
-private item_             ::= (alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet |
- mapping | logical | resource | LineComment | BlockComment)*
+private comment_          ::= (LineComment | BlockComment)
 
 // Declaration: ALIAS
 alias                     ::= KwAlias Colon Identifier Equal aliasValue
