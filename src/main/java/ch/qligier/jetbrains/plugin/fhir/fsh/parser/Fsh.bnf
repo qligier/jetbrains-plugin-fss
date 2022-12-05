@@ -147,7 +147,8 @@ referenceType             ::= KwReference LeftParen itemIdentifier (KwOr itemIde
 itemIdentifier            ::= Identifier | Url;
 canonical                 ::= KwCanonical LeftParen itemIdentifier (Pipe itemIdentifier)? (KwOr itemIdentifier (Pipe itemIdentifier)?)* RightParen;
 targetType                ::= Identifier | referenceType | canonical;
-value                     ::= String | MultilineString | number | Datetime | Time | referenceType | canonical | code | quantity | ratio | KwBoolean;
+value                     ::= String | MultilineString | number | Datetime | Time | referenceType | canonical | code
+                              | quantity | ratio | KwBoolean | Identifier;
 itemType                  ::= itemIdentifier (KwNamed Identifier)? cardinality KwFlag*;
 concept                   ::= ruleStart code+ String? (String | MultilineString)?;
 ruleSetReference          ::= Identifier (LeftParen Identifier (Comma Identifier)* RightParen)?;
