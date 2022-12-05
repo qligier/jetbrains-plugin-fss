@@ -188,6 +188,78 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // KwAlias | KwProfile | KwExtension | KwInstance | KwInvariant | KwValueSet | KwCodeSystem
+  //                               | KwRuleSet | KwMapping | KwLogical | KwResource
+  static boolean allItemKws_(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "allItemKws_")) return false;
+    boolean r;
+    r = consumeToken(b, KWALIAS);
+    if (!r) r = consumeToken(b, KWPROFILE);
+    if (!r) r = consumeToken(b, KWEXTENSION);
+    if (!r) r = consumeToken(b, KWINSTANCE);
+    if (!r) r = consumeToken(b, KWINVARIANT);
+    if (!r) r = consumeToken(b, KWVALUESET);
+    if (!r) r = consumeToken(b, KWCODESYSTEM);
+    if (!r) r = consumeToken(b, KWRULESET);
+    if (!r) r = consumeToken(b, KWMAPPING);
+    if (!r) r = consumeToken(b, KWLOGICAL);
+    if (!r) r = consumeToken(b, KWRESOURCE);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KwParent | KwId | KwTitle | KwDescription | KwExpression | KwXPath | KwSeverity
+  //                               | KwInstanceOf | KwUsage | KwSource | KwTarget
+  static boolean allMetadataKws_(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "allMetadataKws_")) return false;
+    boolean r;
+    r = consumeToken(b, KWPARENT);
+    if (!r) r = consumeToken(b, KWID);
+    if (!r) r = consumeToken(b, KWTITLE);
+    if (!r) r = consumeToken(b, KWDESCRIPTION);
+    if (!r) r = consumeToken(b, KWEXPRESSION);
+    if (!r) r = consumeToken(b, KWXPATH);
+    if (!r) r = consumeToken(b, KWSEVERITY);
+    if (!r) r = consumeToken(b, KWINSTANCEOF);
+    if (!r) r = consumeToken(b, KWUSAGE);
+    if (!r) r = consumeToken(b, KWSOURCE);
+    if (!r) r = consumeToken(b, KWTARGET);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KwFrom | KwContains | KwNamed | KwAnd | KwOr | KwOnly | KwObeys | KwInclude | KwExclude
+  //                               | KwCodes | KwWhere | KwValueSetRef | KwSystem | KwExactly | KwInsert | KwContentReference
+  //                               | KwReference | KwCanonical | KwBoolean | KwFlag | KwBindingStrength | KwCodeOperator
+  static boolean allOtherKws_(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "allOtherKws_")) return false;
+    boolean r;
+    r = consumeToken(b, KWFROM);
+    if (!r) r = consumeToken(b, KWCONTAINS);
+    if (!r) r = consumeToken(b, KWNAMED);
+    if (!r) r = consumeToken(b, KWAND);
+    if (!r) r = consumeToken(b, KWOR);
+    if (!r) r = consumeToken(b, KWONLY);
+    if (!r) r = consumeToken(b, KWOBEYS);
+    if (!r) r = consumeToken(b, KWINCLUDE);
+    if (!r) r = consumeToken(b, KWEXCLUDE);
+    if (!r) r = consumeToken(b, KWCODES);
+    if (!r) r = consumeToken(b, KWWHERE);
+    if (!r) r = consumeToken(b, KWVALUESETREF);
+    if (!r) r = consumeToken(b, KWSYSTEM);
+    if (!r) r = consumeToken(b, KWEXACTLY);
+    if (!r) r = consumeToken(b, KWINSERT);
+    if (!r) r = consumeToken(b, KWCONTENTREFERENCE);
+    if (!r) r = consumeToken(b, KWREFERENCE);
+    if (!r) r = consumeToken(b, KWCANONICAL);
+    if (!r) r = consumeToken(b, KWBOOLEAN);
+    if (!r) r = consumeToken(b, KWFLAG);
+    if (!r) r = consumeToken(b, KWBINDINGSTRENGTH);
+    if (!r) r = consumeToken(b, KWCODEOPERATOR);
+    return r;
+  }
+
+  /* ********************************************************** */
   // !<<eof>> item_
   static boolean any_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "any_")) return false;
@@ -399,14 +471,14 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (Identifier | Url | Urn)? Hash (Identifier | ConceptString) String?
+  // (Identifier | Url | Urn)? Hash codeValue_ String?
   public static boolean code(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "code")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, CODE, "<code>");
     r = code_0(b, l + 1);
     r = r && consumeToken(b, HASH);
-    r = r && code_2(b, l + 1);
+    r = r && codeValue_(b, l + 1);
     r = r && code_3(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -426,15 +498,6 @@ public class FshParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, IDENTIFIER);
     if (!r) r = consumeToken(b, URL);
     if (!r) r = consumeToken(b, URN);
-    return r;
-  }
-
-  // Identifier | ConceptString
-  private static boolean code_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "code_2")) return false;
-    boolean r;
-    r = consumeToken(b, IDENTIFIER);
-    if (!r) r = consumeToken(b, CONCEPTSTRING);
     return r;
   }
 
@@ -533,6 +596,20 @@ public class FshParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "codeSystem_4", c)) break;
     }
     return true;
+  }
+
+  /* ********************************************************** */
+  // Identifier | ConceptString | Digit | allItemKws_ | allMetadataKws_ | allOtherKws_
+  static boolean codeValue_(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "codeValue_")) return false;
+    boolean r;
+    r = consumeToken(b, IDENTIFIER);
+    if (!r) r = consumeToken(b, CONCEPTSTRING);
+    if (!r) r = consumeToken(b, DIGIT);
+    if (!r) r = allItemKws_(b, l + 1);
+    if (!r) r = allMetadataKws_(b, l + 1);
+    if (!r) r = allOtherKws_(b, l + 1);
+    return r;
   }
 
   /* ********************************************************** */
@@ -1893,7 +1970,8 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // String | MultilineString | number | Datetime | Time | referenceType | canonical | code | quantity | ratio | KwBoolean
+  // String | MultilineString | number | Datetime | Time | referenceType | canonical | code 
+  //                               | quantity | ratio | KwBoolean | Identifier
   public static boolean value(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "value")) return false;
     boolean r;
@@ -1909,6 +1987,7 @@ public class FshParser implements PsiParser, LightPsiParser {
     if (!r) r = quantity(b, l + 1);
     if (!r) r = ratio(b, l + 1);
     if (!r) r = consumeToken(b, KWBOOLEAN);
+    if (!r) r = consumeToken(b, IDENTIFIER);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
