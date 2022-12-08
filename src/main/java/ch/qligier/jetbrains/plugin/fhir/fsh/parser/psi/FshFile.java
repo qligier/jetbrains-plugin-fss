@@ -25,7 +25,7 @@ public class FshFile extends PsiFileBase {
     /**
      * Constructor.
      *
-     * @param viewProvider
+     * @param viewProvider Manages language-specific access to PSI for a single file.
      */
     public FshFile(@NotNull final FileViewProvider viewProvider) {
         super(viewProvider, FshLanguage.INSTANCE);

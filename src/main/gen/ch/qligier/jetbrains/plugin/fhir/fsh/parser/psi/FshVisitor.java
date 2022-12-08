@@ -17,6 +17,7 @@ public class FshVisitor extends PsiElementVisitor {
 
   public void visitAlias(@NotNull FshAlias o) {
     visitItem(o);
+    // visitNamedItem(o);
   }
 
   public void visitAliasValue(@NotNull FshAliasValue o) {

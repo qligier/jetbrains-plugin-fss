@@ -1970,7 +1970,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // String | MultilineString | number | Datetime | Time | referenceType | canonical | code 
+  // String | MultilineString | number | Datetime | Time | referenceType | canonical | code
   //                               | quantity | ratio | KwBoolean | Identifier
   public static boolean value(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "value")) return false;

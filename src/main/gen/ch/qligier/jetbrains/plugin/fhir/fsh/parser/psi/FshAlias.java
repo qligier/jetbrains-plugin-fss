@@ -5,9 +5,11 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshAlias extends FshItem {
+public interface FshAlias extends FshItem, FshNamedItem {
 
   @NotNull
   FshAliasValue getAliasValue();
+
+  PsiElement getNameIdentifier();
 
 }

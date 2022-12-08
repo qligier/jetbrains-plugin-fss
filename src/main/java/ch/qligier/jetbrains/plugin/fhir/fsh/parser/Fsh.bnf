@@ -18,6 +18,9 @@
   elementTypeClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshElementType"
   tokenTypeClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTokenType"
 
+  // Source of helper methods used in "methods" annotations
+  psiImplUtilClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl.FshPsiImplUtil"
+
   extends("(alias|profile|extension|invariant|instance|valueSet|codeSystem|ruleSet|mapping|logical|resource)")=item
   extends("(parent|id|title|description|expression|xpath|severity|instanceOf|usage|source|target)")=itemMetadata
   extends("(cardRule|flagRule|valueSetRule|fixedValueRule|containsRule|onlyRule|obeysRule|caretValueRule|insertRule)")=rule
@@ -39,7 +42,11 @@ private item_             ::= (alias | profile | extension | invariant | instanc
 private comment_          ::= (LineComment | BlockComment)
 
 // Declaration: ALIAS
-alias                     ::= KwAlias Colon Identifier Equal aliasValue
+alias                     ::= KwAlias Colon Identifier Equal aliasValue {
+  mixin="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl.FshNamedItemImpl"
+  implements="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshNamedItem"
+  methods=[getNameIdentifier getName setName]
+}
 aliasValue                ::= (Urn | Url);
 
 // Declaration: PROFILE
