@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -47,7 +46,7 @@ public class FshFile extends PsiFileBase {
     }
 
     public @NotNull List<FshItem> getItems() {
-        return Collections.emptyList(); // TODO
+        return List.of(this.findChildrenByClass(FshItem.class));
     }
 
     @Override

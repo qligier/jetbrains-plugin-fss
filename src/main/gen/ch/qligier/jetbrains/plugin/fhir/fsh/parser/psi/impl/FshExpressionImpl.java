@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshExpressionImpl extends FshItemMetadataImpl implements FshExpression {
+public class FshExpressionImpl extends FshMetadataImpl implements FshExpression {
 
   public FshExpressionImpl(@NotNull ASTNode node) {
     super(node);

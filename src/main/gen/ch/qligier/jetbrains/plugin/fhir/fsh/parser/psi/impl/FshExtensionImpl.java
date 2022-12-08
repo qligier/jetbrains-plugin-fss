@@ -29,8 +29,8 @@ public class FshExtensionImpl extends FshItemImpl implements FshExtension {
 
   @Override
   @NotNull
-  public List<FshItemMetadata> getItemMetadataList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshItemMetadata.class);
+  public List<FshMetadata> getMetadataList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshMetadata.class);
   }
 
   @Override

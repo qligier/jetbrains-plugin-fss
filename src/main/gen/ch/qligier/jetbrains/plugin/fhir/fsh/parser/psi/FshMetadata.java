@@ -5,9 +5,11 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshItemMetadata extends PsiElement {
+public interface FshMetadata extends PsiElement {
 
   @NotNull
-  FshItemMetadata getItemMetadata();
+  FshMetadata getMetadata();
+
+  @Nullable PsiElement getValueElement();
 
 }

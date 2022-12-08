@@ -17,7 +17,6 @@ public class FshVisitor extends PsiElementVisitor {
 
   public void visitAlias(@NotNull FshAlias o) {
     visitItem(o);
-    // visitNamedItem(o);
   }
 
   public void visitAliasValue(@NotNull FshAliasValue o) {
@@ -73,11 +72,11 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitDescription(@NotNull FshDescription o) {
-    visitItemMetadata(o);
+    visitMetadata(o);
   }
 
   public void visitExpression(@NotNull FshExpression o) {
-    visitItemMetadata(o);
+    visitMetadata(o);
   }
 
   public void visitExtension(@NotNull FshExtension o) {
@@ -93,7 +92,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitId(@NotNull FshId o) {
-    visitItemMetadata(o);
+    visitMetadata(o);
   }
 
   public void visitInsertRule(@NotNull FshInsertRule o) {
@@ -105,7 +104,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitInstanceOf(@NotNull FshInstanceOf o) {
-    visitItemMetadata(o);
+    visitMetadata(o);
   }
 
   public void visitInstanceRule(@NotNull FshInstanceRule o) {
@@ -121,14 +120,10 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitItem(@NotNull FshItem o) {
-    visitPsiElement(o);
+    visitItemCustom(o);
   }
 
   public void visitItemIdentifier(@NotNull FshItemIdentifier o) {
-    visitPsiElement(o);
-  }
-
-  public void visitItemMetadata(@NotNull FshItemMetadata o) {
     visitPsiElement(o);
   }
 
@@ -156,6 +151,10 @@ public class FshVisitor extends PsiElementVisitor {
     visitRule(o);
   }
 
+  public void visitMetadata(@NotNull FshMetadata o) {
+    visitPsiElement(o);
+  }
+
   public void visitNumber(@NotNull FshNumber o) {
     visitPsiElement(o);
   }
@@ -169,7 +168,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitParent(@NotNull FshParent o) {
-    visitItemMetadata(o);
+    visitMetadata(o);
   }
 
   public void visitPath(@NotNull FshPath o) {
@@ -225,11 +224,11 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitSeverity(@NotNull FshSeverity o) {
-    visitItemMetadata(o);
+    visitMetadata(o);
   }
 
   public void visitSource(@NotNull FshSource o) {
-    visitItemMetadata(o);
+    visitMetadata(o);
   }
 
   public void visitStrength(@NotNull FshStrength o) {
@@ -237,7 +236,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitTarget(@NotNull FshTarget o) {
-    visitItemMetadata(o);
+    visitMetadata(o);
   }
 
   public void visitTargetType(@NotNull FshTargetType o) {
@@ -245,11 +244,11 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitTitle(@NotNull FshTitle o) {
-    visitItemMetadata(o);
+    visitMetadata(o);
   }
 
   public void visitUsage(@NotNull FshUsage o) {
-    visitItemMetadata(o);
+    visitMetadata(o);
   }
 
   public void visitValue(@NotNull FshValue o) {
@@ -305,7 +304,11 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitXpath(@NotNull FshXpath o) {
-    visitItemMetadata(o);
+    visitMetadata(o);
+  }
+
+  public void visitItemCustom(@NotNull FshItemCustom o) {
+    visitPsiElement(o);
   }
 
   public void visitPsiElement(@NotNull PsiElement o) {

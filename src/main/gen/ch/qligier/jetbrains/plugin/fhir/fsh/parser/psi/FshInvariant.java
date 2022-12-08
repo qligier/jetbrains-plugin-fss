@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface FshInvariant extends FshItem {
 
   @NotNull
-  List<FshItemMetadata> getItemMetadataList();
+  List<FshMetadata> getMetadataList();
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshParent extends FshItemMetadata {
+public interface FshParent extends FshMetadata {
 
   @NotNull
   FshItemIdentifier getItemIdentifier();

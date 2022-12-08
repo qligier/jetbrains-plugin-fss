@@ -11,6 +11,6 @@ public interface FshInstance extends FshItem {
   List<FshInstanceRule> getInstanceRuleList();
 
   @NotNull
-  List<FshItemMetadata> getItemMetadataList();
+  List<FshMetadata> getMetadataList();
 
 }

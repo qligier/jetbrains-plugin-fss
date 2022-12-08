@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshIdImpl extends FshItemMetadataImpl implements FshId {
+public class FshIdImpl extends FshMetadataImpl implements FshId {
 
   public FshIdImpl(@NotNull ASTNode node) {
     super(node);

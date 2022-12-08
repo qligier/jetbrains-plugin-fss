@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshUsage extends FshItemMetadata {
+public interface FshUsage extends FshMetadata {
 
   @NotNull
   FshCode getCode();

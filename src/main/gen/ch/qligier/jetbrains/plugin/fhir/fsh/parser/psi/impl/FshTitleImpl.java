@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshTitleImpl extends FshItemMetadataImpl implements FshTitle {
+public class FshTitleImpl extends FshMetadataImpl implements FshTitle {
 
   public FshTitleImpl(@NotNull ASTNode node) {
     super(node);

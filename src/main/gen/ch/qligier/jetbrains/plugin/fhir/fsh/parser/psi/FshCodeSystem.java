@@ -11,6 +11,6 @@ public interface FshCodeSystem extends FshItem {
   List<FshCsRule> getCsRuleList();
 
   @NotNull
-  List<FshItemMetadata> getItemMetadataList();
+  List<FshMetadata> getMetadataList();
 
 }

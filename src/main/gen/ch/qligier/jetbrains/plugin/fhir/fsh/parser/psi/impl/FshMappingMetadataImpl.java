@@ -29,8 +29,8 @@ public class FshMappingMetadataImpl extends ASTWrapperPsiElement implements FshM
 
   @Override
   @NotNull
-  public FshItemMetadata getItemMetadata() {
-    return findNotNullChildByClass(FshItemMetadata.class);
+  public FshMetadata getMetadata() {
+    return findNotNullChildByClass(FshMetadata.class);
   }
 
 }

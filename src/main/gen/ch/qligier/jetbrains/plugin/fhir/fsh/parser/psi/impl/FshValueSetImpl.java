@@ -29,8 +29,8 @@ public class FshValueSetImpl extends FshItemImpl implements FshValueSet {
 
   @Override
   @NotNull
-  public List<FshItemMetadata> getItemMetadataList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshItemMetadata.class);
+  public List<FshMetadata> getMetadataList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshMetadata.class);
   }
 
   @Override

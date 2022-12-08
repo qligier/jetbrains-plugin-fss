@@ -22,7 +22,7 @@
   psiImplUtilClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl.FshPsiImplUtil"
 
   extends("(alias|profile|extension|invariant|instance|valueSet|codeSystem|ruleSet|mapping|logical|resource)")=item
-  extends("(parent|id|title|description|expression|xpath|severity|instanceOf|usage|source|target)")=itemMetadata
+  extends("(parent|id|title|description|expression|xpath|severity|instanceOf|usage|source|target)")=metadata
   extends("(cardRule|flagRule|valueSetRule|fixedValueRule|containsRule|onlyRule|obeysRule|caretValueRule|insertRule)")=rule
   extends("(pathRule|addElementRule|addCRElementRule|concept|codeCaretValueRule|codeInsertRule|vsComponent|mappingRule)")=rule
 }
@@ -42,11 +42,7 @@ private item_             ::= (alias | profile | extension | invariant | instanc
 private comment_          ::= (LineComment | BlockComment)
 
 // Declaration: ALIAS
-alias                     ::= KwAlias Colon Identifier Equal aliasValue {
-  mixin="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl.FshNamedItemImpl"
-  implements="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshNamedItem"
-  methods=[getNameIdentifier getName setName]
-}
+alias                     ::= KwAlias Colon Identifier Equal aliasValue
 aliasValue                ::= (Urn | Url);
 
 // Declaration: PROFILE
@@ -102,7 +98,7 @@ resource                  ::= KwResource Colon Identifier sdMetadata_* lrRule_*;
 
 // Metadata
 parent                    ::= KwParent Colon itemIdentifier;
-id                        ::= KwId Colon Identifier;
+id                        ::= KwId Colon Identifier
 title                     ::= KwTitle Colon String;
 description               ::= KwDescription Colon (String | MultilineString);
 expression                ::= KwExpression Colon String;
@@ -184,9 +180,14 @@ Rule modifiers:
 
 // Some fake rules for improving the PSI tree
 fake item ::= alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet | mapping
-              | logical | resource
-fake itemMetadata ::= parent | id | title | description | expression | xpath | severity | instanceOf | usage
-                      | source | target
+              | logical | resource {
+  mixin="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl.FshItemImplCustom"
+  implements="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshItemCustom"
+}
+fake metadata ::= parent | id | title | description | expression | xpath | severity | instanceOf | usage
+                  | source | target {
+  methods=[getValueElement]
+}
 fake rule ::= cardRule | flagRule | valueSetRule | fixedValueRule | containsRule | onlyRule | obeysRule
               | caretValueRule | insertRule | pathRule | addElementRule | addCRElementRule | concept
               | codeCaretValueRule | codeInsertRule | vsComponent | mappingRule

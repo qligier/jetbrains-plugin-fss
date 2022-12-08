@@ -3,18 +3,25 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFile;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshId;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshItem;
 import com.intellij.codeInspection.InspectionManager;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
+import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.util.IntentionFamilyName;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.profile.codeInspection.ProjectInspectionProfileManager;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 /**
  * An inspection that verifies item IDs are derived from the name.
@@ -41,16 +48,16 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
         }
 
         final List<ProblemDescriptor> descriptors = new ArrayList<>(0);
-        for (final var item : ((FshFile) file).getItems()) {
-            /*final var id = Optional.ofNullable(item.getItemIdElement())
-                    .map(FshIdMetadata::getValueElement)
-                    .map(FshIdentifierDecl::getName)
+        for (final FshItem item : ((FshFile) file).getItems()) {
+            final var id = Optional.ofNullable(item.getMetadataIdElement())
+                    .map(FshId::getValueElement)
+                    .map(PsiElement::getText)
                     .orElse(null);
             if (id == null) {
                 continue;
             }
-            final var name = Optional.ofNullable(item.getItemNameElement())
-                    .map(FshIdentifierDecl::getName)
+            final var name = Optional.ofNullable(item.getNameIdentifier())
+                    .map(PsiElement::getText)
                     .orElse(null);
             if (name == null) {
                 continue;
@@ -61,13 +68,13 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
                     .toLowerCase(Locale.ROOT);
             if (!expectedId.equals(id)) {
                 descriptors.add(manager.createProblemDescriptor(
-                        item.getItemIdElement(),
+                        item.getMetadataIdElement(),
                         (TextRange) null, // The entire element
                         String.format("An item ID SHOULD be derived from the name (expected '%s')", expectedId),
                         ProblemHighlightType.WEAK_WARNING,
                         true,
                         new IdDerivedFromNameQuickFix(expectedId)));
-            }*/
+            }
         }
 
         return descriptors.toArray(new ProblemDescriptor[0]);

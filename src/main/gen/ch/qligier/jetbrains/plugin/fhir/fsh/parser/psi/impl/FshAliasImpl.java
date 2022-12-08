@@ -10,12 +10,13 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshAliasImpl extends FshNamedItemImpl implements FshAlias {
+public class FshAliasImpl extends FshItemImpl implements FshAlias {
 
   public FshAliasImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull FshVisitor visitor) {
     visitor.visitAlias(this);
   }
@@ -30,11 +31,6 @@ public class FshAliasImpl extends FshNamedItemImpl implements FshAlias {
   @NotNull
   public FshAliasValue getAliasValue() {
     return findNotNullChildByClass(FshAliasValue.class);
-  }
-
-  @Override
-  public PsiElement getNameIdentifier() {
-    return FshPsiImplUtil.getNameIdentifier(this);
   }
 
 }

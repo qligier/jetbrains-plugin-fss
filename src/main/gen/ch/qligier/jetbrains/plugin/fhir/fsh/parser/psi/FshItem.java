@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshItem extends PsiElement {
+public interface FshItem extends FshItemCustom {
 
   @NotNull
   FshItem getItem();

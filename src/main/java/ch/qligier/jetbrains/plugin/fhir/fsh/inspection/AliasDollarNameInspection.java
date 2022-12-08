@@ -2,13 +2,18 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshAlias;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFile;
 import com.intellij.codeInspection.InspectionManager;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
+import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.util.IntentionFamilyName;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.profile.codeInspection.ProjectInspectionProfileManager;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +27,7 @@ import java.util.List;
  * @author Quentin Ligier
  **/
 public class AliasDollarNameInspection extends FshInspectionBase {
+    public static final Logger LOG = Logger.getInstance("AliasDollarNameInspection");
 
     /**
      * Override to report problems at file level.
@@ -41,26 +47,29 @@ public class AliasDollarNameInspection extends FshInspectionBase {
         }
         final List<ProblemDescriptor> descriptors = new ArrayList<>(0);
         for (final var item : ((FshFile) file).getItems()) {
-            /*if (!(item instanceof FshAliasItem)) {
+            if (!(item instanceof FshAlias)) {
                 continue;
             }
-            final var aliasNameElement = ((FshAliasItem) item).getIdentifier();
+            final var aliasNameElement = ((FshAlias) item).getNameIdentifier();
             if (aliasNameElement == null) {
                 continue;
             }
             if (!aliasNameElement.getText().startsWith("$")) {
                 descriptors.add(manager.createProblemDescriptor(aliasNameElement,
                                                                 (TextRange) null, // The entire element
-                                                                "An alias name SHOULD start with a $ sign",
+                                                                "An alias name SHOULD start with a '$' sign",
                                                                 ProblemHighlightType.WEAK_WARNING,
                                                                 true,
                                                                 new AliasDollarNameQuickFix()));
-            }*/
+            }
         }
 
         return descriptors.toArray(new ProblemDescriptor[0]);
     }
 
+    /**
+     * The quick fix for this inspection.
+     */
     private static final class AliasDollarNameQuickFix implements LocalQuickFix {
 
         /**
@@ -72,7 +81,7 @@ public class AliasDollarNameInspection extends FshInspectionBase {
         @Override
         public @IntentionFamilyName
         @NotNull String getFamilyName() {
-            return "Prefix the name with a $ sign";
+            return "Prefix the name with a '$' sign";
         }
 
         /**
@@ -86,11 +95,12 @@ public class AliasDollarNameInspection extends FshInspectionBase {
          */
         @Override
         public void applyFix(@NotNull final Project project, @NotNull final ProblemDescriptor descriptor) {
-            /*final PsiElement element = descriptor.getPsiElement();
-            if (!(element instanceof FshIdentifierDecl)) {
-                return;
+            final PsiElement element = descriptor.getPsiElement();
+            if (element.getParent() instanceof FshAlias) {
+                ((FshAlias) element.getParent()).setName("$" + element.getText());
+            } else {
+                LOG.warn("AliasDollarNameQuickFix.applyFix(): got element that's not the child of an FshAlias");
             }
-            ((FshIdentifierDecl) element).setName("$" + element.getText());*/
         }
     }
 }

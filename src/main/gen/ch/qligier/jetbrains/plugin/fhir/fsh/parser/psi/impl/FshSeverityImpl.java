@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 
-public class FshSeverityImpl extends FshItemMetadataImpl implements FshSeverity {
+public class FshSeverityImpl extends FshMetadataImpl implements FshSeverity {
 
   public FshSeverityImpl(@NotNull ASTNode node) {
     super(node);
