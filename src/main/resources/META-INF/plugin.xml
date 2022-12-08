@@ -45,8 +45,11 @@
         <lang.commenter language="FSH"
                         implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.FshCommenter"/>
         <lang.foldingBuilder language="FSH"
-                             implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.FshFoldingBuilder"/>
-        <navbar implementation="ch.qligier.jetbrains.plugin.fhir.fsh.FshStructureAwareNavbar"/>
+                             implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.structure.FshFoldingBuilder"/>
+        <lang.psiStructureViewFactory
+                language="FSH"
+                implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.structure.FshStructureViewFactory"/>
+        <navbar implementation="ch.qligier.jetbrains.plugin.fhir.fsh.structure.FshStructureAwareNavbar"/>
         <lang.braceMatcher language="FSH"
                            implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.FshPairedBraceMatcher"/>
         <languageInjectionContributor language="FSH"

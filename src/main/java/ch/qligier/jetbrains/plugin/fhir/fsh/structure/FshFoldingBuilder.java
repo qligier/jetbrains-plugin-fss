@@ -1,7 +1,8 @@
 // Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
 
-package ch.qligier.jetbrains.plugin.fhir.fsh;
+package ch.qligier.jetbrains.plugin.fhir.fsh.structure;
 
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshAlias;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFile;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.folding.FoldingBuilderEx;
@@ -57,8 +58,8 @@ public class FshFoldingBuilder extends FoldingBuilderEx implements DumbAware {
         }
         final var descriptors = new ArrayList<FoldingDescriptor>(1);
         final var fshFile = (FshFile) root;
-        /*for (final var item : fshFile.getItems()) {
-            if (item instanceof FshAliasItem) {
+        for (final var item : fshFile.getItems()) {
+            if (item instanceof FshAlias) {
                 // No need to fold an alias declaration
                 continue;
             }
@@ -67,7 +68,7 @@ public class FshFoldingBuilder extends FoldingBuilderEx implements DumbAware {
                                                   item.getTextRange().getEndOffset(),
                                                   null,
                                                   item.getFoldedPlaceholder()));
-        }*/
+        }
         return descriptors.toArray(new FoldingDescriptor[0]);
     }
 

@@ -10,6 +10,7 @@ import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.util.IntentionFamilyName;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.profile.codeInspection.ProjectInspectionProfileManager;
@@ -24,11 +25,12 @@ import java.util.Locale;
 import java.util.Optional;
 
 /**
- * An inspection that verifies item IDs are derived from the name.
+ * An inspection that verifies item ids are derived from the name.
  *
  * @author Quentin Ligier
  **/
 public class IdDerivedFromNameInspection extends FshInspectionBase {
+    public static final Logger LOG = Logger.getInstance("IdDerivedFromNameInspection");
 
     /**
      * Override to report problems at file level.
@@ -70,7 +72,7 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
                 descriptors.add(manager.createProblemDescriptor(
                         item.getMetadataIdElement(),
                         (TextRange) null, // The entire element
-                        String.format("An item ID SHOULD be derived from the name (expected '%s')", expectedId),
+                        String.format("An item id SHOULD be derived from the name (expected '%s')", expectedId),
                         ProblemHighlightType.WEAK_WARNING,
                         true,
                         new IdDerivedFromNameQuickFix(expectedId)));
@@ -97,7 +99,7 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
         @Override
         public @IntentionFamilyName
         @NotNull String getFamilyName() {
-            return "Derive the ID from the name";
+            return "Derive the id from the name";
         }
 
         /**
@@ -111,11 +113,12 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
          */
         @Override
         public void applyFix(@NotNull final Project project, @NotNull final ProblemDescriptor descriptor) {
-            /*final PsiElement element = descriptor.getPsiElement();
-            if (!(element instanceof FshIdentifierDecl)) {
-                return;
+            final PsiElement element = descriptor.getPsiElement();
+            if (element instanceof FshId) {
+                ((FshId) element).setName(this.rightId);
+            } else {
+                LOG.warn("IdDerivedFromNameQuickFix.applyFix(): got element that's not the child of an FshId");
             }
-            ((FshIdentifierDecl) element).setName(this.rightId);*/
         }
     }
 }

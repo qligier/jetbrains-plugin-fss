@@ -27,4 +27,19 @@ public class FshIdImpl extends FshMetadataImpl implements FshId {
     else super.accept(visitor);
   }
 
+  @Override
+  public String getName() {
+    return FshPsiImplUtil.getName(this);
+  }
+
+  @Override
+  public PsiElement setName(String newName) {
+    return FshPsiImplUtil.setName(this, newName);
+  }
+
+  @Override
+  public PsiElement getNameIdentifier() {
+    return FshPsiImplUtil.getNameIdentifier(this);
+  }
+
 }

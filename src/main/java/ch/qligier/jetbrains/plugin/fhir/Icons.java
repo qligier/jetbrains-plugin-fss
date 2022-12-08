@@ -12,6 +12,8 @@ import javax.swing.*;
  * @author Quentin Ligier
  * @see <a href="https://plugins.jetbrains.com/docs/intellij/work-with-icons-and-images.html">Working with Icons and
  * Images</a>
+ * @see <a href="https://jetbrains.design/intellij/principles/icons/">Icons</a>
+ * @see <a href="https://jetbrains.design/intellij/resources/icons_list/">Icons list</a>
  **/
 public class Icons {
 

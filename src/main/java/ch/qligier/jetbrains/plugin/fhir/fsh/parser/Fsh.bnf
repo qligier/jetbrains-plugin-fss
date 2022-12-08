@@ -98,7 +98,10 @@ resource                  ::= KwResource Colon Identifier sdMetadata_* lrRule_*;
 
 // Metadata
 parent                    ::= KwParent Colon itemIdentifier;
-id                        ::= KwId Colon Identifier
+id                        ::= KwId Colon Identifier {
+  implements="com.intellij.psi.PsiNameIdentifierOwner"
+  methods=[getName setName getNameIdentifier]
+}
 title                     ::= KwTitle Colon String;
 description               ::= KwDescription Colon (String | MultilineString);
 expression                ::= KwExpression Colon String;

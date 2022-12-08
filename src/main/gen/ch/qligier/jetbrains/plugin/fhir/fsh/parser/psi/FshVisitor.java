@@ -4,6 +4,7 @@ package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiNameIdentifierOwner;
 
 public class FshVisitor extends PsiElementVisitor {
 
@@ -93,6 +94,7 @@ public class FshVisitor extends PsiElementVisitor {
 
   public void visitId(@NotNull FshId o) {
     visitMetadata(o);
+    // visitPsiNameIdentifierOwner(o);
   }
 
   public void visitInsertRule(@NotNull FshInsertRule o) {
