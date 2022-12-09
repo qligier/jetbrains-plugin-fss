@@ -21,6 +21,12 @@ public class Icons {
     public static final Icon FSH_FLAME = IconLoader.getIcon("/icons/fsh_flame.png", Icons.class);
 
     /**
+     * Icons based on <a href="https://jetbrains.design/intellij/resources/icons_list/">JetBrains ones</a>.
+     */
+    public static final Icon FSH_FILE = IconLoader.getIcon("/icons/fsh_file.svg", Icons.class);
+    public static final Icon VALUESET = IconLoader.getIcon("/icons/valueset.svg", Icons.class);
+
+    /**
      * Icons of <a href="https://tabler-icons.io">Tabler Icons</a> (MIT License).
      */
     public static final Icon TABLER_AB = IconLoader.getIcon("/icons/a-b.png", Icons.class);

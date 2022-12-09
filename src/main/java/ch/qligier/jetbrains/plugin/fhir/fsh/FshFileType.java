@@ -1,6 +1,4 @@
-/*
- * Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license
- */
+// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.fsh;
 
@@ -58,6 +56,6 @@ public class FshFileType extends LanguageFileType {
      */
     @Override
     public @Nullable Icon getIcon() {
-        return Icons.FSH_FLAME;
+        return Icons.FSH_FILE;
     }
 }

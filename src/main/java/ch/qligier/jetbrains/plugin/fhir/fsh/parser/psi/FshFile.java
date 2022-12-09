@@ -42,7 +42,7 @@ public class FshFile extends PsiFileBase {
 
     @Override
     public @Nullable Icon getIcon(final int flags) {
-        return Icons.FSH_FLAME;
+        return Icons.FSH_FILE;
     }
 
     public @NotNull List<FshItem> getItems() {

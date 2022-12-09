@@ -27,8 +27,10 @@ import java.util.regex.Pattern;
 public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfiguration> {
     public static final Logger LOG = Logger.getInstance("IgPublisherSettingsEditor");
     private static final Pattern IG_PUBLISHER_VERSION_PATTERN = Pattern.compile("\\d+\\.\\d+\\.\\d+");
-    private static final Color GREEN = new JBColor(new Color(89, 168, 105), new Color(89, 168, 105));
-    private static final Color RED = new JBColor(new Color(219, 88, 96), new Color(219, 88, 96));
+
+    // Colors as per https://jetbrains.design/intellij/principles/icons/#29
+    private static final Color GREEN = new JBColor(Color.decode("#62B543"), Color.decode("#62B543"));
+    private static final Color RED = new JBColor(Color.decode("#E05555"), Color.decode("#E05555"));
     private static final Color GRAY = new JBColor(Gray._133, Gray._133);
     private TextFieldWithBrowseButton textFieldJarPath;
     private JPanel globalPanel;
