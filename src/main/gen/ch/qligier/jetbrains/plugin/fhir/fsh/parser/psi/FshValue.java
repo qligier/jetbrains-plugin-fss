@@ -14,6 +14,9 @@ public interface FshValue extends PsiElement {
   FshCode getCode();
 
   @Nullable
+  FshIdentifierRef getIdentifierRef();
+
+  @Nullable
   FshNumber getNumber();
 
   @Nullable

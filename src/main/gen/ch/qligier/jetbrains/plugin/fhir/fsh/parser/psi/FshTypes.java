@@ -30,6 +30,7 @@ public interface FshTypes {
   IElementType FIXED_VALUE_RULE = new FshElementType("FIXED_VALUE_RULE");
   IElementType FLAG_RULE = new FshElementType("FLAG_RULE");
   IElementType ID = new FshElementType("ID");
+  IElementType IDENTIFIER_REF = new FshElementType("IDENTIFIER_REF");
   IElementType INSERT_RULE = new FshElementType("INSERT_RULE");
   IElementType INSTANCE = new FshElementType("INSTANCE");
   IElementType INSTANCE_OF = new FshElementType("INSTANCE_OF");
@@ -223,6 +224,9 @@ public interface FshTypes {
       }
       else if (type == ID) {
         return new FshIdImpl(node);
+      }
+      else if (type == IDENTIFIER_REF) {
+        return new FshIdentifierRefImpl(node);
       }
       else if (type == INSERT_RULE) {
         return new FshInsertRuleImpl(node);

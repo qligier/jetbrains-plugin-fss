@@ -10,6 +10,9 @@ public interface FshItemType extends PsiElement {
   @NotNull
   FshCardinality getCardinality();
 
+  @Nullable
+  FshIdentifierRef getIdentifierRef();
+
   @NotNull
   FshItemIdentifier getItemIdentifier();
 

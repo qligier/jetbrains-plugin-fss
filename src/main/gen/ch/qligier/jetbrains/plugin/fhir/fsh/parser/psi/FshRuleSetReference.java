@@ -7,4 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface FshRuleSetReference extends PsiElement {
 
+  @NotNull
+  FshIdentifierRef getIdentifierRef();
+
+  int getParameterCount();
+
 }

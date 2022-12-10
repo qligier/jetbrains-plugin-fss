@@ -3,7 +3,6 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh;
 
 import ch.qligier.jetbrains.plugin.fhir.Icons;
-import com.intellij.icons.AllIcons;
 
 import javax.swing.*;
 
@@ -14,17 +13,17 @@ import javax.swing.*;
  **/
 public enum FshItemType {
 
-    ALIAS("Alias", AllIcons.Nodes.Gvariable),
-    PROFILE("Profile", AllIcons.Nodes.Property),
-    EXTENSION("Extension", AllIcons.Nodes.Enum),
-    INVARIANT("Invariant", AllIcons.Nodes.Locked),
-    INSTANCE("Instance", AllIcons.Nodes.Class),
+    ALIAS("Alias", Icons.ALIAS),
+    PROFILE("Profile", Icons.PROFILE),
+    EXTENSION("Extension", Icons.EXTENSION),
+    INVARIANT("Invariant", Icons.INVARIANT),
+    INSTANCE("Instance", Icons.INSTANCE),
     VALUESET("ValueSet", Icons.VALUESET),
-    CODESYSTEM("CodeSystem", AllIcons.Nodes.Controller),
-    RULESET("RuleSet", AllIcons.Nodes.Related),
-    MAPPING("Mapping", AllIcons.Nodes.Artifact),
-    LOGICAL("Logical", AllIcons.Nodes.Method),
-    RESOURCE("Resource", AllIcons.Nodes.ResourceBundle);
+    CODESYSTEM("CodeSystem", Icons.CODESYSTEM),
+    RULESET("RuleSet", Icons.RULESET),
+    MAPPING("Mapping", Icons.MAPPING),
+    LOGICAL("Logical", Icons.LOGICAL),
+    RESOURCE("Resource", Icons.RESOURCE);
 
     private final String name;
 

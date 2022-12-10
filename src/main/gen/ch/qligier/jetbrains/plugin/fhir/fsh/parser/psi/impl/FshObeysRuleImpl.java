@@ -28,6 +28,12 @@ public class FshObeysRuleImpl extends FshRuleImpl implements FshObeysRule {
   }
 
   @Override
+  @NotNull
+  public List<FshIdentifierRef> getIdentifierRefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshIdentifierRef.class);
+  }
+
+  @Override
   @Nullable
   public FshPath getPath() {
     return findChildByClass(FshPath.class);

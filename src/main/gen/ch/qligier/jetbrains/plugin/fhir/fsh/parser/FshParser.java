@@ -471,7 +471,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (Identifier | Url | Urn)? Hash codeValue_ String?
+  // (identifierRef | Url | Urn)? Hash codeValue_ String?
   public static boolean code(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "code")) return false;
     boolean r;
@@ -484,18 +484,18 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (Identifier | Url | Urn)?
+  // (identifierRef | Url | Urn)?
   private static boolean code_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "code_0")) return false;
     code_0_0(b, l + 1);
     return true;
   }
 
-  // Identifier | Url | Urn
+  // identifierRef | Url | Urn
   private static boolean code_0_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "code_0_0")) return false;
     boolean r;
-    r = consumeToken(b, IDENTIFIER);
+    r = identifierRef(b, l + 1);
     if (!r) r = consumeToken(b, URL);
     if (!r) r = consumeToken(b, URN);
     return r;
@@ -599,14 +599,13 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Identifier | ConceptString | Digit | allItemKws_ | allMetadataKws_ | allOtherKws_
+  // identifierRef | ConceptString | Digit | allMetadataKws_ | allOtherKws_
   static boolean codeValue_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "codeValue_")) return false;
     boolean r;
-    r = consumeToken(b, IDENTIFIER);
+    r = identifierRef(b, l + 1);
     if (!r) r = consumeToken(b, CONCEPTSTRING);
     if (!r) r = consumeToken(b, DIGIT);
-    if (!r) r = allItemKws_(b, l + 1);
     if (!r) r = allMetadataKws_(b, l + 1);
     if (!r) r = allOtherKws_(b, l + 1);
     return r;
@@ -919,6 +918,18 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // Identifier
+  public static boolean identifierRef(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "identifierRef")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, IDENTIFIER);
+    exit_section_(b, m, IDENTIFIER_REF, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // ruleStart path? KwInsert ruleSetReference
   public static boolean insertRule(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "insertRule")) return false;
@@ -1033,7 +1044,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwInvariant Colon Identifier invariantMetadata_+
+  // KwInvariant Colon Identifier invariantMetadata_*
   public static boolean invariant(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "invariant")) return false;
     if (!nextTokenIs(b, KWINVARIANT)) return false;
@@ -1045,19 +1056,15 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // invariantMetadata_+
+  // invariantMetadata_*
   private static boolean invariant_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "invariant_3")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = invariantMetadata_(b, l + 1);
-    while (r) {
+    while (true) {
       int c = current_position_(b);
       if (!invariantMetadata_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "invariant_3", c)) break;
     }
-    exit_section_(b, m, null, r);
-    return r;
+    return true;
   }
 
   /* ********************************************************** */
@@ -1086,7 +1093,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // itemIdentifier (KwNamed Identifier)? cardinality KwFlag*
+  // itemIdentifier (KwNamed identifierRef)? cardinality KwFlag*
   public static boolean itemType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "itemType")) return false;
     if (!nextTokenIs(b, "<item type>", IDENTIFIER, URL)) return false;
@@ -1100,19 +1107,20 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (KwNamed Identifier)?
+  // (KwNamed identifierRef)?
   private static boolean itemType_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "itemType_1")) return false;
     itemType_1_0(b, l + 1);
     return true;
   }
 
-  // KwNamed Identifier
+  // KwNamed identifierRef
   private static boolean itemType_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "itemType_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, KWNAMED, IDENTIFIER);
+    r = consumeToken(b, KWNAMED);
+    r = r && identifierRef(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -1346,7 +1354,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ruleStart path? KwObeys Identifier (KwAnd Identifier)*
+  // ruleStart path? KwObeys identifierRef (KwAnd identifierRef)*
   public static boolean obeysRule(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "obeysRule")) return false;
     if (!nextTokenIs(b, "<obeys rule>", STAR, WHITESPACE)) return false;
@@ -1354,7 +1362,8 @@ public class FshParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, OBEYS_RULE, "<obeys rule>");
     r = ruleStart(b, l + 1);
     r = r && obeysRule_1(b, l + 1);
-    r = r && consumeTokens(b, 0, KWOBEYS, IDENTIFIER);
+    r = r && consumeToken(b, KWOBEYS);
+    r = r && identifierRef(b, l + 1);
     r = r && obeysRule_4(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -1367,7 +1376,7 @@ public class FshParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // (KwAnd Identifier)*
+  // (KwAnd identifierRef)*
   private static boolean obeysRule_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "obeysRule_4")) return false;
     while (true) {
@@ -1378,12 +1387,13 @@ public class FshParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // KwAnd Identifier
+  // KwAnd identifierRef
   private static boolean obeysRule_4_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "obeysRule_4_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, KWAND, IDENTIFIER);
+    r = consumeToken(b, KWAND);
+    r = r && identifierRef(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -1531,7 +1541,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwProfile Colon Identifier sdMetadata_+ sdRule_*
+  // KwProfile Colon Identifier sdMetadata_* sdRule_*
   public static boolean profile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "profile")) return false;
     if (!nextTokenIs(b, KWPROFILE)) return false;
@@ -1544,19 +1554,15 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // sdMetadata_+
+  // sdMetadata_*
   private static boolean profile_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "profile_3")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = sdMetadata_(b, l + 1);
-    while (r) {
+    while (true) {
       int c = current_position_(b);
       if (!sdMetadata_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "profile_3", c)) break;
     }
-    exit_section_(b, m, null, r);
-    return r;
+    return true;
   }
 
   // sdRule_*
@@ -1725,7 +1731,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwRuleSet Colon ruleSetReference ruleSetRule+
+  // KwRuleSet Colon ruleSetReference ruleSetRule*
   public static boolean ruleSet(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ruleSet")) return false;
     if (!nextTokenIs(b, KWRULESET)) return false;
@@ -1738,29 +1744,25 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ruleSetRule+
+  // ruleSetRule*
   private static boolean ruleSet_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ruleSet_3")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = ruleSetRule(b, l + 1);
-    while (r) {
+    while (true) {
       int c = current_position_(b);
       if (!ruleSetRule(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "ruleSet_3", c)) break;
     }
-    exit_section_(b, m, null, r);
-    return r;
+    return true;
   }
 
   /* ********************************************************** */
-  // Identifier (LeftParen Identifier (Comma Identifier)* RightParen)?
+  // identifierRef (LeftParen Identifier (Comma Identifier)* RightParen)?
   public static boolean ruleSetReference(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ruleSetReference")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
+    r = identifierRef(b, l + 1);
     r = r && ruleSetReference_1(b, l + 1);
     exit_section_(b, m, RULE_SET_REFERENCE, r);
     return r;
@@ -1896,13 +1898,14 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwSource Colon Identifier
+  // KwSource Colon identifierRef
   public static boolean source(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "source")) return false;
     if (!nextTokenIs(b, KWSOURCE)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, KWSOURCE, COLON, IDENTIFIER);
+    r = consumeTokens(b, 0, KWSOURCE, COLON);
+    r = r && identifierRef(b, l + 1);
     exit_section_(b, m, SOURCE, r);
     return r;
   }
@@ -1932,12 +1935,12 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Identifier | referenceType | canonical
+  // identifierRef | referenceType | canonical
   public static boolean targetType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "targetType")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, TARGET_TYPE, "<target type>");
-    r = consumeToken(b, IDENTIFIER);
+    r = identifierRef(b, l + 1);
     if (!r) r = referenceType(b, l + 1);
     if (!r) r = canonical(b, l + 1);
     exit_section_(b, l, m, r, false, null);
@@ -1971,7 +1974,7 @@ public class FshParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // String | MultilineString | number | Datetime | Time | referenceType | canonical | code
-  //                               | quantity | ratio | KwBoolean | Identifier
+  //                               | quantity | ratio | KwBoolean | identifierRef
   public static boolean value(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "value")) return false;
     boolean r;
@@ -1987,7 +1990,7 @@ public class FshParser implements PsiParser, LightPsiParser {
     if (!r) r = quantity(b, l + 1);
     if (!r) r = ratio(b, l + 1);
     if (!r) r = consumeToken(b, KWBOOLEAN);
-    if (!r) r = consumeToken(b, IDENTIFIER);
+    if (!r) r = identifierRef(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

@@ -97,6 +97,10 @@ public class FshVisitor extends PsiElementVisitor {
     // visitPsiNameIdentifierOwner(o);
   }
 
+  public void visitIdentifierRef(@NotNull FshIdentifierRef o) {
+    visitPsiElement(o);
+  }
+
   public void visitInsertRule(@NotNull FshInsertRule o) {
     visitRule(o);
   }

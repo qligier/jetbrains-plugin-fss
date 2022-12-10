@@ -27,4 +27,10 @@ public class FshSourceImpl extends FshMetadataImpl implements FshSource {
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public FshIdentifierRef getIdentifierRef() {
+    return findNotNullChildByClass(FshIdentifierRef.class);
+  }
+
 }

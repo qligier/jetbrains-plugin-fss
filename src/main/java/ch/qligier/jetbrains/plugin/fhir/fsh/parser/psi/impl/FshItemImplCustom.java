@@ -3,6 +3,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshItemType;
+import ch.qligier.jetbrains.plugin.fhir.fsh.FshNameType;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
@@ -187,5 +188,23 @@ public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements 
                 return item.getItemType().getIcon();
             }
         };
+    }
+
+    /**
+     * Returns the type of the item name. An expression, id or name. See
+     * <a href="https://build.fhir.org/ig/HL7/fhir-shorthand/reference.html#declaration-statements">Declaration
+     * Statements</a>
+     */
+    public FshNameType getNameType() {
+        switch (this.getItemType()) {
+            case ALIAS:
+                return FshNameType.EXPRESSION;
+            case INSTANCE:
+            case INVARIANT:
+            case MAPPING:
+                return FshNameType.ID;
+            default:
+                return FshNameType.NAME;
+        }
     }
 }

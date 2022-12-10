@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.reference.FshReference;
 
-public interface FshItemIdentifier extends PsiElement {
+public interface FshIdentifierRef extends PsiElement {
 
   FshReference getReference();
 

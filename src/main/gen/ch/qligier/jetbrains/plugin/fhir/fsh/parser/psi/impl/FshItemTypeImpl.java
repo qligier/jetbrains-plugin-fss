@@ -34,6 +34,12 @@ public class FshItemTypeImpl extends ASTWrapperPsiElement implements FshItemType
   }
 
   @Override
+  @Nullable
+  public FshIdentifierRef getIdentifierRef() {
+    return findChildByClass(FshIdentifierRef.class);
+  }
+
+  @Override
   @NotNull
   public FshItemIdentifier getItemIdentifier() {
     return findNotNullChildByClass(FshItemIdentifier.class);

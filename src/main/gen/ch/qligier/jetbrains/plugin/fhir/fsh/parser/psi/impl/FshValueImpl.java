@@ -41,6 +41,12 @@ public class FshValueImpl extends ASTWrapperPsiElement implements FshValue {
 
   @Override
   @Nullable
+  public FshIdentifierRef getIdentifierRef() {
+    return findChildByClass(FshIdentifierRef.class);
+  }
+
+  @Override
+  @Nullable
   public FshNumber getNumber() {
     return findChildByClass(FshNumber.class);
   }

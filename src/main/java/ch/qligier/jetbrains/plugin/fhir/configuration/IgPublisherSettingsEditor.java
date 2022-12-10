@@ -4,9 +4,13 @@ package ch.qligier.jetbrains.plugin.fhir.configuration;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
+import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SettingsEditor;
+import com.intellij.openapi.ui.ComponentValidator;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import com.intellij.openapi.ui.ValidationInfo;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.Gray;
 import com.intellij.ui.JBColor;
@@ -15,7 +19,9 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 /**
@@ -39,6 +45,33 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
     private JCheckBox checkboxUseTxServer;
     private JTextField textFieldTxServerUrl;
     private JCheckBox checkBoxUseColorAndFancyChars;
+
+    protected String runJarForVersion(final String jarPath) throws IOException, InterruptedException {
+        System.out.println("runJarForVersion: " + jarPath);
+        final var processBuilder = new ProcessBuilder();
+        processBuilder.command("java", "-Dfile.encoding=UTF-8", "-jar", jarPath, "-v");
+        final Process process = processBuilder.start();
+        final var output = new StringBuilder();
+        final var reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            output.append(line);
+        }
+
+        int exitVal = process.waitFor();
+        if (exitVal == 0) {
+            if (IG_PUBLISHER_VERSION_PATTERN.matcher(output).matches()) {
+                System.out.println("Got version: " + output);
+                return output.toString();
+            } else {
+                System.out.println("Got garbage: " + output);
+                throw new IOException("Unexpected value read from the process");
+            }
+        }
+        System.out.println("Got bad exit code: " + exitVal);
+        throw new IOException("The process has exited with value " + exitVal);
+    }
 
     /**
      * @param configuration
@@ -86,32 +119,16 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
             this.igPublisherStatus.setForeground(GRAY);
             return;
         }
-        final var processBuilder = new ProcessBuilder();
-        processBuilder.command("java", "-Dfile.encoding=UTF-8", "-jar", jarPath, "-v");
+
         try {
-            final Process process = processBuilder.start();
-            final var output = new StringBuilder();
-            final var reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                output.append(line);
-            }
-
-            int exitVal = process.waitFor();
-            if (exitVal == 0) {
-                System.out.println("[" + output + "]");
-                if (IG_PUBLISHER_VERSION_PATTERN.matcher(output).matches()) {
-                    this.igPublisherStatus.setText("Found IG Publisher v" + output);
-                    this.igPublisherStatus.setForeground(GREEN);
-                    return;
-                }
-            }
-
+            final var output = this.runJarForVersion(jarPath);
+            this.igPublisherStatus.setText("Found IG Publisher v" + output);
+            this.igPublisherStatus.setForeground(GREEN);
+            return;
         } catch (final Exception e) {
-            System.out.println("Case2");
             LOG.debug("Caught exception while executing IG Publisher JAR", e);
         }
+
         this.igPublisherStatus.setText("This doesn't seem to be an IG Publisher JAR file");
         this.igPublisherStatus.setForeground(RED);
     }
@@ -123,16 +140,18 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
      * @see <a href="https://www.jetbrains.com/help/idea/creating-form-initialization-code.html">Creating Form
      * Initialization Code</a>
      */
-    private void createUIComponents() {
+    private void createUIComponents() throws ConfigurationException {
         this.textFieldJarPath = new TextFieldWithBrowseButton();
         this.textFieldJarPath.setText("publisher.jar");
         this.textFieldJarPath.setToolTipText("Select the IG Publisher JAR file");
 
+        final var parentThis = this;
         final var listener = new TextBrowseFolderListener(new FileChooserDescriptor(false, false, true, true, false,
                                                                                     false)) {
             @Override
             protected void onFileChosen(@NotNull final VirtualFile chosenFile) {
                 super.onFileChosen(chosenFile);
+                ComponentValidator.getInstance(parentThis.textFieldJarPath).ifPresent(ComponentValidator::revalidate);
                 updateIgPublisherStatus();
             }
         };
@@ -142,5 +161,23 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
         this.checkboxUseTxServer.addChangeListener(e -> {
             updateTxServer();
         });
+
+        new ComponentValidator(this).withValidator(new Supplier<ValidationInfo>() {
+            @Override
+            public ValidationInfo get() {
+                System.out.println("ValidationInfo get()");
+                final var jarPath = parentThis.textFieldJarPath.getText();
+                if (StringUtil.isNotEmpty(jarPath)) {
+                    try {
+                        final var output = parentThis.runJarForVersion(jarPath);
+                        return null;
+                    } catch (final Exception e) {
+                        return new ValidationInfo("Specify a valid path to an IG Publisher JAR file",
+                                                  parentThis.textFieldJarPath);
+                    }
+                }
+                return null;
+            }
+        }).andStartOnFocusLost().installOn(this.textFieldJarPath);
     }
 }

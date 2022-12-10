@@ -25,6 +25,8 @@
   extends("(parent|id|title|description|expression|xpath|severity|instanceOf|usage|source|target)")=metadata
   extends("(cardRule|flagRule|valueSetRule|fixedValueRule|containsRule|onlyRule|obeysRule|caretValueRule|insertRule)")=rule
   extends("(pathRule|addElementRule|addCRElementRule|concept|codeCaretValueRule|codeInsertRule|vsComponent|mappingRule)")=rule
+
+  methods("Identifier")=[getReference]
 }
 
 fshFile                   ::= any_*
@@ -46,13 +48,13 @@ alias                     ::= KwAlias Colon Identifier Equal aliasValue
 aliasValue                ::= (Urn | Url);
 
 // Declaration: PROFILE
-profile                   ::= KwProfile Colon Identifier sdMetadata_+ sdRule_*;
+profile                   ::= KwProfile Colon Identifier sdMetadata_* sdRule_*;
 
 // Declaration: EXTENSION
 extension                 ::= KwExtension Colon Identifier sdMetadata_* sdRule_*;
 
 // Declaration: INVARIANT
-invariant                 ::= KwInvariant Colon Identifier invariantMetadata_+;
+invariant                 ::= KwInvariant Colon Identifier invariantMetadata_*;
 private invariantMetadata_ ::=  description | expression | xpath | severity;
 
 // Declaration: INSTANCE
@@ -81,7 +83,7 @@ private csMetadata_       ::= id | title | description;
 csRule                    ::= concept | codeCaretValueRule | codeInsertRule;
 
 // Declaration: RULESET
-ruleSet                   ::= KwRuleSet Colon ruleSetReference ruleSetRule+;
+ruleSet                   ::= KwRuleSet Colon ruleSetReference ruleSetRule*;
 ruleSetRule               ::= sdRule_ | addElementRule | addCRElementRule | concept | codeCaretValueRule |
                               codeInsertRule | vsComponent | mappingRule;
 
@@ -109,7 +111,7 @@ xpath                     ::= KwXPath Colon String;
 severity                  ::= KwSeverity Colon code;
 instanceOf                ::= KwInstanceOf Colon itemIdentifier;
 usage                     ::= KwUsage Colon code;
-source                    ::= KwSource Colon Identifier;
+source                    ::= KwSource Colon identifierRef;
 target                    ::= KwTarget Colon String;
 private sdMetadata_       ::= parent | id | title | description;
 
@@ -124,7 +126,7 @@ valueSetRule              ::= ruleStart path KwFrom itemIdentifier strength?;
 fixedValueRule            ::= ruleStart path Equal value (LeftParen KwExactly RightParen)?;
 containsRule              ::= ruleStart path KwContains itemType (KwAnd itemType)*;
 onlyRule                  ::= ruleStart path KwOnly targetType (KwOr targetType)*;
-obeysRule                 ::= ruleStart path? KwObeys Identifier (KwAnd Identifier)*;
+obeysRule                 ::= ruleStart path? KwObeys identifierRef (KwAnd identifierRef)*;
 caretValueRule            ::= ruleStart path? Caret path Equal value;
 codeCaretValueRule        ::= ruleStart code* Caret path Equal value;
 mappingRule               ::= ruleStart path? Arrow String String? code?;
@@ -143,21 +145,23 @@ bracketSuffix             ::= LeftBracket (Identifier | Url | integer | Equal | 
 cardinality               ::= integer? DoubleDot (integer | Star)?;
 number                    ::= (Plus | "-")? integer (Dot integer)?; // TODO is it properly matched?
 integer                   ::= Digit+;
-code                      ::= (Identifier | Url | Urn)? Hash codeValue_ String?;
+code                      ::= (identifierRef | Url | Urn)? Hash codeValue_ String?;
 // Be lenient on code value and accept some reserved keywords
-private codeValue_        ::= (Identifier | ConceptString | Digit | allItemKws_ | allMetadataKws_ | allOtherKws_)
+private codeValue_        ::= (identifierRef | ConceptString | Digit | allMetadataKws_ | allOtherKws_)
 strength                  ::= LeftParen KwBindingStrength RightParen;
 ratio                     ::= (number | quantity) Colon (number | quantity);
 quantity                  ::= number (Unit | code) String?;
 referenceType             ::= KwReference LeftParen itemIdentifier (KwOr itemIdentifier)* RightParen;
-itemIdentifier            ::= Identifier | Url;
+itemIdentifier            ::= Identifier | Url {methods=[getReference]}
 canonical                 ::= KwCanonical LeftParen itemIdentifier (Pipe itemIdentifier)? (KwOr itemIdentifier (Pipe itemIdentifier)?)* RightParen;
-targetType                ::= Identifier | referenceType | canonical;
+targetType                ::= identifierRef | referenceType | canonical;
 value                     ::= String | MultilineString | number | Datetime | Time | referenceType | canonical | code
-                              | quantity | ratio | KwBoolean | Identifier;
-itemType                  ::= itemIdentifier (KwNamed Identifier)? cardinality KwFlag*;
+                              | quantity | ratio | KwBoolean | identifierRef;
+itemType                  ::= itemIdentifier (KwNamed identifierRef)? cardinality KwFlag*;
 concept                   ::= ruleStart code+ String? (String | MultilineString)?;
-ruleSetReference          ::= Identifier (LeftParen Identifier (Comma Identifier)* RightParen)?;
+ruleSetReference          ::= identifierRef (LeftParen Identifier (Comma Identifier)* RightParen)? {methods=[getParameterCount]}
+identifierRef             ::= Identifier {methods=[getReference]}
+
 
 // Collections of keywords
 private allItemKws_       ::= KwAlias | KwProfile | KwExtension | KwInstance | KwInvariant | KwValueSet | KwCodeSystem
@@ -188,9 +192,7 @@ fake item ::= alias | profile | extension | invariant | instance | valueSet | co
   implements="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshItemCustom"
 }
 fake metadata ::= parent | id | title | description | expression | xpath | severity | instanceOf | usage
-                  | source | target {
-  methods=[getValueElement]
-}
+                  | source | target {methods=[getValueElement]}
 fake rule ::= cardRule | flagRule | valueSetRule | fixedValueRule | containsRule | onlyRule | obeysRule
               | caretValueRule | insertRule | pathRule | addElementRule | addCRElementRule | concept
               | codeCaretValueRule | codeInsertRule | vsComponent | mappingRule

@@ -11,6 +11,9 @@ public interface FshTargetType extends PsiElement {
   FshCanonical getCanonical();
 
   @Nullable
+  FshIdentifierRef getIdentifierRef();
+
+  @Nullable
   FshReferenceType getReferenceType();
 
 }

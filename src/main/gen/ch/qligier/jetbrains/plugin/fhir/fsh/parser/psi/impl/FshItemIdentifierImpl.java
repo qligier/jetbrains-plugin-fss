@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
+import ch.qligier.jetbrains.plugin.fhir.fsh.reference.FshReference;
 
 public class FshItemIdentifierImpl extends ASTWrapperPsiElement implements FshItemIdentifier {
 
@@ -25,6 +26,11 @@ public class FshItemIdentifierImpl extends ASTWrapperPsiElement implements FshIt
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof FshVisitor) accept((FshVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  public FshReference getReference() {
+    return FshPsiImplUtil.getReference(this);
   }
 
 }

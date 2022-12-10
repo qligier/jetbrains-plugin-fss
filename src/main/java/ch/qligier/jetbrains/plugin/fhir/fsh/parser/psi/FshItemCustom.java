@@ -3,6 +3,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshItemType;
+import ch.qligier.jetbrains.plugin.fhir.fsh.FshNameType;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiNameIdentifierOwner;
 import org.jetbrains.annotations.Nullable;
@@ -30,4 +31,6 @@ public interface FshItemCustom extends PsiNameIdentifierOwner {
     String getFoldedPlaceholder();
 
     ItemPresentation getPresentation();
+
+    FshNameType getNameType();
 }

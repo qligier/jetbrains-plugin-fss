@@ -27,4 +27,15 @@ public class FshRuleSetReferenceImpl extends ASTWrapperPsiElement implements Fsh
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public FshIdentifierRef getIdentifierRef() {
+    return findNotNullChildByClass(FshIdentifierRef.class);
+  }
+
+  @Override
+  public int getParameterCount() {
+    return FshPsiImplUtil.getParameterCount(this);
+  }
+
 }

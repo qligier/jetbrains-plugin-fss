@@ -10,15 +10,16 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
+import ch.qligier.jetbrains.plugin.fhir.fsh.reference.FshReference;
 
-public class FshTargetTypeImpl extends ASTWrapperPsiElement implements FshTargetType {
+public class FshIdentifierRefImpl extends ASTWrapperPsiElement implements FshIdentifierRef {
 
-  public FshTargetTypeImpl(@NotNull ASTNode node) {
+  public FshIdentifierRefImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FshVisitor visitor) {
-    visitor.visitTargetType(this);
+    visitor.visitIdentifierRef(this);
   }
 
   @Override
@@ -28,21 +29,8 @@ public class FshTargetTypeImpl extends ASTWrapperPsiElement implements FshTarget
   }
 
   @Override
-  @Nullable
-  public FshCanonical getCanonical() {
-    return findChildByClass(FshCanonical.class);
-  }
-
-  @Override
-  @Nullable
-  public FshIdentifierRef getIdentifierRef() {
-    return findChildByClass(FshIdentifierRef.class);
-  }
-
-  @Override
-  @Nullable
-  public FshReferenceType getReferenceType() {
-    return findChildByClass(FshReferenceType.class);
+  public FshReference getReference() {
+    return FshPsiImplUtil.getReference(this);
   }
 
 }

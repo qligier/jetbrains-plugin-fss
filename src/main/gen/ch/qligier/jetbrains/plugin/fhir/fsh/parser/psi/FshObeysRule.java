@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface FshObeysRule extends FshRule {
 
+  @NotNull
+  List<FshIdentifierRef> getIdentifierRefList();
+
   @Nullable
   FshPath getPath();
 

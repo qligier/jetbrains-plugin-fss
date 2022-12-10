@@ -2,15 +2,22 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
+import ch.qligier.jetbrains.plugin.fhir.fsh.FshNameType;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshId;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshItem;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshMetadata;
+import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
+import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
- * An annotator
+ * An annotator of FSH PSI elements.
  *
  * @author Quentin Ligier
  * @see <a href="https://plugins.jetbrains.com/docs/intellij/annotator.html">Annotator</a>
@@ -31,34 +38,28 @@ public class FshAnnotator implements Annotator {
      * @param holder  the container which receives annotations created by the plugin.
      */
     @Override
-    public void annotate(@NotNull final PsiElement element, @NotNull final AnnotationHolder holder) {
-        /*if (element instanceof FshIdentifierDecl) {
-            this.annotateIdentifier((FshIdentifierDecl) element, holder);
-        }*/
-    }
-/*
-    protected void annotateIdentifier(@NotNull final FshIdentifierDecl identifierElement,
-                                      @NotNull final AnnotationHolder holder) {
-        if (identifierElement.getParent() instanceof FshItem) {
-            this.annotateItemName(identifierElement, holder);
-        } else if (identifierElement.getParent() instanceof FshIdMetadata) {
-            this.annotateItemId(identifierElement, holder);
+    public void annotate(@NotNull final PsiElement element,
+                         @NotNull final AnnotationHolder holder) {
+        if (element instanceof FshItem) {
+            this.annotateItem((FshItem) element, holder);
+        } else if (element instanceof FshMetadata) {
+            if (element instanceof FshId) {
+                this.annotateItemId((FshId) element, holder);
+            }
         }
     }
 
-    protected void annotateItemName(@NotNull final FshIdentifierDecl itemNameElement,
-                                    @NotNull final AnnotationHolder holder) {
-        final FshItem item = (FshItem) itemNameElement.getParent();
-
+    protected void annotateItem(@NotNull final FshItem item,
+                                @NotNull final AnnotationHolder holder) {
         if (item.getNameType() == FshNameType.NAME) {
-            if (!ITEM_NAME_PATTERN.matcher(Objects.requireNonNull(itemNameElement.getName())).matches()) {
+            if (!ITEM_NAME_PATTERN.matcher(Objects.requireNonNull(item.getName())).matches()) {
                 holder.newAnnotation(HighlightSeverity.ERROR,
                                      "An item name MUST be between 1 and 255 characters, begin with an uppercase letter and contain only letters, numbers, and underscores.")
                         .highlightType(ProblemHighlightType.ERROR)
                         .create();
             }
         } else {
-            if (Objects.requireNonNull(itemNameElement.getName()).length() > 64) {
+            if (Objects.requireNonNull(item.getName()).length() > 64) {
                 holder.newAnnotation(HighlightSeverity.ERROR,
                                      "An alias name length MUST NOT be more than 64 characters.")
                         .highlightType(ProblemHighlightType.ERROR)
@@ -67,7 +68,7 @@ public class FshAnnotator implements Annotator {
         }
     }
 
-    protected void annotateItemId(@NotNull final FshIdentifierDecl itemIdElement,
+    protected void annotateItemId(@NotNull final FshId itemIdElement,
                                   @NotNull final AnnotationHolder holder) {
         if (Objects.requireNonNull(itemIdElement.getName()).length() > 64) {
             holder.newAnnotation(HighlightSeverity.ERROR,
@@ -75,5 +76,5 @@ public class FshAnnotator implements Annotator {
                     .highlightType(ProblemHighlightType.ERROR)
                     .create();
         }
-    }*/
+    }
 }

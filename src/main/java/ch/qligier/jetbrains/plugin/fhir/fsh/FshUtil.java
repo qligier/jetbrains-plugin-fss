@@ -2,6 +2,16 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh;
 
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshFile;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshItem;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiManager;
+import com.intellij.psi.search.FileTypeIndex;
+import com.intellij.psi.search.GlobalSearchScope;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Utilities for the FSH language.
  *
@@ -12,15 +22,31 @@ package ch.qligier.jetbrains.plugin.fhir.fsh;
  **/
 public class FshUtil {
 
-    /*public static List<FshItem> findItems(final Project project) {
+    public static List<FshItem> findItems(final Project project) {
         final var result = new ArrayList<FshItem>(10);
         final var virtualFiles = FileTypeIndex.getFiles(FshFileType.INSTANCE, GlobalSearchScope.allScope(project));
         for (final var virtualFile : virtualFiles) {
             final var fshFile = (FshFile) PsiManager.getInstance(project).findFile(virtualFile);
             if (fshFile != null) {
-                result.addAll(PsiTreeUtil.getChildrenOfTypeAsList(fshFile, FshItem.class));
+                result.addAll(fshFile.getItems());
             }
         }
         return result;
-    }*/
+    }
+
+    public static List<FshItem> findItems(final Project project, final String name) {
+        final var result = new ArrayList<FshItem>(10);
+        final var virtualFiles = FileTypeIndex.getFiles(FshFileType.INSTANCE, GlobalSearchScope.allScope(project));
+        for (final var virtualFile : virtualFiles) {
+            final var fshFile = (FshFile) PsiManager.getInstance(project).findFile(virtualFile);
+            if (fshFile != null) {
+                for (final var item : fshFile.getItems()) {
+                    if (name.equals(item.getName())) {
+                        result.add(item);
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }

@@ -25,9 +25,14 @@ public class Icons {
      */
     public static final Icon FSH_FILE = IconLoader.getIcon("/icons/fsh_file.svg", Icons.class);
     public static final Icon VALUESET = IconLoader.getIcon("/icons/valueset.svg", Icons.class);
-
-    /**
-     * Icons of <a href="https://tabler-icons.io">Tabler Icons</a> (MIT License).
-     */
-    public static final Icon TABLER_AB = IconLoader.getIcon("/icons/a-b.png", Icons.class);
+    public static final Icon PROFILE = IconLoader.getIcon("/icons/profile.svg", Icons.class);
+    public static final Icon EXTENSION = IconLoader.getIcon("/icons/extension.svg", Icons.class);
+    public static final Icon RESOURCE = IconLoader.getIcon("/icons/resource.svg", Icons.class);
+    public static final Icon MAPPING = IconLoader.getIcon("/icons/mapping.svg", Icons.class);
+    public static final Icon ALIAS = IconLoader.getIcon("/icons/alias.svg", Icons.class);
+    public static final Icon LOGICAL = IconLoader.getIcon("/icons/logical.svg", Icons.class);
+    public static final Icon CODESYSTEM = IconLoader.getIcon("/icons/codesystem.svg", Icons.class);
+    public static final Icon RULESET = IconLoader.getIcon("/icons/ruleset.svg", Icons.class);
+    public static final Icon INVARIANT = IconLoader.getIcon("/icons/invariant.svg", Icons.class);
+    public static final Icon INSTANCE = IconLoader.getIcon("/icons/instance.svg", Icons.class);
 }
