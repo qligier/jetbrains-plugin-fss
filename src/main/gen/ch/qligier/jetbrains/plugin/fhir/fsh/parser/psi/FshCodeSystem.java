@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface FshCodeSystem extends FshItem {
 
   @NotNull
-  List<FshCsRule> getCsRuleList();
+  List<FshMetadata> getMetadataList();
 
   @NotNull
-  List<FshMetadata> getMetadataList();
+  List<FshRule> getRuleList();
 
 }

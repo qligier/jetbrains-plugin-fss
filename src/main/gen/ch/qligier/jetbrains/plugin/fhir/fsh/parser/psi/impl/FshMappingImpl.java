@@ -29,14 +29,14 @@ public class FshMappingImpl extends FshItemImpl implements FshMapping {
 
   @Override
   @NotNull
-  public List<FshMappingEntityRule> getMappingEntityRuleList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshMappingEntityRule.class);
+  public List<FshMetadata> getMetadataList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshMetadata.class);
   }
 
   @Override
   @NotNull
-  public List<FshMappingMetadata> getMappingMetadataList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshMappingMetadata.class);
+  public List<FshRule> getRuleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshRule.class);
   }
 
 }

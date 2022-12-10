@@ -51,7 +51,7 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
 
         final List<ProblemDescriptor> descriptors = new ArrayList<>(0);
         for (final FshItem item : ((FshFile) file).getItems()) {
-            final var id = Optional.ofNullable(item.getMetadataIdElement())
+            final var id = Optional.ofNullable(item.getIdElement())
                     .map(FshId::getValueElement)
                     .map(PsiElement::getText)
                     .orElse(null);
@@ -70,7 +70,7 @@ public class IdDerivedFromNameInspection extends FshInspectionBase {
                     .toLowerCase(Locale.ROOT);
             if (!expectedId.equals(id)) {
                 descriptors.add(manager.createProblemDescriptor(
-                        item.getMetadataIdElement(),
+                        item.getIdElement(),
                         (TextRange) null, // The entire element
                         String.format("An item id SHOULD be derived from the name (expected '%s')", expectedId),
                         ProblemHighlightType.WEAK_WARNING,

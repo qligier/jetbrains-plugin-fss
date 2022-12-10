@@ -563,7 +563,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwCodeSystem Colon Identifier csMetadata_* csRule*
+  // KwCodeSystem Colon Identifier csMetadata_* csRule_*
   public static boolean codeSystem(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "codeSystem")) return false;
     if (!nextTokenIs(b, KWCODESYSTEM)) return false;
@@ -587,12 +587,12 @@ public class FshParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // csRule*
+  // csRule_*
   private static boolean codeSystem_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "codeSystem_4")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!csRule(b, l + 1)) break;
+      if (!csRule_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "codeSystem_4", c)) break;
     }
     return true;
@@ -726,15 +726,13 @@ public class FshParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // concept | codeCaretValueRule | codeInsertRule
-  public static boolean csRule(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "csRule")) return false;
-    if (!nextTokenIs(b, "<cs rule>", STAR, WHITESPACE)) return false;
+  static boolean csRule_(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "csRule_")) return false;
+    if (!nextTokenIs(b, "", STAR, WHITESPACE)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CS_RULE, "<cs rule>");
     r = concept(b, l + 1);
     if (!r) r = codeCaretValueRule(b, l + 1);
     if (!r) r = codeInsertRule(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -952,7 +950,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwInstance Colon Identifier instanceMetadata_* instanceRule*
+  // KwInstance Colon Identifier instanceMetadata_* instanceRule_*
   public static boolean instance(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "instance")) return false;
     if (!nextTokenIs(b, KWINSTANCE)) return false;
@@ -976,12 +974,12 @@ public class FshParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // instanceRule*
+  // instanceRule_*
   private static boolean instance_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "instance_4")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!instanceRule(b, l + 1)) break;
+      if (!instanceRule_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "instance_4", c)) break;
     }
     return true;
@@ -1014,15 +1012,13 @@ public class FshParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // fixedValueRule | insertRule | pathRule
-  public static boolean instanceRule(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "instanceRule")) return false;
-    if (!nextTokenIs(b, "<instance rule>", STAR, WHITESPACE)) return false;
+  static boolean instanceRule_(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "instanceRule_")) return false;
+    if (!nextTokenIs(b, "", STAR, WHITESPACE)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, INSTANCE_RULE, "<instance rule>");
     r = fixedValueRule(b, l + 1);
     if (!r) r = insertRule(b, l + 1);
     if (!r) r = pathRule(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1205,7 +1201,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwMapping Colon Identifier mappingMetadata* mappingEntityRule*
+  // KwMapping Colon Identifier mappingMetadata_* mappingEntityRule_*
   public static boolean mapping(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "mapping")) return false;
     if (!nextTokenIs(b, KWMAPPING)) return false;
@@ -1218,23 +1214,23 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // mappingMetadata*
+  // mappingMetadata_*
   private static boolean mapping_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "mapping_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!mappingMetadata(b, l + 1)) break;
+      if (!mappingMetadata_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "mapping_3", c)) break;
     }
     return true;
   }
 
-  // mappingEntityRule*
+  // mappingEntityRule_*
   private static boolean mapping_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "mapping_4")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!mappingEntityRule(b, l + 1)) break;
+      if (!mappingEntityRule_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "mapping_4", c)) break;
     }
     return true;
@@ -1242,30 +1238,26 @@ public class FshParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // mappingRule | insertRule | pathRule
-  public static boolean mappingEntityRule(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "mappingEntityRule")) return false;
-    if (!nextTokenIs(b, "<mapping entity rule>", STAR, WHITESPACE)) return false;
+  static boolean mappingEntityRule_(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "mappingEntityRule_")) return false;
+    if (!nextTokenIs(b, "", STAR, WHITESPACE)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, MAPPING_ENTITY_RULE, "<mapping entity rule>");
     r = mappingRule(b, l + 1);
     if (!r) r = insertRule(b, l + 1);
     if (!r) r = pathRule(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
   // id | source | target | description | title
-  public static boolean mappingMetadata(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "mappingMetadata")) return false;
+  static boolean mappingMetadata_(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "mappingMetadata_")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, MAPPING_METADATA, "<mapping metadata>");
     r = id(b, l + 1);
     if (!r) r = source(b, l + 1);
     if (!r) r = target(b, l + 1);
     if (!r) r = description(b, l + 1);
     if (!r) r = title(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1731,7 +1723,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwRuleSet Colon ruleSetReference ruleSetRule*
+  // KwRuleSet Colon ruleSetReference ruleSetRule_*
   public static boolean ruleSet(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ruleSet")) return false;
     if (!nextTokenIs(b, KWRULESET)) return false;
@@ -1744,12 +1736,12 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ruleSetRule*
+  // ruleSetRule_*
   private static boolean ruleSet_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ruleSet_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!ruleSetRule(b, l + 1)) break;
+      if (!ruleSetRule_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "ruleSet_3", c)) break;
     }
     return true;
@@ -1811,11 +1803,10 @@ public class FshParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // sdRule_ | addElementRule | addCRElementRule | concept | codeCaretValueRule |
   //                               codeInsertRule | vsComponent | mappingRule
-  public static boolean ruleSetRule(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ruleSetRule")) return false;
-    if (!nextTokenIs(b, "<rule set rule>", STAR, WHITESPACE)) return false;
+  static boolean ruleSetRule_(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ruleSetRule_")) return false;
+    if (!nextTokenIs(b, "", STAR, WHITESPACE)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, RULE_SET_RULE, "<rule set rule>");
     r = sdRule_(b, l + 1);
     if (!r) r = addElementRule(b, l + 1);
     if (!r) r = addCRElementRule(b, l + 1);
@@ -1824,7 +1815,6 @@ public class FshParser implements PsiParser, LightPsiParser {
     if (!r) r = codeInsertRule(b, l + 1);
     if (!r) r = vsComponent(b, l + 1);
     if (!r) r = mappingRule(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface FshRuleSet extends FshItem {
 
   @NotNull
-  FshRuleSetReference getRuleSetReference();
+  List<FshRule> getRuleList();
 
   @NotNull
-  List<FshRuleSetRule> getRuleSetRuleList();
+  FshRuleSetReference getRuleSetReference();
 
 }

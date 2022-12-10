@@ -58,9 +58,9 @@ invariant                 ::= KwInvariant Colon Identifier invariantMetadata_*;
 private invariantMetadata_ ::=  description | expression | xpath | severity;
 
 // Declaration: INSTANCE
-instance                  ::= KwInstance Colon Identifier instanceMetadata_* instanceRule*;
+instance                  ::= KwInstance Colon Identifier instanceMetadata_* instanceRule_*;
 private instanceMetadata_ ::= instanceOf | title | description | usage;
-instanceRule              ::= fixedValueRule | insertRule | pathRule;
+private instanceRule_     ::= fixedValueRule | insertRule | pathRule;
 
 // Declaration: VALUESET
 valueSet                  ::= KwValueSet Colon Identifier vsMetadata_* vsRule_*;
@@ -78,19 +78,19 @@ vsFilterOperator          ::= Equal | KwCodeOperator;
 vsFilterValue             ::= code | KwBoolean | Regex | String;
 
 // Declaration: CODESYSTEM
-codeSystem                ::= KwCodeSystem Colon Identifier csMetadata_* csRule*;
+codeSystem                ::= KwCodeSystem Colon Identifier csMetadata_* csRule_*;
 private csMetadata_       ::= id | title | description;
-csRule                    ::= concept | codeCaretValueRule | codeInsertRule;
+private csRule_           ::= concept | codeCaretValueRule | codeInsertRule;
 
 // Declaration: RULESET
-ruleSet                   ::= KwRuleSet Colon ruleSetReference ruleSetRule*;
-ruleSetRule               ::= sdRule_ | addElementRule | addCRElementRule | concept | codeCaretValueRule |
+ruleSet                   ::= KwRuleSet Colon ruleSetReference ruleSetRule_*;
+private ruleSetRule_      ::= sdRule_ | addElementRule | addCRElementRule | concept | codeCaretValueRule |
                               codeInsertRule | vsComponent | mappingRule;
 
 // Declaration: MAPPING
-mapping                   ::= KwMapping Colon Identifier mappingMetadata* mappingEntityRule*;
-mappingMetadata           ::= id | source | target | description | title;
-mappingEntityRule         ::= mappingRule | insertRule | pathRule;
+mapping                   ::= KwMapping Colon Identifier mappingMetadata_* mappingEntityRule_*;
+private mappingMetadata_  ::= id | source | target | description | title;
+private mappingEntityRule_::= mappingRule | insertRule | pathRule;
 
 // Declaration: LOGICAL
 logical                   ::= KwLogical Colon Identifier sdMetadata_* lrRule_*;

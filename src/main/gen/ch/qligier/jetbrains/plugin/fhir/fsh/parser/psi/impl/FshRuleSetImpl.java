@@ -29,14 +29,14 @@ public class FshRuleSetImpl extends FshItemImpl implements FshRuleSet {
 
   @Override
   @NotNull
-  public FshRuleSetReference getRuleSetReference() {
-    return findNotNullChildByClass(FshRuleSetReference.class);
+  public List<FshRule> getRuleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshRule.class);
   }
 
   @Override
   @NotNull
-  public List<FshRuleSetRule> getRuleSetRuleList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshRuleSetRule.class);
+  public FshRuleSetReference getRuleSetReference() {
+    return findNotNullChildByClass(FshRuleSetReference.class);
   }
 
 }

@@ -23,7 +23,6 @@ public interface FshTypes {
   IElementType CODE_SYSTEM = new FshElementType("CODE_SYSTEM");
   IElementType CONCEPT = new FshElementType("CONCEPT");
   IElementType CONTAINS_RULE = new FshElementType("CONTAINS_RULE");
-  IElementType CS_RULE = new FshElementType("CS_RULE");
   IElementType DESCRIPTION = new FshElementType("DESCRIPTION");
   IElementType EXPRESSION = new FshElementType("EXPRESSION");
   IElementType EXTENSION = new FshElementType("EXTENSION");
@@ -34,15 +33,12 @@ public interface FshTypes {
   IElementType INSERT_RULE = new FshElementType("INSERT_RULE");
   IElementType INSTANCE = new FshElementType("INSTANCE");
   IElementType INSTANCE_OF = new FshElementType("INSTANCE_OF");
-  IElementType INSTANCE_RULE = new FshElementType("INSTANCE_RULE");
   IElementType INTEGER = new FshElementType("INTEGER");
   IElementType INVARIANT = new FshElementType("INVARIANT");
   IElementType ITEM_IDENTIFIER = new FshElementType("ITEM_IDENTIFIER");
   IElementType ITEM_TYPE = new FshElementType("ITEM_TYPE");
   IElementType LOGICAL = new FshElementType("LOGICAL");
   IElementType MAPPING = new FshElementType("MAPPING");
-  IElementType MAPPING_ENTITY_RULE = new FshElementType("MAPPING_ENTITY_RULE");
-  IElementType MAPPING_METADATA = new FshElementType("MAPPING_METADATA");
   IElementType MAPPING_RULE = new FshElementType("MAPPING_RULE");
   IElementType NUMBER = new FshElementType("NUMBER");
   IElementType OBEYS_RULE = new FshElementType("OBEYS_RULE");
@@ -58,7 +54,6 @@ public interface FshTypes {
   IElementType RESOURCE = new FshElementType("RESOURCE");
   IElementType RULE_SET = new FshElementType("RULE_SET");
   IElementType RULE_SET_REFERENCE = new FshElementType("RULE_SET_REFERENCE");
-  IElementType RULE_SET_RULE = new FshElementType("RULE_SET_RULE");
   IElementType RULE_START = new FshElementType("RULE_START");
   IElementType SEVERITY = new FshElementType("SEVERITY");
   IElementType SOURCE = new FshElementType("SOURCE");
@@ -204,9 +199,6 @@ public interface FshTypes {
       else if (type == CONTAINS_RULE) {
         return new FshContainsRuleImpl(node);
       }
-      else if (type == CS_RULE) {
-        return new FshCsRuleImpl(node);
-      }
       else if (type == DESCRIPTION) {
         return new FshDescriptionImpl(node);
       }
@@ -237,9 +229,6 @@ public interface FshTypes {
       else if (type == INSTANCE_OF) {
         return new FshInstanceOfImpl(node);
       }
-      else if (type == INSTANCE_RULE) {
-        return new FshInstanceRuleImpl(node);
-      }
       else if (type == INTEGER) {
         return new FshIntegerImpl(node);
       }
@@ -257,12 +246,6 @@ public interface FshTypes {
       }
       else if (type == MAPPING) {
         return new FshMappingImpl(node);
-      }
-      else if (type == MAPPING_ENTITY_RULE) {
-        return new FshMappingEntityRuleImpl(node);
-      }
-      else if (type == MAPPING_METADATA) {
-        return new FshMappingMetadataImpl(node);
       }
       else if (type == MAPPING_RULE) {
         return new FshMappingRuleImpl(node);
@@ -308,9 +291,6 @@ public interface FshTypes {
       }
       else if (type == RULE_SET_REFERENCE) {
         return new FshRuleSetReferenceImpl(node);
-      }
-      else if (type == RULE_SET_RULE) {
-        return new FshRuleSetRuleImpl(node);
       }
       else if (type == RULE_START) {
         return new FshRuleStartImpl(node);

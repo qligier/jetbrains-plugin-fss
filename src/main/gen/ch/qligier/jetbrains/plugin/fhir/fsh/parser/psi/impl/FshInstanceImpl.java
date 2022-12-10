@@ -29,14 +29,14 @@ public class FshInstanceImpl extends FshItemImpl implements FshInstance {
 
   @Override
   @NotNull
-  public List<FshInstanceRule> getInstanceRuleList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshInstanceRule.class);
+  public List<FshMetadata> getMetadataList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshMetadata.class);
   }
 
   @Override
   @NotNull
-  public List<FshMetadata> getMetadataList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshMetadata.class);
+  public List<FshRule> getRuleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshRule.class);
   }
 
 }

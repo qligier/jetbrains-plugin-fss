@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface FshMapping extends FshItem {
 
   @NotNull
-  List<FshMappingEntityRule> getMappingEntityRuleList();
+  List<FshMetadata> getMetadataList();
 
   @NotNull
-  List<FshMappingMetadata> getMappingMetadataList();
+  List<FshRule> getRuleList();
 
 }

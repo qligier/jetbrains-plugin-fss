@@ -29,14 +29,14 @@ public class FshCodeSystemImpl extends FshItemImpl implements FshCodeSystem {
 
   @Override
   @NotNull
-  public List<FshCsRule> getCsRuleList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshCsRule.class);
+  public List<FshMetadata> getMetadataList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshMetadata.class);
   }
 
   @Override
   @NotNull
-  public List<FshMetadata> getMetadataList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshMetadata.class);
+  public List<FshRule> getRuleList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshRule.class);
   }
 
 }

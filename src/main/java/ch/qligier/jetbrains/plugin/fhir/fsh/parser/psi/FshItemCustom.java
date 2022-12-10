@@ -3,6 +3,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshItemType;
+import ch.qligier.jetbrains.plugin.fhir.fsh.FshMetadataPolicy;
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshNameType;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiNameIdentifierOwner;
@@ -21,10 +22,37 @@ public interface FshItemCustom extends PsiNameIdentifierOwner {
     List<FshMetadata> getMetadataElements();
 
     @Nullable
-    FshId getMetadataIdElement();
+    FshId getIdElement();
 
     @Nullable
-    FshTitle getMetadataTitleElement();
+    FshDescription getDescriptionElement();
+
+    @Nullable
+    FshTitle getTitleElement();
+
+    @Nullable
+    FshParent getParentElement();
+
+    @Nullable
+    FshInstanceOf getInstanceOfElement();
+
+    @Nullable
+    FshUsage getUsageElement();
+
+    @Nullable
+    FshSource getSourceElement();
+
+    @Nullable
+    FshTarget getTargetElement();
+
+    @Nullable
+    FshSeverity getSeverityElement();
+
+    @Nullable
+    FshXpath getXPathElement();
+
+    @Nullable
+    FshExpression getExpressionElement();
 
     FshItemType getItemType();
 
@@ -33,4 +61,6 @@ public interface FshItemCustom extends PsiNameIdentifierOwner {
     ItemPresentation getPresentation();
 
     FshNameType getNameType();
+
+    FshMetadataPolicy getMetadataPolicy();
 }

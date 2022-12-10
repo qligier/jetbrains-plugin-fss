@@ -2,6 +2,7 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
+import ch.qligier.jetbrains.plugin.fhir.fsh.FshMetadataPolicy;
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshNameType;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshId;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshItem;
@@ -12,6 +13,7 @@ import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -66,13 +68,96 @@ public class FshAnnotator implements Annotator {
                         .create();
             }
         }
+
+        this.annotateItemMetadata(item,
+                                  "Id",
+                                  item.getIdElement(),
+                                  item.getMetadataPolicy().getId(),
+                                  holder);
+        this.annotateItemMetadata(item,
+                                  "Description",
+                                  item.getDescriptionElement(),
+                                  item.getMetadataPolicy().getDescription(),
+                                  holder);
+        this.annotateItemMetadata(item,
+                                  "Title",
+                                  item.getTitleElement(),
+                                  item.getMetadataPolicy().getTitle(),
+                                  holder);
+        this.annotateItemMetadata(item,
+                                  "Parent",
+                                  item.getParentElement(),
+                                  item.getMetadataPolicy().getParent(),
+                                  holder);
+        this.annotateItemMetadata(item,
+                                  "InstanceOf",
+                                  item.getInstanceOfElement(),
+                                  item.getMetadataPolicy().getInstanceOf(),
+                                  holder);
+        this.annotateItemMetadata(item,
+                                  "Usage",
+                                  item.getUsageElement(),
+                                  item.getMetadataPolicy().getUsage(),
+                                  holder);
+        this.annotateItemMetadata(item,
+                                  "Source",
+                                  item.getSourceElement(),
+                                  item.getMetadataPolicy().getSource(),
+                                  holder);
+        this.annotateItemMetadata(item,
+                                  "Target",
+                                  item.getTargetElement(),
+                                  item.getMetadataPolicy().getTarget(),
+                                  holder);
+        this.annotateItemMetadata(item,
+                                  "Severity",
+                                  item.getSeverityElement(),
+                                  item.getMetadataPolicy().getSeverity(),
+                                  holder);
+        this.annotateItemMetadata(item,
+                                  "XPath",
+                                  item.getXPathElement(),
+                                  item.getMetadataPolicy().getXpath(),
+                                  holder);
+        this.annotateItemMetadata(item,
+                                  "Expression",
+                                  item.getExpressionElement(),
+                                  item.getMetadataPolicy().getExpression(),
+                                  holder);
+    }
+
+    protected void annotateItemMetadata(@NotNull final FshItem item,
+                                        @NotNull final String metadataName,
+                                        @Nullable final FshMetadata metadata,
+                                        @NotNull final FshMetadataPolicy.Cardinality cardinality,
+                                        @NotNull final AnnotationHolder holder) {
+        if (item.getNameIdentifier() == null) {
+            return;
+        }
+        if (metadata == null) {
+            if (cardinality == FshMetadataPolicy.Cardinality.REQUIRED) {
+                holder.newAnnotation(HighlightSeverity.ERROR,
+                                     "The metadata " + metadataName + " is required but missing")
+                        .highlightType(ProblemHighlightType.ERROR)
+                        .range(item.getNameIdentifier())
+                        .create();
+            }
+        } else {
+            if (cardinality == FshMetadataPolicy.Cardinality.FORBIDDEN) {
+                holder.newAnnotation(HighlightSeverity.ERROR,
+                                     "The metadata " + metadataName + " is forbidden in this item")
+                        .highlightType(ProblemHighlightType.ERROR)
+                        .range(metadata)
+                        .create();
+            }
+        }
     }
 
     protected void annotateItemId(@NotNull final FshId itemIdElement,
                                   @NotNull final AnnotationHolder holder) {
         if (Objects.requireNonNull(itemIdElement.getName()).length() > 64) {
             holder.newAnnotation(HighlightSeverity.ERROR,
-                                 "An ID length MUST NOT be more than 64 characters.")
+                                 "An id length MUST NOT be more than 64 characters.")
                     .highlightType(ProblemHighlightType.ERROR)
                     .create();
         }

@@ -3,6 +3,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshItemType;
+import ch.qligier.jetbrains.plugin.fhir.fsh.FshMetadataPolicy;
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshNameType;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
@@ -95,21 +96,102 @@ public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements 
     }
 
     /**
-     * Retrieves the PSI element of an ID metadata.
+     * Retrieves the PSI element of an Id metadata.
      */
     @Nullable
     @Override
-    public FshId getMetadataIdElement() {
+    public FshId getIdElement() {
         return this.findChildByClass(FshId.class);
     }
 
     /**
-     * Retrieves the PSI element of a title metadata.
+     * Retrieves the PSI element of a Description metadata.
      */
     @Nullable
     @Override
-    public FshTitle getMetadataTitleElement() {
+    public FshDescription getDescriptionElement() {
+        return this.findChildByClass(FshDescription.class);
+    }
+
+    /**
+     * Retrieves the PSI element of a Title metadata.
+     */
+    @Nullable
+    @Override
+    public FshTitle getTitleElement() {
         return this.findChildByClass(FshTitle.class);
+    }
+
+    /**
+     * Retrieves the PSI element of a Parent metadata.
+     */
+    @Nullable
+    @Override
+    public FshParent getParentElement() {
+        return this.findChildByClass(FshParent.class);
+    }
+
+    /**
+     * Retrieves the PSI element of an InstanceOf metadata.
+     */
+    @Nullable
+    @Override
+    public FshInstanceOf getInstanceOfElement() {
+        return this.findChildByClass(FshInstanceOf.class);
+    }
+
+    /**
+     * Retrieves the PSI element of a Usage metadata.
+     */
+    @Nullable
+    @Override
+    public FshUsage getUsageElement() {
+        return this.findChildByClass(FshUsage.class);
+    }
+
+    /**
+     * Retrieves the PSI element of a Source metadata.
+     */
+    @Nullable
+    @Override
+    public FshSource getSourceElement() {
+        return this.findChildByClass(FshSource.class);
+    }
+
+    /**
+     * Retrieves the PSI element of a Target metadata.
+     */
+    @Nullable
+    @Override
+    public FshTarget getTargetElement() {
+        return this.findChildByClass(FshTarget.class);
+    }
+
+    /**
+     * Retrieves the PSI element of a Severity metadata.
+     */
+    @Nullable
+    @Override
+    public FshSeverity getSeverityElement() {
+        return this.findChildByClass(FshSeverity.class);
+    }
+
+    /**
+     * Retrieves the PSI element of an XPath metadata.
+     */
+    @Nullable
+    @Override
+    public FshXpath getXPathElement() {
+        return this.findChildByClass(FshXpath.class);
+    }
+
+    /**
+     * Retrieves the PSI element of an Expression metadata.
+     */
+    @Nullable
+    @Override
+    public FshExpression getExpressionElement() {
+        return this.findChildByClass(FshExpression.class);
     }
 
     @Override
@@ -196,15 +278,10 @@ public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements 
      * Statements</a>
      */
     public FshNameType getNameType() {
-        switch (this.getItemType()) {
-            case ALIAS:
-                return FshNameType.EXPRESSION;
-            case INSTANCE:
-            case INVARIANT:
-            case MAPPING:
-                return FshNameType.ID;
-            default:
-                return FshNameType.NAME;
-        }
+        return this.getItemType().getNameType();
+    }
+
+    public FshMetadataPolicy getMetadataPolicy() {
+        return this.getItemType().getMetadataPolicy();
     }
 }
