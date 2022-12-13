@@ -1,8 +1,16 @@
-# jetbrains-plugin-fhir
+# ![FHIR and SUSHI Support Logo](src/main/resources/META-INF/pluginIcon.svg) JetBrains Plugin: FHIR and SUSHI Support
 
-A plugin that add supports for the [FHIR Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html) (_
-FSH_) and the [IG Publisher](https://github.com/HL7/fhir-ig-publisher) and [SUSHI](https://github.com/FHIR/sushi/)
+A plugin that add supports for the [FHIR Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html)
+(_FSH_) and the [IG Publisher](https://github.com/HL7/fhir-ig-publisher) and [SUSHI](https://github.com/FHIR/sushi/)
 tools.
+
+<p align="center">
+
+![GitHub](https://img.shields.io/github/license/qligier/jetbrains-plugin-fhir?style=flat-square)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/qligier/jetbrains-plugin-fhir?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/qligier/jetbrains-plugin-fhir?style=flat-square)
+![JDK 17](https://img.shields.io/badge/JDK-11-blue?style=flat-square)
+</p>
 
 ## IG Publisher support
 
@@ -31,3 +39,6 @@ This plugin adds, for FSH files:
 The FHIR
 Shorthand ![FSH icon](https://github.com/qligier/jetbrains-plugin-fhir/raw/master/src/main/resources/icons/fsh_flame.png)
 is maybe copyrighted?
+
+The logo is derived from [Burn Fire Flame Hot](https://www.svgrepo.com/svg/404501/burn-fire-flame-hot), published
+under [Creative Commons Zero](https://creativecommons.org/publicdomain/zero/1.0/) license.

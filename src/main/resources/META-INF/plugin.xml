@@ -12,7 +12,7 @@
     <name>FHIR and SUSHI Support</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="support@qligier.ch" url="https://www.qligier.ch">Quentin Ligier</vendor>
+    <vendor url="https://github.com/qligier/jetbrains-plugin-fhir">Quentin Ligier</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
@@ -60,14 +60,14 @@
                    implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.FshAnnotator"/>
         <localInspection language="FSH"
                          shortName="AliasDollarNameInspection"
-                         displayName="Alias names SHOULD begin with the $ sign"
+                         displayName="Alias names should begin with the $ sign"
                          enabledByDefault="true"
                          level="WARNING"
                          implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.AliasDollarNameInspection"/>
         <localInspection language="FSH"
                          shortName="IdDerivedFromNameInspection"
-                         displayName="Item IDs SHOULD be derived from the name"
-                         enabledByDefault="true"
+                         displayName="Item ids should be derived from the name"
+                         enabledByDefault="false"
                          level="WARNING"
                          implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.IdDerivedFromNameInspection"/>
 
