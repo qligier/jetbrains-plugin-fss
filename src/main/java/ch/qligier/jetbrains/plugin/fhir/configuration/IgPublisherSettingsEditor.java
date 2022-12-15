@@ -47,7 +47,6 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
     private JCheckBox checkBoxUseColorAndFancyChars;
 
     protected String runJarForVersion(final String jarPath) throws IOException, InterruptedException {
-        System.out.println("runJarForVersion: " + jarPath);
         final var processBuilder = new ProcessBuilder();
         processBuilder.command("java", "-Dfile.encoding=UTF-8", "-jar", jarPath, "-v");
         final Process process = processBuilder.start();
@@ -62,14 +61,11 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
         int exitVal = process.waitFor();
         if (exitVal == 0) {
             if (IG_PUBLISHER_VERSION_PATTERN.matcher(output).matches()) {
-                System.out.println("Got version: " + output);
                 return output.toString();
             } else {
-                System.out.println("Got garbage: " + output);
                 throw new IOException("Unexpected value read from the process");
             }
         }
-        System.out.println("Got bad exit code: " + exitVal);
         throw new IOException("The process has exited with value " + exitVal);
     }
 
@@ -114,7 +110,6 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
     protected void updateIgPublisherStatus() {
         final String jarPath = this.textFieldJarPath.getText();
         if (jarPath.isBlank()) {
-            System.out.println("Case1");
             this.igPublisherStatus.setText("An absolute path, or relative to the project root");
             this.igPublisherStatus.setForeground(GRAY);
             return;
@@ -165,7 +160,6 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
         new ComponentValidator(this).withValidator(new Supplier<ValidationInfo>() {
             @Override
             public ValidationInfo get() {
-                System.out.println("ValidationInfo get()");
                 final var jarPath = parentThis.textFieldJarPath.getText();
                 if (StringUtil.isNotEmpty(jarPath)) {
                     try {
