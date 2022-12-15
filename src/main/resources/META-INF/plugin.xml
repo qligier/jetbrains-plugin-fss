@@ -52,8 +52,9 @@
         <navbar implementation="ch.qligier.jetbrains.plugin.fhir.fsh.structure.FshStructureAwareNavbar"/>
         <lang.braceMatcher language="FSH"
                            implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.FshPairedBraceMatcher"/>
-        <languageInjectionContributor language="FSH"
-                                      implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.highlighter.FshLanguageInjectionContributor"/>
+        <languageInjector implementation="ch.qligier.jetbrains.plugin.fhir.fsh.highlighter.FshLanguageInjector"/>
+        <completion.contributor language="FSH"
+                                implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.completion.FshCompletionProvider"/>
 
         <!-- Inspections for FSH -->
         <annotator language="FSH"
