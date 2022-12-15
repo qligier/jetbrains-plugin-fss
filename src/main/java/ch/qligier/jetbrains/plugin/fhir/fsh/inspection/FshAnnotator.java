@@ -4,9 +4,7 @@ package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshMetadataPolicy;
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshNameType;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshId;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshItem;
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshMetadata;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
@@ -15,6 +13,7 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -30,6 +29,18 @@ public class FshAnnotator implements Annotator {
 
     // As seen in http://hl7.org/fhir/R4/structuredefinition-definitions.html#StructureDefinition.name
     private static final Pattern ITEM_NAME_PATTERN = Pattern.compile("^[A-Z]([A-Za-z0-9_]){0,254}$");
+
+    private static final List<Class<? extends FshMetadata>> ITEM_METADATA_CLASSES = List.of(FshId.class,
+                                                                                            FshDescription.class,
+                                                                                            FshTitle.class,
+                                                                                            FshParent.class,
+                                                                                            FshInstanceOf.class,
+                                                                                            FshUsage.class,
+                                                                                            FshSource.class,
+                                                                                            FshTarget.class,
+                                                                                            FshSeverity.class,
+                                                                                            FshXpath.class,
+                                                                                            FshExpression.class);
 
     /**
      * Annotates the specified PSI element. It is guaranteed to be executed in non-reentrant fashion. I.e there will be
@@ -124,6 +135,18 @@ public class FshAnnotator implements Annotator {
                                   item.getExpressionElement(),
                                   item.getMetadataPolicy().getExpression(),
                                   holder);
+
+        for (final var metadataClass : ITEM_METADATA_CLASSES) {
+            final var nodes = item.findChildrenByClass(metadataClass);
+            for (int i = 1; i < nodes.length; ++i) {
+                final var node = nodes[i];
+                holder.newAnnotation(HighlightSeverity.ERROR,
+                                     "The metadata " + metadataClass.getName() + "shall not appear more than once")
+                        .highlightType(ProblemHighlightType.ERROR)
+                        .range(node)
+                        .create();
+            }
+        }
     }
 
     protected void annotateItemMetadata(@NotNull final FshItem item,
