@@ -15,11 +15,13 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiNameIdentifierOwner;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
+import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -283,5 +285,14 @@ public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements 
 
     public FshMetadataPolicy getMetadataPolicy() {
         return this.getItemType().getMetadataPolicy();
+    }
+
+    @Override
+    public <T> T @NotNull [] findChildrenByClass(Class<T> aClass) {
+        List<T> result = new ArrayList<>();
+        for (PsiElement cur = getFirstChild(); cur != null; cur = cur.getNextSibling()) {
+            if (aClass.isInstance(cur)) result.add((T)cur);
+        }
+        return result.toArray(ArrayUtil.newArray(aClass, result.size()));
     }
 }

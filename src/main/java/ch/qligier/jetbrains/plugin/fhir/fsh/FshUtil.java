@@ -11,6 +11,7 @@ import com.intellij.psi.search.GlobalSearchScope;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Utilities for the FSH language.
@@ -48,5 +49,13 @@ public class FshUtil {
             }
         }
         return result;
+    }
+
+    public static <T extends FshItem> List<T> findItems(final Project project,
+                                                        final Class<T> type) {
+        return findItems(project).stream()
+                .filter(type::isInstance)
+                .map(type::cast)
+                .collect(Collectors.toList());
     }
 }

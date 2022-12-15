@@ -7,6 +7,7 @@ import ch.qligier.jetbrains.plugin.fhir.fsh.FshMetadataPolicy;
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshNameType;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiNameIdentifierOwner;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -63,4 +64,6 @@ public interface FshItemCustom extends PsiNameIdentifierOwner {
     FshNameType getNameType();
 
     FshMetadataPolicy getMetadataPolicy();
+
+    <T> T @NotNull [] findChildrenByClass(Class<T> aClass);
 }
