@@ -17,6 +17,9 @@ public interface FshAddElementRule extends FshRule {
   FshRuleStart getRuleStart();
 
   @NotNull
+  List<FshString> getStringList();
+
+  @NotNull
   List<FshTargetType> getTargetTypeList();
 
 }

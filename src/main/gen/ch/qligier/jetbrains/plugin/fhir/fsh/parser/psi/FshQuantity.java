@@ -13,4 +13,7 @@ public interface FshQuantity extends PsiElement {
   @NotNull
   FshNumber getNumber();
 
+  @Nullable
+  FshString getString();
+
 }

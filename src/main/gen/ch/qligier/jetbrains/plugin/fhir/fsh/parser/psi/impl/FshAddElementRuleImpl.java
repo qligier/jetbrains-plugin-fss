@@ -47,6 +47,12 @@ public class FshAddElementRuleImpl extends FshRuleImpl implements FshAddElementR
 
   @Override
   @NotNull
+  public List<FshString> getStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshString.class);
+  }
+
+  @Override
+  @NotNull
   public List<FshTargetType> getTargetTypeList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, FshTargetType.class);
   }

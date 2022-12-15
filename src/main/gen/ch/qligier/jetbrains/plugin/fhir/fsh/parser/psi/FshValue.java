@@ -28,4 +28,7 @@ public interface FshValue extends PsiElement {
   @Nullable
   FshReferenceType getReferenceType();
 
+  @Nullable
+  FshString getString();
+
 }

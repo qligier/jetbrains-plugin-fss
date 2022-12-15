@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface FshXpath extends FshMetadata {
 
+  @NotNull
+  FshString getString();
+
 }

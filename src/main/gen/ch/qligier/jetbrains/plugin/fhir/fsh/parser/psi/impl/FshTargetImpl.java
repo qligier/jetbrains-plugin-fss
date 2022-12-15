@@ -27,4 +27,10 @@ public class FshTargetImpl extends FshMetadataImpl implements FshTarget {
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public FshString getString() {
+    return findNotNullChildByClass(FshString.class);
+  }
+
 }

@@ -16,4 +16,7 @@ public interface FshAddCRElementRule extends FshRule {
   @NotNull
   FshRuleStart getRuleStart();
 
+  @NotNull
+  List<FshString> getStringList();
+
 }

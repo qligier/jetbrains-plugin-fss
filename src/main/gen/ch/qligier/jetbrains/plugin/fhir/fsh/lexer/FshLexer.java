@@ -1085,7 +1085,7 @@ class FshLexer implements FlexLexer {
             // fall through
           case 96: break;
           case 23: 
-            { return FshTypes.STRING;
+            { return FshTypes.STRINGTOKEN;
             } 
             // fall through
           case 97: break;

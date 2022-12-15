@@ -27,4 +27,10 @@ public class FshDescriptionImpl extends FshMetadataImpl implements FshDescriptio
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public FshString getString() {
+    return findChildByClass(FshString.class);
+  }
+
 }

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
+import com.intellij.psi.PsiLanguageInjectionHost;
 
 public class FshVisitor extends PsiElementVisitor {
 
@@ -221,6 +222,10 @@ public class FshVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitString(@NotNull FshString o) {
+    visitPsiLanguageInjectionHost(o);
+  }
+
   public void visitTarget(@NotNull FshTarget o) {
     visitMetadata(o);
   }
@@ -295,6 +300,10 @@ public class FshVisitor extends PsiElementVisitor {
 
   public void visitItemCustom(@NotNull FshItemCustom o) {
     visitPsiElement(o);
+  }
+
+  public void visitPsiLanguageInjectionHost(@NotNull PsiLanguageInjectionHost o) {
+    visitElement(o);
   }
 
   public void visitPsiElement(@NotNull PsiElement o) {

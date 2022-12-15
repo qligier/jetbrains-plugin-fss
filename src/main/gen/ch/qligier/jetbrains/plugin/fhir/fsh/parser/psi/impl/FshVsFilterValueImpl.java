@@ -33,4 +33,10 @@ public class FshVsFilterValueImpl extends ASTWrapperPsiElement implements FshVsF
     return findChildByClass(FshCode.class);
   }
 
+  @Override
+  @Nullable
+  public FshString getString() {
+    return findChildByClass(FshString.class);
+  }
+
 }

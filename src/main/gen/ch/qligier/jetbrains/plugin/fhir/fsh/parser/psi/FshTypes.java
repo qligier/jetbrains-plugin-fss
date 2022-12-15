@@ -58,6 +58,7 @@ public interface FshTypes {
   IElementType SEVERITY = new FshElementType("SEVERITY");
   IElementType SOURCE = new FshElementType("SOURCE");
   IElementType STRENGTH = new FshElementType("STRENGTH");
+  IElementType STRING = new FshElementType("STRING");
   IElementType TARGET = new FshElementType("TARGET");
   IElementType TARGET_TYPE = new FshElementType("TARGET_TYPE");
   IElementType TITLE = new FshElementType("TITLE");
@@ -144,7 +145,7 @@ public interface FshTypes {
   IElementType RIGHTBRACKET = new FshTokenType("RightBracket");
   IElementType RIGHTPAREN = new FshTokenType("RightParen");
   IElementType STAR = new FshTokenType("Star");
-  IElementType STRING = new FshTokenType("String");
+  IElementType STRINGTOKEN = new FshTokenType("StringToken");
   IElementType TIME = new FshTokenType("Time");
   IElementType UNIT = new FshTokenType("Unit");
   IElementType URL = new FshTokenType("Url");
@@ -303,6 +304,9 @@ public interface FshTypes {
       }
       else if (type == STRENGTH) {
         return new FshStrengthImpl(node);
+      }
+      else if (type == STRING) {
+        return new FshStringImpl(node);
       }
       else if (type == TARGET) {
         return new FshTargetImpl(node);

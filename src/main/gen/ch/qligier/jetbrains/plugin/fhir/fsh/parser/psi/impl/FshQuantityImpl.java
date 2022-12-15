@@ -39,4 +39,10 @@ public class FshQuantityImpl extends ASTWrapperPsiElement implements FshQuantity
     return findNotNullChildByClass(FshNumber.class);
   }
 
+  @Override
+  @Nullable
+  public FshString getString() {
+    return findChildByClass(FshString.class);
+  }
+
 }

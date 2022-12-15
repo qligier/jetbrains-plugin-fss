@@ -50,7 +50,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   };
 
   /* ********************************************************** */
-  // ruleStart path cardinality KwFlag* KwContentReference Url String (String | MultilineString)?
+  // ruleStart path cardinality KwFlag* KwContentReference Url string (string | MultilineString)?
   public static boolean addCRElementRule(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "addCRElementRule")) return false;
     if (!nextTokenIs(b, "<add cr element rule>", STAR, WHITESPACE)) return false;
@@ -60,7 +60,8 @@ public class FshParser implements PsiParser, LightPsiParser {
     r = r && path(b, l + 1);
     r = r && cardinality(b, l + 1);
     r = r && addCRElementRule_3(b, l + 1);
-    r = r && consumeTokens(b, 0, KWCONTENTREFERENCE, URL, STRING);
+    r = r && consumeTokens(b, 0, KWCONTENTREFERENCE, URL);
+    r = r && string(b, l + 1);
     r = r && addCRElementRule_7(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -77,24 +78,24 @@ public class FshParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // (String | MultilineString)?
+  // (string | MultilineString)?
   private static boolean addCRElementRule_7(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "addCRElementRule_7")) return false;
     addCRElementRule_7_0(b, l + 1);
     return true;
   }
 
-  // String | MultilineString
+  // string | MultilineString
   private static boolean addCRElementRule_7_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "addCRElementRule_7_0")) return false;
     boolean r;
-    r = consumeToken(b, STRING);
+    r = string(b, l + 1);
     if (!r) r = consumeToken(b, MULTILINESTRING);
     return r;
   }
 
   /* ********************************************************** */
-  // ruleStart path cardinality KwFlag* targetType (KwOr targetType)* String (String | MultilineString)?
+  // ruleStart path cardinality KwFlag* targetType (KwOr targetType)* string (string | MultilineString)?
   public static boolean addElementRule(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "addElementRule")) return false;
     if (!nextTokenIs(b, "<add element rule>", STAR, WHITESPACE)) return false;
@@ -106,7 +107,7 @@ public class FshParser implements PsiParser, LightPsiParser {
     r = r && addElementRule_3(b, l + 1);
     r = r && targetType(b, l + 1);
     r = r && addElementRule_5(b, l + 1);
-    r = r && consumeToken(b, STRING);
+    r = r && string(b, l + 1);
     r = r && addElementRule_7(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -145,18 +146,18 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (String | MultilineString)?
+  // (string | MultilineString)?
   private static boolean addElementRule_7(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "addElementRule_7")) return false;
     addElementRule_7_0(b, l + 1);
     return true;
   }
 
-  // String | MultilineString
+  // string | MultilineString
   private static boolean addElementRule_7_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "addElementRule_7_0")) return false;
     boolean r;
-    r = consumeToken(b, STRING);
+    r = string(b, l + 1);
     if (!r) r = consumeToken(b, MULTILINESTRING);
     return r;
   }
@@ -471,7 +472,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (identifierRef | Url | Urn)? Hash codeValue_ String?
+  // (identifierRef | Url | Urn)? Hash codeValue_ string?
   public static boolean code(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "code")) return false;
     boolean r;
@@ -501,10 +502,10 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // String?
+  // string?
   private static boolean code_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "code_3")) return false;
-    consumeToken(b, STRING);
+    string(b, l + 1);
     return true;
   }
 
@@ -623,7 +624,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ruleStart code+ String? (String | MultilineString)?
+  // ruleStart code+ string? (string | MultilineString)?
   public static boolean concept(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "concept")) return false;
     if (!nextTokenIs(b, "<concept>", STAR, WHITESPACE)) return false;
@@ -652,25 +653,25 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // String?
+  // string?
   private static boolean concept_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "concept_2")) return false;
-    consumeToken(b, STRING);
+    string(b, l + 1);
     return true;
   }
 
-  // (String | MultilineString)?
+  // (string | MultilineString)?
   private static boolean concept_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "concept_3")) return false;
     concept_3_0(b, l + 1);
     return true;
   }
 
-  // String | MultilineString
+  // string | MultilineString
   private static boolean concept_3_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "concept_3_0")) return false;
     boolean r;
-    r = consumeToken(b, STRING);
+    r = string(b, l + 1);
     if (!r) r = consumeToken(b, MULTILINESTRING);
     return r;
   }
@@ -737,7 +738,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwDescription Colon (String | MultilineString)
+  // KwDescription Colon (string | MultilineString)
   public static boolean description(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "description")) return false;
     if (!nextTokenIs(b, KWDESCRIPTION)) return false;
@@ -749,23 +750,24 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // String | MultilineString
+  // string | MultilineString
   private static boolean description_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "description_2")) return false;
     boolean r;
-    r = consumeToken(b, STRING);
+    r = string(b, l + 1);
     if (!r) r = consumeToken(b, MULTILINESTRING);
     return r;
   }
 
   /* ********************************************************** */
-  // KwExpression Colon String
+  // KwExpression Colon string
   public static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     if (!nextTokenIs(b, KWEXPRESSION)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, KWEXPRESSION, COLON, STRING);
+    r = consumeTokens(b, 0, KWEXPRESSION, COLON);
+    r = r && string(b, l + 1);
     exit_section_(b, m, EXPRESSION, r);
     return r;
   }
@@ -1262,7 +1264,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ruleStart path? Arrow String String? code?
+  // ruleStart path? Arrow string string? code?
   public static boolean mappingRule(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "mappingRule")) return false;
     if (!nextTokenIs(b, "<mapping rule>", STAR, WHITESPACE)) return false;
@@ -1270,7 +1272,8 @@ public class FshParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, MAPPING_RULE, "<mapping rule>");
     r = ruleStart(b, l + 1);
     r = r && mappingRule_1(b, l + 1);
-    r = r && consumeTokens(b, 0, ARROW, STRING);
+    r = r && consumeToken(b, ARROW);
+    r = r && string(b, l + 1);
     r = r && mappingRule_4(b, l + 1);
     r = r && mappingRule_5(b, l + 1);
     exit_section_(b, l, m, r, false, null);
@@ -1284,10 +1287,10 @@ public class FshParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // String?
+  // string?
   private static boolean mappingRule_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "mappingRule_4")) return false;
-    consumeToken(b, STRING);
+    string(b, l + 1);
     return true;
   }
 
@@ -1569,7 +1572,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // number (Unit | code) String?
+  // number (Unit | code) string?
   public static boolean quantity(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "quantity")) return false;
     boolean r;
@@ -1590,10 +1593,10 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // String?
+  // string?
   private static boolean quantity_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "quantity_2")) return false;
-    consumeToken(b, STRING);
+    string(b, l + 1);
     return true;
   }
 
@@ -1913,13 +1916,26 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwTarget Colon String
+  // StringToken
+  public static boolean string(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "string")) return false;
+    if (!nextTokenIs(b, STRINGTOKEN)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, STRINGTOKEN);
+    exit_section_(b, m, STRING, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KwTarget Colon string
   public static boolean target(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "target")) return false;
     if (!nextTokenIs(b, KWTARGET)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, KWTARGET, COLON, STRING);
+    r = consumeTokens(b, 0, KWTARGET, COLON);
+    r = r && string(b, l + 1);
     exit_section_(b, m, TARGET, r);
     return r;
   }
@@ -1938,13 +1954,14 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwTitle Colon String
+  // KwTitle Colon string
   public static boolean title(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "title")) return false;
     if (!nextTokenIs(b, KWTITLE)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, KWTITLE, COLON, STRING);
+    r = consumeTokens(b, 0, KWTITLE, COLON);
+    r = r && string(b, l + 1);
     exit_section_(b, m, TITLE, r);
     return r;
   }
@@ -1963,13 +1980,13 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // String | MultilineString | number | Datetime | Time | referenceType | canonical | code
+  // string | MultilineString | number | Datetime | Time | referenceType | canonical | code
   //                               | quantity | ratio | KwBoolean | identifierRef
   public static boolean value(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "value")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, VALUE, "<value>");
-    r = consumeToken(b, STRING);
+    r = string(b, l + 1);
     if (!r) r = consumeToken(b, MULTILINESTRING);
     if (!r) r = number(b, l + 1);
     if (!r) r = consumeToken(b, DATETIME);
@@ -2331,7 +2348,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // code | KwBoolean | Regex | String
+  // code | KwBoolean | Regex | string
   public static boolean vsFilterValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "vsFilterValue")) return false;
     boolean r;
@@ -2339,7 +2356,7 @@ public class FshParser implements PsiParser, LightPsiParser {
     r = code(b, l + 1);
     if (!r) r = consumeToken(b, KWBOOLEAN);
     if (!r) r = consumeToken(b, REGEX);
-    if (!r) r = consumeToken(b, STRING);
+    if (!r) r = string(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -2417,13 +2434,14 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwXPath Colon String
+  // KwXPath Colon string
   public static boolean xpath(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "xpath")) return false;
     if (!nextTokenIs(b, KWXPATH)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, KWXPATH, COLON, STRING);
+    r = consumeTokens(b, 0, KWXPATH, COLON);
+    r = r && string(b, l + 1);
     exit_section_(b, m, XPATH, r);
     return r;
   }

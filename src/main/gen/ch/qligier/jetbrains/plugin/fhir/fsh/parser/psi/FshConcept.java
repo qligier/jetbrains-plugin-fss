@@ -13,4 +13,7 @@ public interface FshConcept extends FshRule {
   @NotNull
   FshRuleStart getRuleStart();
 
+  @NotNull
+  List<FshString> getStringList();
+
 }

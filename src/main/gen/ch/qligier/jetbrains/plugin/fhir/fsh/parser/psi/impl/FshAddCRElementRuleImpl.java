@@ -45,4 +45,10 @@ public class FshAddCRElementRuleImpl extends FshRuleImpl implements FshAddCRElem
     return findNotNullChildByClass(FshRuleStart.class);
   }
 
+  @Override
+  @NotNull
+  public List<FshString> getStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshString.class);
+  }
+
 }

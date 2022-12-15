@@ -27,4 +27,10 @@ public class FshXpathImpl extends FshMetadataImpl implements FshXpath {
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public FshString getString() {
+    return findNotNullChildByClass(FshString.class);
+  }
+
 }

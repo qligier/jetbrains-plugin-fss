@@ -27,4 +27,10 @@ public class FshTitleImpl extends FshMetadataImpl implements FshTitle {
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public FshString getString() {
+    return findNotNullChildByClass(FshString.class);
+  }
+
 }

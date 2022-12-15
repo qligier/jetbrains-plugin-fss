@@ -39,4 +39,10 @@ public class FshConceptImpl extends FshRuleImpl implements FshConcept {
     return findNotNullChildByClass(FshRuleStart.class);
   }
 
+  @Override
+  @NotNull
+  public List<FshString> getStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshString.class);
+  }
+
 }

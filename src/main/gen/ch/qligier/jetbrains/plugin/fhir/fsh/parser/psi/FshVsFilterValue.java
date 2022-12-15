@@ -10,4 +10,7 @@ public interface FshVsFilterValue extends PsiElement {
   @Nullable
   FshCode getCode();
 
+  @Nullable
+  FshString getString();
+
 }

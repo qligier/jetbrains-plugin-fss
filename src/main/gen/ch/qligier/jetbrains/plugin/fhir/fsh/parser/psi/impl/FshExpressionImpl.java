@@ -27,4 +27,10 @@ public class FshExpressionImpl extends FshMetadataImpl implements FshExpression 
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public FshString getString() {
+    return findNotNullChildByClass(FshString.class);
+  }
+
 }

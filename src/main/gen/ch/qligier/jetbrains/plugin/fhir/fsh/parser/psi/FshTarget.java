@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface FshTarget extends FshMetadata {
 
+  @NotNull
+  FshString getString();
+
 }
