@@ -75,7 +75,7 @@ vsFromValueset            ::= KwValueSetRef itemIdentifier (KwAnd itemIdentifier
 vsFilterList              ::= vsFilterDefinition (KwAnd vsFilterDefinition)*;
 vsFilterDefinition        ::= Identifier vsFilterOperator vsFilterValue?;
 vsFilterOperator          ::= Equal | KwCodeOperator;
-vsFilterValue             ::= code | KwBoolean | Regex | String;
+vsFilterValue             ::= code | KwBoolean | Regex | string;
 
 // Declaration: CODESYSTEM
 codeSystem                ::= KwCodeSystem Colon Identifier csMetadata_* csRule_*;
@@ -104,15 +104,15 @@ id                        ::= KwId Colon Identifier {
   implements="com.intellij.psi.PsiNameIdentifierOwner"
   methods=[getName setName getNameIdentifier]
 }
-title                     ::= KwTitle Colon String;
-description               ::= KwDescription Colon (String | MultilineString);
-expression                ::= KwExpression Colon String;
-xpath                     ::= KwXPath Colon String;
+title                     ::= KwTitle Colon string;
+description               ::= KwDescription Colon (string | MultilineString);
+expression                ::= KwExpression Colon string
+xpath                     ::= KwXPath Colon string;
 severity                  ::= KwSeverity Colon code;
 instanceOf                ::= KwInstanceOf Colon itemIdentifier;
 usage                     ::= KwUsage Colon code;
 source                    ::= KwSource Colon identifierRef;
-target                    ::= KwTarget Colon String;
+target                    ::= KwTarget Colon string;
 private sdMetadata_       ::= parent | id | title | description;
 
 // Rules
@@ -129,11 +129,11 @@ onlyRule                  ::= ruleStart path KwOnly targetType (KwOr targetType)
 obeysRule                 ::= ruleStart path? KwObeys identifierRef (KwAnd identifierRef)*;
 caretValueRule            ::= ruleStart path? Caret path Equal value;
 codeCaretValueRule        ::= ruleStart code* Caret path Equal value;
-mappingRule               ::= ruleStart path? Arrow String String? code?;
+mappingRule               ::= ruleStart path? Arrow string string? code?;
 insertRule                ::= ruleStart path? KwInsert ruleSetReference;
 codeInsertRule            ::= ruleStart code* KwInsert ruleSetReference;
-addCRElementRule          ::= ruleStart path cardinality KwFlag* KwContentReference Url String (String | MultilineString)?;
-addElementRule            ::= ruleStart path cardinality KwFlag* targetType (KwOr targetType)* String (String | MultilineString)?;
+addCRElementRule          ::= ruleStart path cardinality KwFlag* KwContentReference Url string (string | MultilineString)?;
+addElementRule            ::= ruleStart path cardinality KwFlag* targetType (KwOr targetType)* string (string | MultilineString)?;
 pathRule                  ::= ruleStart path;
 
 // Path
@@ -145,21 +145,25 @@ bracketSuffix             ::= LeftBracket (Identifier | Url | integer | Equal | 
 cardinality               ::= integer? DoubleDot (integer | Star)?;
 number                    ::= (Plus | "-")? integer (Dot integer)?; // TODO is it properly matched?
 integer                   ::= Digit+;
-code                      ::= (identifierRef | Url | Urn)? Hash codeValue_ String?;
+code                      ::= (identifierRef | Url | Urn)? Hash codeValue_ string?;
 // Be lenient on code value and accept some reserved keywords
 private codeValue_        ::= (identifierRef | ConceptString | Digit | allMetadataKws_ | allOtherKws_)
 strength                  ::= LeftParen KwBindingStrength RightParen;
 ratio                     ::= (number | quantity) Colon (number | quantity);
-quantity                  ::= number (Unit | code) String?;
+quantity                  ::= number (Unit | code) string?;
 referenceType             ::= KwReference LeftParen itemIdentifier (KwOr itemIdentifier)* RightParen;
 itemIdentifier            ::= Identifier | Url {methods=[getReference]}
 canonical                 ::= KwCanonical LeftParen itemIdentifier (Pipe itemIdentifier)? (KwOr itemIdentifier (Pipe itemIdentifier)?)* RightParen;
 targetType                ::= identifierRef | referenceType | canonical;
-value                     ::= String | MultilineString | number | Datetime | Time | referenceType | canonical | code
+value                     ::= string | MultilineString | number | Datetime | Time | referenceType | canonical | code
                               | quantity | ratio | KwBoolean | identifierRef;
 itemType                  ::= itemIdentifier (KwNamed identifierRef)? cardinality KwFlag*;
-concept                   ::= ruleStart code+ String? (String | MultilineString)?;
+concept                   ::= ruleStart code+ string? (string | MultilineString)?;
 ruleSetReference          ::= identifierRef (LeftParen Identifier (Comma Identifier)* RightParen)? {methods=[getParameterCount]}
+string                    ::= StringToken {
+  implements="com.intellij.psi.PsiLanguageInjectionHost"
+  methods=[isValidHost updateText createLiteralTextEscaper]
+}
 identifierRef             ::= Identifier {methods=[getReference]}
 
 

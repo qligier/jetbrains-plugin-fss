@@ -33,7 +33,7 @@ Digit = [0-9]+
 Identifier = [$]? [a-zA-Z0-9\-_]+
 Url = ("http")("s")?(":\/" "\/")[^ \t\r\n\f\u00A0\#]+
 Urn = "urn:" [^ \t\r\n\f\u00A0\#]+
-String = \" ( \\\" | [^\"\n\r] )* \"
+StringToken = \" ( \\\" | [^\"\n\r] )* \"
 MultilineString = (\"){3} ~(\"){3}
 Unit = "'" ([^\\'])* "'"
 ConceptString = "\"" {ConceptStringPart}+ ({WhiteSpace} {ConceptStringPart}+)* "\""
@@ -48,7 +48,7 @@ Time = [0-9][0-9](":"[0-9][0-9](":"[0-9][0-9]("."[0-9]+)?)?)?("Z" | ("+" | "-")[
 <YYINITIAL> {
 
   {MultilineString} { return FshTypes.MULTILINESTRING; }
-  {String}          { return FshTypes.STRING; }
+  {StringToken}     { return FshTypes.STRINGTOKEN; }
 
   // Item declaration keywords
   "Alias"                        { return FshTypes.KWALIAS; }

@@ -105,11 +105,11 @@ public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
                 || FshTypes.KWXPATH.equals(type)
                 || FshTypes.KWSEVERITY.equals(type)) {
             return pack(METADATA);
-        } else if (FshTypes.STRING.equals(type)
+        } else if (FshTypes.STRINGTOKEN.equals(type)
                 || FshTypes.MULTILINESTRING.equals(type)) {
             return pack(STRING);
         } else if (FshTypes.LINECOMMENT.equals(type)) {
-                return pack(LINE_COMMENT);
+            return pack(LINE_COMMENT);
 /*
             case FshTypes.COMMENT:
                 return pack(BLOCK_COMMENT);

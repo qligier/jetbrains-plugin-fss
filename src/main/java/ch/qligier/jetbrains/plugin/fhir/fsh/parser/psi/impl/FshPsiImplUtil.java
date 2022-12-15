@@ -5,7 +5,8 @@ package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 import ch.qligier.jetbrains.plugin.fhir.fsh.reference.FshReference;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
+import com.intellij.openapi.util.TextRange;
+import com.intellij.psi.*;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,7 +57,7 @@ public class FshPsiImplUtil {
     }
 
     public static FshReference getReference(@NotNull final FshIdentifierRef identifier) {
-        return new FshReference(identifier, identifier.getTextRangeInParent());
+        return new FshReference(identifier, new TextRange(0, identifier.getTextLength()));
     }
 
     public static FshReference getReference(@NotNull final FshItemIdentifier identifier) {
@@ -73,5 +74,36 @@ public class FshPsiImplUtil {
         return (int) Arrays.stream(ruleSetReference.getChildren())
                 .filter(child -> child.getNode().getElementType() == FshTypes.IDENTIFIER)
                 .count();
+    }
+
+    // FshString (PsiLanguageInjectionHost)
+
+    /**
+     * @return {@code true} if this instance can accept injections, {@code false} otherwise
+     */
+    public static boolean isValidHost(@NotNull final FshString fshString) {
+        return true; // TODO
+    }
+
+    /**
+     * Update the host element using the provided text of the injected file. It may be required to escape characters
+     * from {@code text} in accordance with the host language syntax. The implementation may delegate to
+     * {@link ElementManipulators#handleContentChange(PsiElement, String)} if {@link ElementManipulator} implementation
+     * is registered for this element class.
+     *
+     * @param text text of the injected file
+     * @return the updated instance
+     */
+    public static PsiLanguageInjectionHost updateText(@NotNull final FshString fshString, @NotNull String text) {
+        return null;
+    }
+
+    /**
+     * @return {@link LiteralTextEscaper} instance which will be used to convert the content of this host element to the
+     * content of injected file
+     */
+    @NotNull
+    public static LiteralTextEscaper<? extends PsiLanguageInjectionHost> createLiteralTextEscaper(@NotNull final FshString fshString) {
+        return LiteralTextEscaper.createSimple(fshString);
     }
 }
