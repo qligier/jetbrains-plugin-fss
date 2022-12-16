@@ -2,10 +2,11 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl;
 
-import ch.qligier.jetbrains.plugin.fhir.fsh.FshItemType;
-import ch.qligier.jetbrains.plugin.fhir.fsh.FshMetadataPolicy;
-import ch.qligier.jetbrains.plugin.fhir.fsh.FshNameType;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.ItemNameType;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.ItemType;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.MetadataPolicy;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.MetadataType;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
@@ -23,6 +24,8 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Implementation of custom methods for FSH item PSI elements.
@@ -95,6 +98,25 @@ public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements 
     @Override
     public List<FshMetadata> getMetadataElements() {
         return List.of(this.findChildrenByClass(FshMetadata.class));
+    }
+
+    /**
+     * Retrieves all PSI elements of item metadata.
+     */
+    @Override
+    public List<FshMetadata> getMetadataElements(final MetadataType type) {
+        return Stream.of(this.findChildrenByClass(FshMetadata.class))
+                .filter(child -> child.getMetadataType() == type)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    @Nullable
+    public FshMetadata getMetadata(final MetadataType type) {
+        return Stream.of(this.findChildrenByClass(FshMetadata.class))
+                .filter(child -> child.getMetadataType() == type)
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -197,32 +219,32 @@ public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements 
     }
 
     @Override
-    public FshItemType getItemType() {
+    public ItemType getItemType() {
         if (this instanceof FshAlias) {
-            return FshItemType.ALIAS;
+            return ItemType.ALIAS;
         } else if (this instanceof FshProfile) {
-            return FshItemType.PROFILE;
+            return ItemType.PROFILE;
         } else if (this instanceof FshExtension) {
-            return FshItemType.EXTENSION;
+            return ItemType.EXTENSION;
         } else if (this instanceof FshInvariant) {
-            return FshItemType.INVARIANT;
+            return ItemType.INVARIANT;
         } else if (this instanceof FshInstance) {
-            return FshItemType.INSTANCE;
+            return ItemType.INSTANCE;
         } else if (this instanceof FshValueSet) {
-            return FshItemType.VALUESET;
+            return ItemType.VALUESET;
         } else if (this instanceof FshCodeSystem) {
-            return FshItemType.CODESYSTEM;
+            return ItemType.CODESYSTEM;
         } else if (this instanceof FshRuleSet) {
-            return FshItemType.RULESET;
+            return ItemType.RULESET;
         } else if (this instanceof FshMapping) {
-            return FshItemType.MAPPING;
+            return ItemType.MAPPING;
         } else if (this instanceof FshLogical) {
-            return FshItemType.LOGICAL;
+            return ItemType.LOGICAL;
         } else if (this instanceof FshResource) {
-            return FshItemType.RESOURCE;
+            return ItemType.RESOURCE;
         }
         LOG.error("Unknown item type in getItemType()");
-        return FshItemType.ALIAS;
+        return ItemType.ALIAS;
     }
 
     /**
@@ -279,11 +301,11 @@ public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements 
      * <a href="https://build.fhir.org/ig/HL7/fhir-shorthand/reference.html#declaration-statements">Declaration
      * Statements</a>
      */
-    public FshNameType getNameType() {
+    public ItemNameType getNameType() {
         return this.getItemType().getNameType();
     }
 
-    public FshMetadataPolicy getMetadataPolicy() {
+    public MetadataPolicy getMetadataPolicy() {
         return this.getItemType().getMetadataPolicy();
     }
 
@@ -291,7 +313,7 @@ public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements 
     public <T> T @NotNull [] findChildrenByClass(Class<T> aClass) {
         List<T> result = new ArrayList<>();
         for (PsiElement cur = getFirstChild(); cur != null; cur = cur.getNextSibling()) {
-            if (aClass.isInstance(cur)) result.add((T)cur);
+            if (aClass.isInstance(cur)) result.add((T) cur);
         }
         return result.toArray(ArrayUtil.newArray(aClass, result.size()));
     }

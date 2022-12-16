@@ -4,6 +4,7 @@ package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.MetadataType;
 
 public interface FshMetadata extends PsiElement {
 
@@ -11,5 +12,7 @@ public interface FshMetadata extends PsiElement {
   FshMetadata getMetadata();
 
   @Nullable PsiElement getValueElement();
+
+  MetadataType getMetadataType();
 
 }

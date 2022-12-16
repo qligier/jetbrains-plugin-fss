@@ -4,6 +4,7 @@ package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
 import ch.qligier.jetbrains.plugin.fhir.fsh.reference.FshReference;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.MetadataType;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
@@ -74,6 +75,34 @@ public class FshPsiImplUtil {
         return (int) Arrays.stream(ruleSetReference.getChildren())
                 .filter(child -> child.getNode().getElementType() == FshTypes.IDENTIFIER)
                 .count();
+    }
+
+    public static MetadataType getMetadataType(@NotNull final FshMetadata metadata) {
+        if (metadata instanceof FshId) {
+            return MetadataType.ID;
+        } else if (metadata instanceof FshDescription) {
+            return MetadataType.DESCRIPTION;
+        } else if (metadata instanceof FshTitle) {
+            return MetadataType.TITLE;
+        } else if (metadata instanceof FshParent) {
+            return MetadataType.PARENT;
+        } else if (metadata instanceof FshInstanceOf) {
+            return MetadataType.INSTANCE_OF;
+        } else if (metadata instanceof FshUsage) {
+            return MetadataType.USAGE;
+        } else if (metadata instanceof FshSource) {
+            return MetadataType.SOURCE;
+        } else if (metadata instanceof FshTarget) {
+            return MetadataType.TARGET;
+        } else if (metadata instanceof FshSeverity) {
+            return MetadataType.SEVERITY;
+        } else if (metadata instanceof FshXpath) {
+            return MetadataType.XPATH;
+        } else if (metadata instanceof FshExpression) {
+            return MetadataType.EXPRESSION;
+        } else {
+            throw new IllegalStateException("Unknown implementation of FshMetadata");
+        }
     }
 
     // FshString (PsiLanguageInjectionHost)

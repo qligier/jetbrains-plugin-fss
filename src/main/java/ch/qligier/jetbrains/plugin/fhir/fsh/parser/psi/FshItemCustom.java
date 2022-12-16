@@ -2,9 +2,10 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi;
 
-import ch.qligier.jetbrains.plugin.fhir.fsh.FshItemType;
-import ch.qligier.jetbrains.plugin.fhir.fsh.FshMetadataPolicy;
-import ch.qligier.jetbrains.plugin.fhir.fsh.FshNameType;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.ItemNameType;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.ItemType;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.MetadataPolicy;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.MetadataType;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiNameIdentifierOwner;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +22,11 @@ import java.util.List;
 public interface FshItemCustom extends PsiNameIdentifierOwner {
 
     List<FshMetadata> getMetadataElements();
+
+    List<FshMetadata> getMetadataElements(final MetadataType type);
+
+    @Nullable
+    FshMetadata getMetadata(final MetadataType type);
 
     @Nullable
     FshId getIdElement();
@@ -55,15 +61,15 @@ public interface FshItemCustom extends PsiNameIdentifierOwner {
     @Nullable
     FshExpression getExpressionElement();
 
-    FshItemType getItemType();
+    ItemType getItemType();
 
     String getFoldedPlaceholder();
 
     ItemPresentation getPresentation();
 
-    FshNameType getNameType();
+    ItemNameType getNameType();
 
-    FshMetadataPolicy getMetadataPolicy();
+    MetadataPolicy getMetadataPolicy();
 
     <T> T @NotNull [] findChildrenByClass(Class<T> aClass);
 }

@@ -196,7 +196,7 @@ fake item ::= alias | profile | extension | invariant | instance | valueSet | co
   implements="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshItemCustom"
 }
 fake metadata ::= parent | id | title | description | expression | xpath | severity | instanceOf | usage
-                  | source | target {methods=[getValueElement]}
+                  | source | target {methods=[getValueElement getMetadataType]}
 fake rule ::= cardRule | flagRule | valueSetRule | fixedValueRule | containsRule | onlyRule | obeysRule
               | caretValueRule | insertRule | pathRule | addElementRule | addCRElementRule | concept
               | codeCaretValueRule | codeInsertRule | vsComponent | mappingRule

@@ -2,9 +2,9 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
-import ch.qligier.jetbrains.plugin.fhir.fsh.FshMetadataPolicy;
-import ch.qligier.jetbrains.plugin.fhir.fsh.FshNameType;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.ItemNameType;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.MetadataPolicy;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
@@ -64,7 +64,7 @@ public class FshAnnotator implements Annotator {
 
     protected void annotateItem(@NotNull final FshItem item,
                                 @NotNull final AnnotationHolder holder) {
-        if (item.getNameType() == FshNameType.NAME) {
+        if (item.getNameType() == ItemNameType.NAME) {
             if (!ITEM_NAME_PATTERN.matcher(Objects.requireNonNull(item.getName())).matches()) {
                 holder.newAnnotation(HighlightSeverity.ERROR,
                                      "An item name MUST be between 1 and 255 characters, begin with an uppercase letter and contain only letters, numbers, and underscores.")
@@ -152,13 +152,13 @@ public class FshAnnotator implements Annotator {
     protected void annotateItemMetadata(@NotNull final FshItem item,
                                         @NotNull final String metadataName,
                                         @Nullable final FshMetadata metadata,
-                                        @NotNull final FshMetadataPolicy.Cardinality cardinality,
+                                        @NotNull final MetadataPolicy.Cardinality cardinality,
                                         @NotNull final AnnotationHolder holder) {
         if (item.getNameIdentifier() == null) {
             return;
         }
         if (metadata == null) {
-            if (cardinality == FshMetadataPolicy.Cardinality.REQUIRED) {
+            if (cardinality == MetadataPolicy.Cardinality.REQUIRED) {
                 holder.newAnnotation(HighlightSeverity.ERROR,
                                      "The metadata " + metadataName + " is required but missing")
                         .highlightType(ProblemHighlightType.ERROR)
@@ -166,7 +166,7 @@ public class FshAnnotator implements Annotator {
                         .create();
             }
         } else {
-            if (cardinality == FshMetadataPolicy.Cardinality.FORBIDDEN) {
+            if (cardinality == MetadataPolicy.Cardinality.FORBIDDEN) {
                 holder.newAnnotation(HighlightSeverity.ERROR,
                                      "The metadata " + metadataName + " is forbidden in this item")
                         .highlightType(ProblemHighlightType.ERROR)

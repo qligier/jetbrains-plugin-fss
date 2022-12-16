@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.MetadataType;
 
 public class FshMetadataImpl extends ASTWrapperPsiElement implements FshMetadata {
 
@@ -36,6 +37,11 @@ public class FshMetadataImpl extends ASTWrapperPsiElement implements FshMetadata
   @Override
   public @Nullable PsiElement getValueElement() {
     return FshPsiImplUtil.getValueElement(this);
+  }
+
+  @Override
+  public MetadataType getMetadataType() {
+    return FshPsiImplUtil.getMetadataType(this);
   }
 
 }
