@@ -48,23 +48,20 @@ alias                     ::= KwAlias Colon Identifier Equal aliasValue
 aliasValue                ::= (Urn | Url);
 
 // Declaration: PROFILE
-profile                   ::= KwProfile Colon Identifier sdMetadata_* sdRule_*;
+profile                   ::= KwProfile Colon Identifier metadata_* sdRule_*;
 
 // Declaration: EXTENSION
-extension                 ::= KwExtension Colon Identifier sdMetadata_* sdRule_*;
+extension                 ::= KwExtension Colon Identifier metadata_* sdRule_*;
 
 // Declaration: INVARIANT
-invariant                 ::= KwInvariant Colon Identifier invariantMetadata_*;
-private invariantMetadata_ ::=  description | expression | xpath | severity;
+invariant                 ::= KwInvariant Colon Identifier metadata_*;
 
 // Declaration: INSTANCE
-instance                  ::= KwInstance Colon Identifier instanceMetadata_* instanceRule_*;
-private instanceMetadata_ ::= instanceOf | title | description | usage;
+instance                  ::= KwInstance Colon Identifier metadata_* instanceRule_*;
 private instanceRule_     ::= fixedValueRule | insertRule | pathRule;
 
 // Declaration: VALUESET
-valueSet                  ::= KwValueSet Colon Identifier vsMetadata_* vsRule_*;
-private vsMetadata_       ::= (id | title | description);
+valueSet                  ::= KwValueSet Colon Identifier metadata_* vsRule_*;
 private vsRule_           ::= (vsComponent | caretValueRule | insertRule)
 vsComponent               ::= ruleStart (KwInclude | KwExclude)? (vsConceptComponent | vsFilterComponent);
 vsConceptComponent        ::= (code vsComponentFrom?) | (code (KwAnd code)* vsComponentFrom);
@@ -78,8 +75,7 @@ vsFilterOperator          ::= Equal | KwCodeOperator;
 vsFilterValue             ::= code | KwBoolean | Regex | string;
 
 // Declaration: CODESYSTEM
-codeSystem                ::= KwCodeSystem Colon Identifier csMetadata_* csRule_*;
-private csMetadata_       ::= id | title | description;
+codeSystem                ::= KwCodeSystem Colon Identifier metadata_* csRule_*;
 private csRule_           ::= concept | codeCaretValueRule | codeInsertRule;
 
 // Declaration: RULESET
@@ -88,8 +84,7 @@ private ruleSetRule_      ::= sdRule_ | addElementRule | addCRElementRule | conc
                               codeInsertRule | vsComponent | mappingRule;
 
 // Declaration: MAPPING
-mapping                   ::= KwMapping Colon Identifier mappingMetadata_* mappingEntityRule_*;
-private mappingMetadata_  ::= id | source | target | description | title;
+mapping                   ::= KwMapping Colon Identifier metadata_* mappingEntityRule_*;
 private mappingEntityRule_::= mappingRule | insertRule | pathRule;
 
 // Declaration: LOGICAL
@@ -99,6 +94,8 @@ logical                   ::= KwLogical Colon Identifier sdMetadata_* lrRule_*;
 resource                  ::= KwResource Colon Identifier sdMetadata_* lrRule_*;
 
 // Metadata
+private metadata_         ::= parent | id | title | description | expression | xpath | severity | instanceOf | usage
+                              | source | target {methods=[getValueElement getMetadataType]}
 parent                    ::= KwParent Colon itemIdentifier;
 id                        ::= KwId Colon Identifier {
   implements="com.intellij.psi.PsiNameIdentifierOwner"
@@ -190,13 +187,13 @@ Rule modifiers:
  */
 
 // Some fake rules for improving the PSI tree
-fake item ::= alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet | mapping
-              | logical | resource {
+fake item     ::= alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet | mapping
+                  | logical | resource {
   mixin="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.impl.FshItemImplCustom"
   implements="ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshItemCustom"
 }
 fake metadata ::= parent | id | title | description | expression | xpath | severity | instanceOf | usage
                   | source | target {methods=[getValueElement getMetadataType]}
-fake rule ::= cardRule | flagRule | valueSetRule | fixedValueRule | containsRule | onlyRule | obeysRule
-              | caretValueRule | insertRule | pathRule | addElementRule | addCRElementRule | concept
-              | codeCaretValueRule | codeInsertRule | vsComponent | mappingRule
+fake rule     ::= cardRule | flagRule | valueSetRule | fixedValueRule | containsRule | onlyRule | obeysRule
+                  | caretValueRule | insertRule | pathRule | addElementRule | addCRElementRule | concept
+                  | codeCaretValueRule | codeInsertRule | vsComponent | mappingRule

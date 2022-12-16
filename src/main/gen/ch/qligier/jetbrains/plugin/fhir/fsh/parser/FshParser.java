@@ -564,7 +564,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwCodeSystem Colon Identifier csMetadata_* csRule_*
+  // KwCodeSystem Colon Identifier metadata_* csRule_*
   public static boolean codeSystem(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "codeSystem")) return false;
     if (!nextTokenIs(b, KWCODESYSTEM)) return false;
@@ -577,12 +577,12 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // csMetadata_*
+  // metadata_*
   private static boolean codeSystem_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "codeSystem_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!csMetadata_(b, l + 1)) break;
+      if (!metadata_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "codeSystem_3", c)) break;
     }
     return true;
@@ -715,17 +715,6 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // id | title | description
-  static boolean csMetadata_(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "csMetadata_")) return false;
-    boolean r;
-    r = id(b, l + 1);
-    if (!r) r = title(b, l + 1);
-    if (!r) r = description(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
   // concept | codeCaretValueRule | codeInsertRule
   static boolean csRule_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "csRule_")) return false;
@@ -773,7 +762,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwExtension Colon Identifier sdMetadata_* sdRule_*
+  // KwExtension Colon Identifier metadata_* sdRule_*
   public static boolean extension(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "extension")) return false;
     if (!nextTokenIs(b, KWEXTENSION)) return false;
@@ -786,12 +775,12 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // sdMetadata_*
+  // metadata_*
   private static boolean extension_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "extension_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!sdMetadata_(b, l + 1)) break;
+      if (!metadata_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "extension_3", c)) break;
     }
     return true;
@@ -952,7 +941,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwInstance Colon Identifier instanceMetadata_* instanceRule_*
+  // KwInstance Colon Identifier metadata_* instanceRule_*
   public static boolean instance(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "instance")) return false;
     if (!nextTokenIs(b, KWINSTANCE)) return false;
@@ -965,12 +954,12 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // instanceMetadata_*
+  // metadata_*
   private static boolean instance_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "instance_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!instanceMetadata_(b, l + 1)) break;
+      if (!metadata_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "instance_3", c)) break;
     }
     return true;
@@ -985,18 +974,6 @@ public class FshParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "instance_4", c)) break;
     }
     return true;
-  }
-
-  /* ********************************************************** */
-  // instanceOf | title | description | usage
-  static boolean instanceMetadata_(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "instanceMetadata_")) return false;
-    boolean r;
-    r = instanceOf(b, l + 1);
-    if (!r) r = title(b, l + 1);
-    if (!r) r = description(b, l + 1);
-    if (!r) r = usage(b, l + 1);
-    return r;
   }
 
   /* ********************************************************** */
@@ -1042,7 +1019,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwInvariant Colon Identifier invariantMetadata_*
+  // KwInvariant Colon Identifier metadata_*
   public static boolean invariant(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "invariant")) return false;
     if (!nextTokenIs(b, KWINVARIANT)) return false;
@@ -1054,27 +1031,15 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // invariantMetadata_*
+  // metadata_*
   private static boolean invariant_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "invariant_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!invariantMetadata_(b, l + 1)) break;
+      if (!metadata_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "invariant_3", c)) break;
     }
     return true;
-  }
-
-  /* ********************************************************** */
-  // description | expression | xpath | severity
-  static boolean invariantMetadata_(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "invariantMetadata_")) return false;
-    boolean r;
-    r = description(b, l + 1);
-    if (!r) r = expression(b, l + 1);
-    if (!r) r = xpath(b, l + 1);
-    if (!r) r = severity(b, l + 1);
-    return r;
   }
 
   /* ********************************************************** */
@@ -1203,7 +1168,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwMapping Colon Identifier mappingMetadata_* mappingEntityRule_*
+  // KwMapping Colon Identifier metadata_* mappingEntityRule_*
   public static boolean mapping(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "mapping")) return false;
     if (!nextTokenIs(b, KWMAPPING)) return false;
@@ -1216,12 +1181,12 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // mappingMetadata_*
+  // metadata_*
   private static boolean mapping_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "mapping_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!mappingMetadata_(b, l + 1)) break;
+      if (!metadata_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "mapping_3", c)) break;
     }
     return true;
@@ -1247,19 +1212,6 @@ public class FshParser implements PsiParser, LightPsiParser {
     r = mappingRule(b, l + 1);
     if (!r) r = insertRule(b, l + 1);
     if (!r) r = pathRule(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // id | source | target | description | title
-  static boolean mappingMetadata_(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "mappingMetadata_")) return false;
-    boolean r;
-    r = id(b, l + 1);
-    if (!r) r = source(b, l + 1);
-    if (!r) r = target(b, l + 1);
-    if (!r) r = description(b, l + 1);
-    if (!r) r = title(b, l + 1);
     return r;
   }
 
@@ -1299,6 +1251,26 @@ public class FshParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "mappingRule_5")) return false;
     code(b, l + 1);
     return true;
+  }
+
+  /* ********************************************************** */
+  // parent | id | title | description | expression | xpath | severity | instanceOf | usage
+  //                               | source | target
+  static boolean metadata_(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "metadata_")) return false;
+    boolean r;
+    r = parent(b, l + 1);
+    if (!r) r = id(b, l + 1);
+    if (!r) r = title(b, l + 1);
+    if (!r) r = description(b, l + 1);
+    if (!r) r = expression(b, l + 1);
+    if (!r) r = xpath(b, l + 1);
+    if (!r) r = severity(b, l + 1);
+    if (!r) r = instanceOf(b, l + 1);
+    if (!r) r = usage(b, l + 1);
+    if (!r) r = source(b, l + 1);
+    if (!r) r = target(b, l + 1);
+    return r;
   }
 
   /* ********************************************************** */
@@ -1536,7 +1508,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwProfile Colon Identifier sdMetadata_* sdRule_*
+  // KwProfile Colon Identifier metadata_* sdRule_*
   public static boolean profile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "profile")) return false;
     if (!nextTokenIs(b, KWPROFILE)) return false;
@@ -1549,12 +1521,12 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // sdMetadata_*
+  // metadata_*
   private static boolean profile_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "profile_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!sdMetadata_(b, l + 1)) break;
+      if (!metadata_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "profile_3", c)) break;
     }
     return true;
@@ -2003,7 +1975,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KwValueSet Colon Identifier vsMetadata_* vsRule_*
+  // KwValueSet Colon Identifier metadata_* vsRule_*
   public static boolean valueSet(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "valueSet")) return false;
     if (!nextTokenIs(b, KWVALUESET)) return false;
@@ -2016,12 +1988,12 @@ public class FshParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // vsMetadata_*
+  // metadata_*
   private static boolean valueSet_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "valueSet_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!vsMetadata_(b, l + 1)) break;
+      if (!metadata_(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "valueSet_3", c)) break;
     }
     return true;
@@ -2407,17 +2379,6 @@ public class FshParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, KWAND);
     r = r && itemIdentifier(b, l + 1);
     exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // id | title | description
-  static boolean vsMetadata_(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "vsMetadata_")) return false;
-    boolean r;
-    r = id(b, l + 1);
-    if (!r) r = title(b, l + 1);
-    if (!r) r = description(b, l + 1);
     return r;
   }
 
