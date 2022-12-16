@@ -53,21 +53,25 @@ public class FshAnnotator implements Annotator {
 
     protected void annotateItem(@NotNull final FshItem item,
                                 @NotNull final AnnotationHolder holder) {
-        if (item.getNameType() == ItemNameType.NAME) {
-            if (!ITEM_NAME_PATTERN.matcher(Objects.requireNonNull(item.getName())).matches()) {
-                holder.newAnnotation(HighlightSeverity.ERROR,
-                                     "An item name MUST be between 1 and 255 characters, begin with an uppercase letter and contain only letters, numbers, and underscores.")
-                        .highlightType(ProblemHighlightType.ERROR)
-                        .create();
-            }
-        } else {
-            if (Objects.requireNonNull(item.getName()).length() > 64) {
-                holder.newAnnotation(HighlightSeverity.ERROR,
-                                     "An alias name length MUST NOT be more than 64 characters.")
-                        .highlightType(ProblemHighlightType.ERROR)
-                        .create();
+        final var itemName = item.getName();
+        if (itemName != null) {
+            if (item.getNameType() == ItemNameType.NAME) {
+                if (!ITEM_NAME_PATTERN.matcher(itemName).matches()) {
+                    holder.newAnnotation(HighlightSeverity.ERROR,
+                                         "An item name MUST be between 1 and 255 characters, begin with an uppercase letter and contain only letters, numbers, and underscores.")
+                            .highlightType(ProblemHighlightType.ERROR)
+                            .create();
+                }
+            } else {
+                if (itemName.length() > 64) {
+                    holder.newAnnotation(HighlightSeverity.ERROR,
+                                         "An alias name length MUST NOT be more than 64 characters.")
+                            .highlightType(ProblemHighlightType.ERROR)
+                            .create();
+                }
             }
         }
+
 
         final var metadataPolicy = item.getItemType().getMetadataPolicy();
         final var annotationParentTarget = Objects.requireNonNullElse(item.getNameIdentifier(), item);
