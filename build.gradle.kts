@@ -57,16 +57,4 @@ tasks {
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
-
-    setupDependencies {
-        doLast {
-            // Fixes https://youtrack.jetbrains.com/issue/IDEA-298989
-            // Should be fixed with Gradle plugin v1.10.0
-            fileTree("$buildDir/instrumented/instrumentCode") { include("**/IgPublisherSettingsEditor.class") }.files.forEach {
-                delete(
-                    it
-                )
-            }
-        }
-    }
 }
