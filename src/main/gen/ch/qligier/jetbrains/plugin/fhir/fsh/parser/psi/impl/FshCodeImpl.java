@@ -34,9 +34,9 @@ public class FshCodeImpl extends ASTWrapperPsiElement implements FshCode {
   }
 
   @Override
-  @Nullable
-  public FshString getString() {
-    return findChildByClass(FshString.class);
+  @NotNull
+  public List<FshString> getStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FshString.class);
   }
 
 }

@@ -10,7 +10,7 @@ public interface FshCode extends PsiElement {
   @NotNull
   List<FshIdentifierRef> getIdentifierRefList();
 
-  @Nullable
-  FshString getString();
+  @NotNull
+  List<FshString> getStringList();
 
 }

@@ -36,8 +36,6 @@ Urn = "urn:" [^ \t\r\n\f\u00A0\#]+
 StringToken = \" ( \\\" | [^\"\n\r] )* \"
 MultilineString = (\"){3} ~(\"){3}
 Unit = "'" ([^\\'])* "'"
-ConceptString = "\"" {ConceptStringPart}+ ({WhiteSpace} {ConceptStringPart}+)* "\""
-ConceptStringPart = ([^ \t\r\n\f\u00A0\"] | "\\\"" | "\\\\")
 Regex = "/" ("\\/" | [^*/\r\n])("\\/" | [^/\r\n])* "/"
 Datetime = [0-9][0-9][0-9][0-9]("-"[0-9][0-9]("-"[0-9][0-9]("T" {Time})?)?)?
 Time = [0-9][0-9](":"[0-9][0-9](":"[0-9][0-9]("."[0-9]+)?)?)?("Z" | ("+" | "-")[0-9][0-9]":"[0-9][0-9])?
@@ -124,7 +122,6 @@ Time = [0-9][0-9](":"[0-9][0-9](":"[0-9][0-9]("."[0-9]+)?)?)?("Z" | ("+" | "-")[
   {Url}                          { return FshTypes.URL; }
   {Urn}                          { return FshTypes.URN; }
   {Unit}                         { return FshTypes.UNIT; }
-  {ConceptString}                { return FshTypes.CONCEPTSTRING; }
   {Regex}                        { return FshTypes.REGEX; }
   {Datetime}                     { return FshTypes.DATETIME; }
   {Time}                         { return FshTypes.TIME; }

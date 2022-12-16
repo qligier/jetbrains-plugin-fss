@@ -83,7 +83,6 @@ public interface FshTypes {
   IElementType CARET = new FshTokenType("Caret");
   IElementType COLON = new FshTokenType("Colon");
   IElementType COMMA = new FshTokenType("Comma");
-  IElementType CONCEPTSTRING = new FshTokenType("ConceptString");
   IElementType DATETIME = new FshTokenType("Datetime");
   IElementType DIGIT = new FshTokenType("Digit");
   IElementType DOT = new FshTokenType("Dot");

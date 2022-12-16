@@ -147,7 +147,7 @@ number                    ::= (Plus | "-")? integer (Dot integer)?; // TODO is i
 integer                   ::= Digit+;
 code                      ::= (identifierRef | Url | Urn)? Hash codeValue_ string?;
 // Be lenient on code value and accept some reserved keywords
-private codeValue_        ::= (identifierRef | ConceptString | Digit | allMetadataKws_ | allOtherKws_)
+private codeValue_        ::= (identifierRef | string | Digit | allMetadataKws_ | allOtherKws_)
 strength                  ::= LeftParen KwBindingStrength RightParen;
 ratio                     ::= (number | quantity) Colon (number | quantity);
 quantity                  ::= number (Unit | code) string?;

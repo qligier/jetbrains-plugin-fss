@@ -600,12 +600,12 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifierRef | ConceptString | Digit | allMetadataKws_ | allOtherKws_
+  // identifierRef | string | Digit | allMetadataKws_ | allOtherKws_
   static boolean codeValue_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "codeValue_")) return false;
     boolean r;
     r = identifierRef(b, l + 1);
-    if (!r) r = consumeToken(b, CONCEPTSTRING);
+    if (!r) r = string(b, l + 1);
     if (!r) r = consumeToken(b, DIGIT);
     if (!r) r = allMetadataKws_(b, l + 1);
     if (!r) r = allOtherKws_(b, l + 1);
