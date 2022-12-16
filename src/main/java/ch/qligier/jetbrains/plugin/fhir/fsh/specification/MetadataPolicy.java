@@ -2,8 +2,10 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh.specification;
 
+import java.util.EnumMap;
+
 /**
- * jetbrains-plugin-fhir
+ * The cardinality policy of FSH metadata for a given item type.
  *
  * @author Quentin Ligier
  **/
@@ -51,17 +53,8 @@ public class MetadataPolicy {
                                                                   Cardinality.REQUIRED, Cardinality.REQUIRED,
                                                                   Cardinality.FORBIDDEN, Cardinality.FORBIDDEN,
                                                                   Cardinality.FORBIDDEN);
-    private final Cardinality id;
-    private final Cardinality description;
-    private final Cardinality title;
-    private final Cardinality parent;
-    private final Cardinality instance_of;
-    private final Cardinality usage;
-    private final Cardinality source;
-    private final Cardinality target;
-    private final Cardinality severity;
-    private final Cardinality xpath;
-    private final Cardinality expression;
+
+    private final EnumMap<MetadataType, Cardinality> map;
 
     public MetadataPolicy(final Cardinality id,
                           final Cardinality description,
@@ -74,61 +67,22 @@ public class MetadataPolicy {
                           final Cardinality severity,
                           final Cardinality xpath,
                           final Cardinality expression) {
-        this.id = id;
-        this.description = description;
-        this.title = title;
-        this.parent = parent;
-        this.instance_of = instance_of;
-        this.usage = usage;
-        this.source = source;
-        this.target = target;
-        this.severity = severity;
-        this.xpath = xpath;
-        this.expression = expression;
+        this.map = new EnumMap<>(MetadataType.class);
+        this.map.put(MetadataType.ID, id);
+        this.map.put(MetadataType.DESCRIPTION, description);
+        this.map.put(MetadataType.TITLE, title);
+        this.map.put(MetadataType.PARENT, parent);
+        this.map.put(MetadataType.INSTANCE_OF, instance_of);
+        this.map.put(MetadataType.USAGE, usage);
+        this.map.put(MetadataType.SOURCE, source);
+        this.map.put(MetadataType.TARGET, target);
+        this.map.put(MetadataType.SEVERITY, severity);
+        this.map.put(MetadataType.XPATH, xpath);
+        this.map.put(MetadataType.EXPRESSION, expression);
     }
 
-    public Cardinality getId() {
-        return this.id;
-    }
-
-    public Cardinality getDescription() {
-        return this.description;
-    }
-
-    public Cardinality getTitle() {
-        return this.title;
-    }
-
-    public Cardinality getParent() {
-        return this.parent;
-    }
-
-    public Cardinality getInstanceOf() {
-        return this.instance_of;
-    }
-
-    public Cardinality getUsage() {
-        return this.usage;
-    }
-
-    public Cardinality getSource() {
-        return this.source;
-    }
-
-    public Cardinality getTarget() {
-        return this.target;
-    }
-
-    public Cardinality getSeverity() {
-        return this.severity;
-    }
-
-    public Cardinality getXpath() {
-        return this.xpath;
-    }
-
-    public Cardinality getExpression() {
-        return this.expression;
+    public Cardinality getCardinality(final MetadataType type) {
+        return this.map.get(type);
     }
 
     public enum Cardinality {

@@ -9,17 +9,17 @@ package ch.qligier.jetbrains.plugin.fhir.fsh.specification;
  **/
 public enum MetadataType {
 
-    ID("id"),
-    DESCRIPTION("description"),
-    TITLE("title"),
-    PARENT("parent"),
-    INSTANCE_OF("instance of"),
-    USAGE("usage"),
-    SOURCE("source"),
-    TARGET("target"),
-    SEVERITY("severity"),
-    XPATH("xpath"),
-    EXPRESSION("expression");
+    ID("Id"),
+    DESCRIPTION("Description"),
+    TITLE("Title"),
+    PARENT("Parent"),
+    INSTANCE_OF("InstanceOf"),
+    USAGE("Usage"),
+    SOURCE("Source"),
+    TARGET("Target"),
+    SEVERITY("Severity"),
+    XPATH("Xpath"),
+    EXPRESSION("Expression");
 
     private final String name;
 

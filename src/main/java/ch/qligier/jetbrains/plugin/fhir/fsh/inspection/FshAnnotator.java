@@ -2,18 +2,19 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh.inspection;
 
-import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.*;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshId;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshItem;
+import ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi.FshMetadata;
 import ch.qligier.jetbrains.plugin.fhir.fsh.specification.ItemNameType;
 import ch.qligier.jetbrains.plugin.fhir.fsh.specification.MetadataPolicy;
+import ch.qligier.jetbrains.plugin.fhir.fsh.specification.MetadataType;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -29,18 +30,6 @@ public class FshAnnotator implements Annotator {
 
     // As seen in http://hl7.org/fhir/R4/structuredefinition-definitions.html#StructureDefinition.name
     private static final Pattern ITEM_NAME_PATTERN = Pattern.compile("^[A-Z]([A-Za-z0-9_]){0,254}$");
-
-    private static final List<Class<? extends FshMetadata>> ITEM_METADATA_CLASSES = List.of(FshId.class,
-                                                                                            FshDescription.class,
-                                                                                            FshTitle.class,
-                                                                                            FshParent.class,
-                                                                                            FshInstanceOf.class,
-                                                                                            FshUsage.class,
-                                                                                            FshSource.class,
-                                                                                            FshTarget.class,
-                                                                                            FshSeverity.class,
-                                                                                            FshXpath.class,
-                                                                                            FshExpression.class);
 
     /**
      * Annotates the specified PSI element. It is guaranteed to be executed in non-reentrant fashion. I.e there will be
@@ -80,98 +69,37 @@ public class FshAnnotator implements Annotator {
             }
         }
 
-        this.annotateItemMetadata(item,
-                                  "Id",
-                                  item.getIdElement(),
-                                  item.getMetadataPolicy().getId(),
-                                  holder);
-        this.annotateItemMetadata(item,
-                                  "Description",
-                                  item.getDescriptionElement(),
-                                  item.getMetadataPolicy().getDescription(),
-                                  holder);
-        this.annotateItemMetadata(item,
-                                  "Title",
-                                  item.getTitleElement(),
-                                  item.getMetadataPolicy().getTitle(),
-                                  holder);
-        this.annotateItemMetadata(item,
-                                  "Parent",
-                                  item.getParentElement(),
-                                  item.getMetadataPolicy().getParent(),
-                                  holder);
-        this.annotateItemMetadata(item,
-                                  "InstanceOf",
-                                  item.getInstanceOfElement(),
-                                  item.getMetadataPolicy().getInstanceOf(),
-                                  holder);
-        this.annotateItemMetadata(item,
-                                  "Usage",
-                                  item.getUsageElement(),
-                                  item.getMetadataPolicy().getUsage(),
-                                  holder);
-        this.annotateItemMetadata(item,
-                                  "Source",
-                                  item.getSourceElement(),
-                                  item.getMetadataPolicy().getSource(),
-                                  holder);
-        this.annotateItemMetadata(item,
-                                  "Target",
-                                  item.getTargetElement(),
-                                  item.getMetadataPolicy().getTarget(),
-                                  holder);
-        this.annotateItemMetadata(item,
-                                  "Severity",
-                                  item.getSeverityElement(),
-                                  item.getMetadataPolicy().getSeverity(),
-                                  holder);
-        this.annotateItemMetadata(item,
-                                  "XPath",
-                                  item.getXPathElement(),
-                                  item.getMetadataPolicy().getXpath(),
-                                  holder);
-        this.annotateItemMetadata(item,
-                                  "Expression",
-                                  item.getExpressionElement(),
-                                  item.getMetadataPolicy().getExpression(),
-                                  holder);
+        final var metadataPolicy = item.getItemType().getMetadataPolicy();
+        final var annotationParentTarget = Objects.requireNonNullElse(item.getNameIdentifier(), item);
+        for (final MetadataType metadataType : MetadataType.values()) {
+            final var children = item.getMetadataElements(metadataType);
 
-        for (final var metadataClass : ITEM_METADATA_CLASSES) {
-            final var nodes = item.findChildrenByClass(metadataClass);
-            for (int i = 1; i < nodes.length; ++i) {
-                final var node = nodes[i];
+            // Check that it doesn't appear multiple times
+            for (int i = 1; i < children.size(); ++i) {
                 holder.newAnnotation(HighlightSeverity.ERROR,
-                                     "The metadata " + metadataClass.getName() + "shall not appear more than once")
+                                     "The metadata " + metadataType.getName() + " shall not appear more than once")
                         .highlightType(ProblemHighlightType.ERROR)
-                        .range(node)
+                        .range(children.get(i))
                         .create();
             }
-        }
-    }
 
-    protected void annotateItemMetadata(@NotNull final FshItem item,
-                                        @NotNull final String metadataName,
-                                        @Nullable final FshMetadata metadata,
-                                        @NotNull final MetadataPolicy.Cardinality cardinality,
-                                        @NotNull final AnnotationHolder holder) {
-        if (item.getNameIdentifier() == null) {
-            return;
-        }
-        if (metadata == null) {
-            if (cardinality == MetadataPolicy.Cardinality.REQUIRED) {
+            // Check that it appears if it's required, or that it doesn't appear if it's forbidden
+            final MetadataPolicy.Cardinality cardinality = metadataPolicy.getCardinality(metadataType);
+            if (cardinality == MetadataPolicy.Cardinality.REQUIRED && children.isEmpty()) {
                 holder.newAnnotation(HighlightSeverity.ERROR,
-                                     "The metadata " + metadataName + " is required but missing")
+                                     "The metadata " + metadataType.getName() + " is required but missing in item " + item.getItemType().getName())
                         .highlightType(ProblemHighlightType.ERROR)
-                        .range(item.getNameIdentifier())
+                        .range(annotationParentTarget)
                         .create();
-            }
-        } else {
-            if (cardinality == MetadataPolicy.Cardinality.FORBIDDEN) {
-                holder.newAnnotation(HighlightSeverity.ERROR,
-                                     "The metadata " + metadataName + " is forbidden in this item")
-                        .highlightType(ProblemHighlightType.ERROR)
-                        .range(metadata)
-                        .create();
+            } else if (cardinality == MetadataPolicy.Cardinality.FORBIDDEN && !children.isEmpty()) {
+                for (final var child : children) {
+                    holder.newAnnotation(HighlightSeverity.ERROR,
+                                         "The metadata " + metadataType.getName() + " is forbidden but present in " +
+                                                 "item " + item.getItemType().getName())
+                            .highlightType(ProblemHighlightType.ERROR)
+                            .range(child)
+                            .create();
+                }
             }
         }
     }
