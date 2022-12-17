@@ -1,0 +1,35 @@
+<!--
+  ~ Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+  -->
+<templateSet group="FSH">
+    <template name="profile"
+              value="Profile: $NAME$&#10;Parent: $PARENT$&#10;Id: $ID$&#10;Title: &quot;$TITLE$&quot;&#10;Description: &quot;$DESCRIPTION$&quot;&#10;* $RULE$"
+              description="Create a new Profile"
+              toReformat="false"
+              toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true"/>
+        <variable name="PARENT" expression="" defaultValue="" alwaysStopAt="true"/>
+        <variable name="ID"
+                  expression="regularExpression(lowercaseAndDash(NAME), &quot;_&quot;, &quot;-&quot;)"
+                  defaultValue=""
+                  alwaysStopAt="true"/>
+        <variable name="TITLE" expression="NAME" defaultValue="" alwaysStopAt="true"/>
+        <variable name="DESCRIPTION" expression="" defaultValue="" alwaysStopAt="true"/>
+        <variable name="RULE" expression="" defaultValue="" alwaysStopAt="true"/>
+        <context>
+            <option name="FSH" value="true"/>
+        </context>
+    </template>
+
+    <template name="alias"
+              value="Alias: $$$NAME$ = $URN$"
+              description="Create a new Alias"
+              toReformat="false"
+              toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true"/>
+        <variable name="URN" expression="" defaultValue="" alwaysStopAt="true"/>
+        <context>
+            <option name="FSH" value="true"/>
+        </context>
+    </template>
+</templateSet>
