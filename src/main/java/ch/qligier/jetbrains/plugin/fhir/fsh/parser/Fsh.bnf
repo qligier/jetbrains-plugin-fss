@@ -38,30 +38,31 @@ private recover           ::= !(any_)
 private any_              ::= !<<eof>> item_ {pin=1 recoverWhile=recover}
 private item_             ::= (alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet |
                               mapping | logical | resource)
+private itemRecover_      ::= !item_
 
 // LineComment and BlockComment appear here to be included in FshTypes, but they won't be passed to the parser
 // cf. https://plugins.jetbrains.com/docs/intellij/implementing-parser-and-psi.html#whitespace-and-comments
 private comment_          ::= (LineComment | BlockComment)
 
 // Declaration: ALIAS
-alias                     ::= KwAlias Colon Identifier Equal aliasValue
-aliasValue                ::= (Urn | Url);
+alias                     ::= KwAlias Colon Identifier Equal aliasValue {recoverWhile=itemRecover_};
+aliasValue                ::= (Urn | Url)
 
 // Declaration: PROFILE
-profile                   ::= KwProfile Colon Identifier metadata_* sdRule_*;
+profile                   ::= KwProfile Colon Identifier metadata_* sdRule_* {recoverWhile=itemRecover_};
 
 // Declaration: EXTENSION
-extension                 ::= KwExtension Colon Identifier metadata_* sdRule_*;
+extension                 ::= KwExtension Colon Identifier metadata_* sdRule_* {recoverWhile=itemRecover_};
 
 // Declaration: INVARIANT
-invariant                 ::= KwInvariant Colon Identifier metadata_*;
+invariant                 ::= KwInvariant Colon Identifier metadata_* {recoverWhile=itemRecover_};
 
 // Declaration: INSTANCE
-instance                  ::= KwInstance Colon Identifier metadata_* instanceRule_*;
+instance                  ::= KwInstance Colon Identifier metadata_* instanceRule_* {recoverWhile=itemRecover_};
 private instanceRule_     ::= fixedValueRule | insertRule | pathRule;
 
 // Declaration: VALUESET
-valueSet                  ::= KwValueSet Colon Identifier metadata_* vsRule_*;
+valueSet                  ::= KwValueSet Colon Identifier metadata_* vsRule_* {recoverWhile=itemRecover_};
 private vsRule_           ::= (vsComponent | caretValueRule | insertRule)
 vsComponent               ::= ruleStart (KwInclude | KwExclude)? (vsConceptComponent | vsFilterComponent);
 vsConceptComponent        ::= (code vsComponentFrom?) | (code (KwAnd code)* vsComponentFrom);
@@ -75,27 +76,29 @@ vsFilterOperator          ::= Equal | KwCodeOperator;
 vsFilterValue             ::= code | KwBoolean | Regex | string;
 
 // Declaration: CODESYSTEM
-codeSystem                ::= KwCodeSystem Colon Identifier metadata_* csRule_*;
+codeSystem                ::= KwCodeSystem Colon Identifier metadata_* csRule_* {recoverWhile=itemRecover_};
 private csRule_           ::= concept | codeCaretValueRule | codeInsertRule;
 
 // Declaration: RULESET
-ruleSet                   ::= KwRuleSet Colon ruleSetReference ruleSetRule_*;
+ruleSet                   ::= KwRuleSet Colon ruleSetReference ruleSetRule_* {recoverWhile=itemRecover_};
 private ruleSetRule_      ::= sdRule_ | addElementRule | addCRElementRule | concept | codeCaretValueRule |
                               codeInsertRule | vsComponent | mappingRule;
 
 // Declaration: MAPPING
-mapping                   ::= KwMapping Colon Identifier metadata_* mappingEntityRule_*;
+mapping                   ::= KwMapping Colon Identifier metadata_* mappingEntityRule_* {recoverWhile=itemRecover_};
 private mappingEntityRule_::= mappingRule | insertRule | pathRule;
 
 // Declaration: LOGICAL
-logical                   ::= KwLogical Colon Identifier sdMetadata_* lrRule_*;
+logical                   ::= KwLogical Colon Identifier sdMetadata_* lrRule_* {recoverWhile=itemRecover_};
 
 // Declaration: RESOURCE
-resource                  ::= KwResource Colon Identifier sdMetadata_* lrRule_*;
+resource                  ::= KwResource Colon Identifier sdMetadata_* lrRule_* {recoverWhile=itemRecover_};
 
 // Metadata
 private metadata_         ::= parent | id | title | description | expression | xpath | severity | instanceOf | usage
-                              | source | target {methods=[getValueElement getMetadataType]}
+                              | source | target {methods=[getValueElement getMetadataType]
+                              recoverWhile=metadataRecover_}
+private metadataRecover_  ::= !metadata_
 parent                    ::= KwParent Colon itemIdentifier;
 id                        ::= KwId Colon Identifier {
   implements="com.intellij.psi.PsiNameIdentifierOwner"
