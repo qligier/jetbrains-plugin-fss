@@ -111,7 +111,9 @@ public class FshPsiImplUtil {
      * @return {@code true} if this instance can accept injections, {@code false} otherwise
      */
     public static boolean isValidHost(@NotNull final FshString fshString) {
-        return true; // TODO
+        final var parent = fshString.getParent();
+        final var parentType = (parent != null) ? parent.getNode().getElementType() : null;
+        return parentType == FshTypes.TITLE || parentType == FshTypes.DESCRIPTION;
     }
 
     /**
