@@ -1,0 +1,18 @@
+{
+  "total": 100,
+  "tools inspection": {
+    "Code Inspection": 100
+  },
+  "attributes": {
+    "vcs": {
+      "sarifIdea": {
+        "repositoryUri": "https://github.com/qligier/jetbrains-plugin-fhir",
+        "revisionId": "1e9c5309eb5152722bb90f2fe16c089342ae8970",
+        "branch": "master"
+      }
+    },
+    "deviceId": "200820300000000-7701-1436-3c31-03be8dc7172b",
+    "jobUrl": "https://github.com/qligier/jetbrains-plugin-fhir/actions/runs/3735142044",
+    "repoUrl": "https://github.com/qligier/jetbrains-plugin-fhir"
+  }
+}
