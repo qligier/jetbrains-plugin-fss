@@ -2,7 +2,7 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh;
 
-import ch.qligier.jetbrains.plugin.fhir.Icons;
+import ch.qligier.jetbrains.plugin.fhir.common.Icons;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.util.NlsSafe;

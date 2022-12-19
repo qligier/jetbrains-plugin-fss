@@ -30,6 +30,7 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <fileIconProvider implementation="ch.qligier.jetbrains.plugin.fhir.common.CustomIconProvider"/>
 
         <!-- The FSH language -->
         <fileType

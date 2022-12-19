@@ -2,7 +2,7 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh.specification;
 
-import ch.qligier.jetbrains.plugin.fhir.Icons;
+import ch.qligier.jetbrains.plugin.fhir.common.Icons;
 
 import javax.swing.*;
 

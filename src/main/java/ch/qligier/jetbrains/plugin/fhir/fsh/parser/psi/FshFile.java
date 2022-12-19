@@ -2,7 +2,7 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh.parser.psi;
 
-import ch.qligier.jetbrains.plugin.fhir.Icons;
+import ch.qligier.jetbrains.plugin.fhir.common.Icons;
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshFileType;
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshLanguage;
 import com.intellij.extapi.psi.PsiFileBase;

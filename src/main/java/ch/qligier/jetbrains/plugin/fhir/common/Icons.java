@@ -1,6 +1,6 @@
 // Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
 
-package ch.qligier.jetbrains.plugin.fhir;
+package ch.qligier.jetbrains.plugin.fhir.common;
 
 import com.intellij.openapi.util.IconLoader;
 
@@ -14,11 +14,14 @@ import javax.swing.*;
  * Images</a>
  * @see <a href="https://jetbrains.design/intellij/principles/icons/">Icons</a>
  * @see <a href="https://jetbrains.design/intellij/resources/icons_list/">Icons list</a>
+ * @see <a href="https://bjansen.github.io/intellij-icon-generator/">IntelliJ Icon Generator</a>
  **/
 public class Icons {
 
     // 16x16 icon for the language type
     public static final Icon FSH_FLAME = IconLoader.getIcon("/icons/fsh_flame.png", Icons.class);
+    public static final Icon FHIR_FLAME = IconLoader.getIcon("/icons/fhir.png", Icons.class);
+    public static final Icon MENU_XML = IconLoader.getIcon("/icons/menu.svg", Icons.class);
 
     /**
      * Icons based on <a href="https://jetbrains.design/intellij/resources/icons_list/">JetBrains ones</a>.
