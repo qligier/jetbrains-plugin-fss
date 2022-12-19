@@ -59,6 +59,8 @@
         <defaultLiveTemplates file="/liveTemplates/FSH.xml"/>
         <liveTemplateContext
                 implementation="ch.qligier.jetbrains.plugin.fhir.fsh.FshContext"/>
+        <codeInsight.lineMarkerProvider language="FSH"
+                                        implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.ErrorLineMarker"/>
 
         <!-- Inspections for FSH -->
         <annotator language="FSH"
