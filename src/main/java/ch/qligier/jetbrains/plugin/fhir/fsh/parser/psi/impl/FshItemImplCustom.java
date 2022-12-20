@@ -11,7 +11,6 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.util.NlsSafe;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiNameIdentifierOwner;
@@ -268,7 +267,7 @@ public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements 
              * @return the object name.
              */
             @Override
-            public @NlsSafe @Nullable String getPresentableText() {
+            public @Nullable String getPresentableText() {
                 return item.getName();
             }
 
@@ -279,7 +278,7 @@ public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements 
              * @return the location description, or null if none is applicable.
              */
             @Override
-            public @NlsSafe @Nullable String getLocationString() {
+            public @Nullable String getLocationString() {
                 final PsiFile file = item.getContainingFile();
                 return file != null ? file.getName() : null;
             }
@@ -311,9 +310,11 @@ public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements 
 
     @Override
     public <T> T @NotNull [] findChildrenByClass(Class<T> aClass) {
-        List<T> result = new ArrayList<>();
+        final List<T> result = new ArrayList<>(5);
         for (PsiElement cur = getFirstChild(); cur != null; cur = cur.getNextSibling()) {
-            if (aClass.isInstance(cur)) result.add((T) cur);
+            if (aClass.isInstance(cur)) {
+                result.add(aClass.cast(cur));
+            }
         }
         return result.toArray(ArrayUtil.newArray(aClass, result.size()));
     }

@@ -61,9 +61,9 @@ public class FshStructureViewElement implements StructureViewTreeElement, Sortab
     }
 
     /**
-     * Returns the list of children of the tree element.
+     * Returns the array of children of the tree element.
      *
-     * @return the list of children.
+     * @return the array of children.
      */
     @Override
     public TreeElement @NotNull [] getChildren() {

@@ -4,18 +4,16 @@ package ch.qligier.jetbrains.plugin.fhir.fsh;
 
 import ch.qligier.jetbrains.plugin.fhir.common.Icons;
 import com.intellij.openapi.fileTypes.LanguageFileType;
-import com.intellij.openapi.util.NlsContexts;
-import com.intellij.openapi.util.NlsSafe;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
 /**
- * jetbrains-language-fsh
+ * Definition of the FSH file type.
  *
  * @author Quentin Ligier
+ * @see <a href="https://plugins.jetbrains.com/docs/intellij/language-and-filetype.html">Language and File Type</a>
  **/
 public class FshFileType extends LanguageFileType {
     public static final FshFileType INSTANCE = new FshFileType();
@@ -28,7 +26,7 @@ public class FshFileType extends LanguageFileType {
      * Returns the name of the file type. The name must be unique among all file types registered in the system.
      */
     @Override
-    public @NonNls
+    public
     @NotNull String getName() {
         return "FSH";
     }
@@ -37,7 +35,7 @@ public class FshFileType extends LanguageFileType {
      * Returns the user-readable description of the file type.
      */
     @Override
-    public @NlsContexts.Label
+    public
     @NotNull String getDescription() {
         return "FSH (SUSHI) file";
     }
@@ -46,7 +44,7 @@ public class FshFileType extends LanguageFileType {
      * Returns the default extension for files of the type, <em>not</em> including the leading '.'.
      */
     @Override
-    public @NlsSafe
+    public
     @NotNull String getDefaultExtension() {
         return "fsh";
     }

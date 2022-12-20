@@ -1,4 +1,4 @@
-//  Copyright 2022 Quentin Ligier and other contributors. Use of this source code is governed by the MIT license
+// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.configuration;
 
@@ -42,8 +42,8 @@ public class IgPublisherConfigurationType implements ConfigurationType {
      * @return the description of the configuration type.
      */
     @Override
-    public @Nls(capitalization = Nls.Capitalization.Sentence) String getConfigurationTypeDescription() {
-        return "IG Publisher";
+    public String getConfigurationTypeDescription() {
+        return "IG publisher";
     }
 
     /**

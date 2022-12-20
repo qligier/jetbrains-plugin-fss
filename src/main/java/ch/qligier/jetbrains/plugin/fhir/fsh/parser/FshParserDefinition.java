@@ -17,9 +17,12 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.TokenType;
+import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * Defines the implementation of a parser for the FSH language.
@@ -30,6 +33,13 @@ public class FshParserDefinition implements ParserDefinition {
     public static final Logger LOG = Logger.getInstance("FSHParserDefinition");
     public static final IFileElementType FILE =
             new IFileElementType(FshLanguage.INSTANCE);
+
+    private final List<IElementType> WS_REQUIRED_AROUND = List.of(FshTypes.KWAND, FshTypes.KWOR, FshTypes.KWOBEYS,
+                                                                  FshTypes.KWINSERT, FshTypes.KWCONTAINS,
+                                                                  FshTypes.ARROW, FshTypes.KWFROM, FshTypes.KWEXCLUDE);
+
+    private final List<IElementType> WS_REQUIRED_BEFORE = List.of(FshTypes.KWFLAG, FshTypes.KWCANONICAL,
+                                                                  FshTypes.KWREFERENCE);
 
     public FshParserDefinition() {
         LOG.info("FshParserDefinition");
@@ -99,7 +109,7 @@ public class FshParserDefinition implements ParserDefinition {
     /**
      * Checks if the specified two token types need to be separated by a space according to the language grammar. For
      * example, in Java two keywords are always separated by a space; a keyword and an opening parenthesis may be
-     * separated or not separated. This is used for automatic whitespace insertion during AST modification operations.
+     * separated or not separated. This is used for automatic space insertion during AST modification operations.
      *
      * @param left  the first token to check.
      * @param right the second token to check.
@@ -107,9 +117,15 @@ public class FshParserDefinition implements ParserDefinition {
      */
     @Override
     public @NotNull SpaceRequirements spaceExistenceTypeBetweenTokens(final ASTNode left, final ASTNode right) {
-        /*if (left.getElementType() == PropertiesTokenTypes.END_OF_LINE_COMMENT) {
+        if (left.getElementType() == FshTypes.LINECOMMENT || left.getElementType() == FshTypes.BLOCKCOMMENT) {
             return SpaceRequirements.MUST_LINE_BREAK;
-        }*/
+        }
+        if (WS_REQUIRED_AROUND.contains(left.getElementType()) || WS_REQUIRED_AROUND.contains(right.getElementType())) {
+            return SpaceRequirements.MUST;
+        }
+        if (WS_REQUIRED_BEFORE.contains(right.getElementType())) {
+            return SpaceRequirements.MUST;
+        }
         return SpaceRequirements.MAY;
     }
 

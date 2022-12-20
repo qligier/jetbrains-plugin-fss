@@ -73,13 +73,15 @@
                          displayName="Alias names should begin with the $ sign"
                          enabledByDefault="true"
                          level="WARNING"
-                         implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.AliasDollarNameInspection"/>
+                         implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.AliasDollarNameInspection"
+                         groupName="FSH files"/>
         <localInspection language="FSH"
                          shortName="IdDerivedFromNameInspection"
                          displayName="Item ids should be derived from the name"
                          enabledByDefault="false"
                          level="WARNING"
-                         implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.IdDerivedFromNameInspection"/>
+                         implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.inspection.IdDerivedFromNameInspection"
+                         groupName="FSH files"/>
 
         <!-- The IG Publisher Configuration type -->
         <configurationType
