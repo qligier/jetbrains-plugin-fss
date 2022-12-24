@@ -30,7 +30,7 @@ import java.util.Optional;
  * @author Quentin Ligier
  **/
 public class IdDerivedFromNameInspection extends FshInspectionBase {
-    public static final Logger LOG = Logger.getInstance("IdDerivedFromNameInspection");
+    private static final Logger LOG = Logger.getInstance("IdDerivedFromNameInspection");
 
     /**
      * Override to report problems at file level.

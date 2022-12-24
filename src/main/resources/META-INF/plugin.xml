@@ -30,9 +30,20 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
 
+    <!-- Optional dependency to support ig.ini files, the conditional configuration is in myPluginId-withIni.xml -->
+    <depends optional="true"
+             config-file="myPluginId-withIni.xml">com.jetbrains.plugins.ini4idea
+    </depends>
+
+    <actions>
+        <action class="ch.qligier.jetbrains.plugin.fhir.igpublisher.jar.DownloadLatestIgPublisherJarAction"
+                text="Download the Latest IG Publisher JAR"/>
+    </actions>
+
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup displayType="BALLOON" id="fhir-plugin" isLogByDefault="true"/>
         <fileIconProvider implementation="ch.qligier.jetbrains.plugin.fhir.common.CustomIconProvider"/>
 
         <!-- The FSH language -->
@@ -85,6 +96,6 @@
 
         <!-- The IG Publisher Configuration type -->
         <configurationType
-                implementation="ch.qligier.jetbrains.plugin.fhir.configuration.IgPublisherConfigurationType"/>
+                implementation="ch.qligier.jetbrains.plugin.fhir.igpublisher.configuration.IgPublisherConfigurationType"/>
     </extensions>
 </idea-plugin>

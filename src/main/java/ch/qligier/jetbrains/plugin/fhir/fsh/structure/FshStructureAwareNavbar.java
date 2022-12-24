@@ -25,7 +25,7 @@ import javax.swing.*;
  * Bar</a>
  **/
 public class FshStructureAwareNavbar extends StructureAwareNavBarModelExtension {
-    public static final Logger LOG = Logger.getInstance("FshStructureAwareNavbar");
+    private static final Logger LOG = Logger.getInstance("FshStructureAwareNavbar");
 
     @NotNull
     @Override

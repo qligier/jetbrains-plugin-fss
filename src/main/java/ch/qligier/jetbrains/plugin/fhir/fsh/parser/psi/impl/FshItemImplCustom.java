@@ -33,7 +33,7 @@ import java.util.stream.Stream;
  * @see FshItemCustom
  */
 public abstract class FshItemImplCustom extends ASTWrapperPsiElement implements FshItemCustom {
-    public static final Logger LOG = Logger.getInstance("FshItemImplCustom");
+    private static final Logger LOG = Logger.getInstance("FshItemImplCustom");
 
     /**
      * Constructor.

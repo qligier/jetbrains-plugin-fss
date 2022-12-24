@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * @see <a href="https://plugins.jetbrains.com/docs/intellij/folding-builder.html">Folding Builder</a>
  **/
 public class FshFoldingBuilder extends FoldingBuilderEx implements DumbAware {
-    public static final Logger LOG = Logger.getInstance("FshFoldingBuilder");
+    private static final Logger LOG = Logger.getInstance("FshFoldingBuilder");
 
     /**
      * Returns the text which is displayed in the editor for the folding region related to the specified node when the

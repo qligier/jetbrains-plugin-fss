@@ -1,6 +1,6 @@
 // Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
 
-package ch.qligier.jetbrains.plugin.fhir.configuration;
+package ch.qligier.jetbrains.plugin.fhir.igpublisher.configuration;
 
 import com.intellij.execution.configurations.RunConfigurationOptions;
 import com.intellij.openapi.components.StoredProperty;
@@ -38,7 +38,8 @@ public class IgPublisherConfigurationOptions extends RunConfigurationOptions {
     /**
      * Whether to use colors and fancy characters (SUSHI only).
      */
-    private final StoredProperty<Boolean> useColorAndFancyChars = property(true).provideDelegate(this, "useColorAndFancyChars");
+    private final StoredProperty<Boolean> useColorAndFancyChars = property(true).provideDelegate(this,
+                                                                                                 "useColorAndFancyChars");
 
     public String getJarPath() {
         return this.jarPath.getValue(this);

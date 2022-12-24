@@ -27,7 +27,7 @@ import java.util.List;
  * @author Quentin Ligier
  **/
 public class AliasDollarNameInspection extends FshInspectionBase {
-    public static final Logger LOG = Logger.getInstance("AliasDollarNameInspection");
+    private static final Logger LOG = Logger.getInstance("AliasDollarNameInspection");
 
     /**
      * Override to report problems at file level.
@@ -50,7 +50,7 @@ public class AliasDollarNameInspection extends FshInspectionBase {
             if (!(item instanceof FshAlias)) {
                 continue;
             }
-            final var aliasNameElement = ((FshAlias) item).getNameIdentifier();
+            final var aliasNameElement = item.getNameIdentifier();
             if (aliasNameElement == null) {
                 continue;
             }

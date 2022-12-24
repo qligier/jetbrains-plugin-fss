@@ -30,10 +30,9 @@ import java.util.List;
  * @author Quentin Ligier
  **/
 public class FshParserDefinition implements ParserDefinition {
-    public static final Logger LOG = Logger.getInstance("FSHParserDefinition");
     public static final IFileElementType FILE =
             new IFileElementType(FshLanguage.INSTANCE);
-
+    private static final Logger LOG = Logger.getInstance("FSHParserDefinition");
     private final List<IElementType> WS_REQUIRED_AROUND = List.of(FshTypes.KWAND, FshTypes.KWOR, FshTypes.KWOBEYS,
                                                                   FshTypes.KWINSERT, FshTypes.KWCONTAINS,
                                                                   FshTypes.ARROW, FshTypes.KWFROM, FshTypes.KWEXCLUDE);

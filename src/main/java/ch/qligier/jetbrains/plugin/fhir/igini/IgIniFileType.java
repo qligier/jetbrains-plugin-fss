@@ -30,7 +30,7 @@ public class IgIniFileType extends LanguageFileType {
      */
     @Override
     public @NonNls @NotNull String getName() {
-        return null;
+        return "ig.ini";
     }
 
     /**
@@ -38,7 +38,7 @@ public class IgIniFileType extends LanguageFileType {
      */
     @Override
     public @NlsContexts.Label @NotNull String getDescription() {
-        return null;
+        return "ig.ini";
     }
 
     /**
@@ -46,7 +46,7 @@ public class IgIniFileType extends LanguageFileType {
      */
     @Override
     public @NlsSafe @NotNull String getDefaultExtension() {
-        return null;
+        return ".ini";
     }
 
     /**

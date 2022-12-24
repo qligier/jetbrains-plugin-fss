@@ -1,6 +1,6 @@
 // Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
 
-package ch.qligier.jetbrains.plugin.fhir.configuration;
+package ch.qligier.jetbrains.plugin.fhir.igpublisher.configuration;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
  * @see <a href="https://jetbrains.design/intellij/principles/icons/#color">Color</a>
  **/
 public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfiguration> {
-    public static final Logger LOG = Logger.getInstance("IgPublisherSettingsEditor");
+    private static final Logger LOG = Logger.getInstance("IgPublisherSettingsEditor");
     private static final Pattern IG_PUBLISHER_VERSION_PATTERN = Pattern.compile("\\d+\\.\\d+\\.\\d+");
 
     // Colors as per https://jetbrains.design/intellij/principles/icons/#29
