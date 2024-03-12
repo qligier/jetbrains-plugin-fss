@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Quentin Ligier. Use of this source code is governed by the MIT license.
+ * Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
  */
 
 plugins {
@@ -9,8 +9,6 @@ plugins {
 
 group = "ch.qligier.jetbrains.plugin.fhir"
 version = "1.0-SNAPSHOT"
-
-sourceSets["main"].java.srcDirs("src/main/gen")
 
 repositories {
     mavenCentral()
@@ -29,10 +27,11 @@ intellij {
     version.set("2022.3.1")
     type.set("IC") // Target IDE Platform
 
-    plugins.set(listOf(
-            "org.intellij.intelliLang",
-            "com.jetbrains.plugins.ini4idea:223.8214.64"
-    ))
+    plugins.set(
+        listOf(
+            "org.intellij.intelliLang"
+        )
+    )
 }
 
 tasks {
