@@ -1,20 +1,20 @@
 <!--
-  ~ Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+  ~ Copyright 2023 Quentin Ligier. Use of this source code is governed by the MIT license.
   -->
 
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
 
-        <!-- The ig.ini file -->
+        <!-- The ig.ini file
         <fileType
                 name="ig.ini"
                 implementationClass="ch.qligier.jetbrains.plugin.fhir.igini.IgIniFileType"
                 fieldName="INSTANCE"
                 language="IG_INI"
                 extensions=""
-                fileNames="ig.ini"/>
+                fileNames="ig.ini"/>-->
         <annotator
-                language="IG_INI"
+                language="Ini"
                 implementationClass="ch.qligier.jetbrains.plugin.fhir.igini.IgIniAnnotator"/>
     </extensions>
 </idea-plugin>

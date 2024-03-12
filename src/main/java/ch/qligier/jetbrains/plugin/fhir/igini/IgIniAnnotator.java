@@ -1,10 +1,11 @@
-// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2023 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.igini;
 
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -24,5 +25,12 @@ public class IgIniAnnotator implements Annotator {
     @Override
     public void annotate(@NotNull final PsiElement element, @NotNull final AnnotationHolder holder) {
         System.out.println("IgIniAnnotator.annotate");
+
+        final PsiFile containingFile = element.getContainingFile();
+        if (containingFile == null || !containingFile.getName().equals("ig.ini")) {
+            return;
+        }
+
+        System.out.println("Annotate ig.ini");
     }
 }

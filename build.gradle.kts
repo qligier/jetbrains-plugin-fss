@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+ * Copyright 2023 Quentin Ligier. Use of this source code is governed by the MIT license.
  */
 
 plugins {
@@ -26,10 +26,13 @@ dependencies {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2021.3.3")
+    version.set("2022.3.1")
     type.set("IC") // Target IDE Platform
 
-    plugins.set(listOf("org.intellij.intelliLang"))
+    plugins.set(listOf(
+            "org.intellij.intelliLang",
+            "com.jetbrains.plugins.ini4idea:223.8214.64"
+    ))
 }
 
 tasks {
