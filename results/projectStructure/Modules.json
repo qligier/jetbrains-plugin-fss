@@ -26,11 +26,6 @@
           "path": "file://$PROJECT_DIR$/src/test",
           "sourceFolders": [
             {
-              "path": "file://$PROJECT_DIR$/src/test/java",
-              "type": "TestSource",
-              "packagePrefix": ""
-            },
-            {
               "path": "file://$PROJECT_DIR$/src/test/resources",
               "type": "TestResource",
               "packagePrefix": ""
@@ -64,11 +59,11 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: unzipped.com.jetbrains.plugins:IntelliLang:unzipped.com.jetbrains.plugins:ideaIC-IC-213.7172.25-withSources",
+          "name": "Gradle: unzipped.com.jetbrains.plugins:platform-langInjection:unzipped.com.jetbrains.plugins:ideaIC-IC-223.8214.52-withSources",
           "type": "Library"
         },
         {
-          "name": "Gradle: com.jetbrains:ideaIC:2021.3.3",
+          "name": "Gradle: com.jetbrains:ideaIC:2022.3.1",
           "type": "Library"
         },
         {
@@ -136,11 +131,6 @@
           "path": "file://$PROJECT_DIR$/src/main",
           "sourceFolders": [
             {
-              "path": "file://$PROJECT_DIR$/src/main/gen",
-              "type": "Source",
-              "packagePrefix": ""
-            },
-            {
               "path": "file://$PROJECT_DIR$/src/main/java",
               "type": "Source",
               "packagePrefix": ""
@@ -167,11 +157,11 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: unzipped.com.jetbrains.plugins:IntelliLang:unzipped.com.jetbrains.plugins:ideaIC-IC-213.7172.25-withSources",
+          "name": "Gradle: unzipped.com.jetbrains.plugins:platform-langInjection:unzipped.com.jetbrains.plugins:ideaIC-IC-223.8214.52-withSources",
           "type": "Library"
         },
         {
-          "name": "Gradle: com.jetbrains:ideaIC:2021.3.3",
+          "name": "Gradle: com.jetbrains:ideaIC:2022.3.1",
           "type": "Library"
         }
       ]
