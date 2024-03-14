@@ -5,12 +5,12 @@
       "languageLevel": 17
     },
     {
-      "name": "jetbrains-plugin-fhir.test",
-      "languageLevel": 11
+      "name": "jetbrains-plugin-fhir.main",
+      "languageLevel": 17
     },
     {
-      "name": "jetbrains-plugin-fhir.main",
-      "languageLevel": 11
+      "name": "jetbrains-plugin-fhir.test",
+      "languageLevel": 17
     }
   ]
 }

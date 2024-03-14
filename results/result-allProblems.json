@@ -1,313 +1,438 @@
 {"version":"3","listProblem":[{
   "tool": "Code Inspection",
-  "category": "Code maturity",
-  "type": "Use of 'System.out' or 'System.err'",
+  "category": "Probable bugs",
+  "type": "Nullability and data flow problems",
   "tags": [
-    "JAVA"
+    "JAVA",
+    "CWE Top 25"
   ],
   "severity": "High",
-  "comment": "Uses of 'System.out' should probably be replaced with more robust logging",
-  "detailsInfo": "Reports usages of `System.out` or `System.err`.\n\nSuch statements are often used for temporary debugging and should be either removed from the production code, or replaced by a more robust\nlogging facility.",
-  "sources": [
-    {
-      "type": "file",
-      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarManager.java",
-      "language": "JAVA",
-      "line": 83,
-      "offset": 13,
-      "length": 10,
-      "code": {
-        "startLine": 81,
-        "length": 10,
-        "offset": 61,
-        "surroundingCode": "        }\n        for (final var file : files) {\n            System.out.println(\"Found \" + file.getName());\n            return file;\n        }"
-      }
-    }
-  ],
-  "attributes": {
-    "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "SystemOutErr"
-  },
-  "hash": "d82b7a42b64c1e4824a461f0d30c72d02f94b0b2a2534a103d8fe8422dabcc00"
-},{
-  "tool": "Code Inspection",
-  "category": "Code maturity",
-  "type": "Use of 'System.out' or 'System.err'",
-  "tags": [
-    "JAVA"
-  ],
-  "severity": "High",
-  "comment": "Uses of 'System.out' should probably be replaced with more robust logging",
-  "detailsInfo": "Reports usages of `System.out` or `System.err`.\n\nSuch statements are often used for temporary debugging and should be either removed from the production code, or replaced by a more robust\nlogging facility.",
+  "comment": "Argument `onSuccess` might be null",
+  "detailsInfo": "Reports code constructs that always violate nullability contracts, may throw exceptions, or are just redundant, based on data flow analysis.\n\nExamples:\n\n    if (array.length < index) {\n      System.out.println(array[index]);\n    } // Array index is always out of bounds\n\n    if (str == null) System.out.println(\"str is null\");\n    System.out.println(str.trim());\n    // the last statement may throw an NPE\n\n    @NotNull\n    Integer square(@Nullable Integer input) {\n        // the method contract is violated\n        return input == null ? null : input * input;\n    }\n\n\nThe inspection behavior may be controlled by a number of annotations, such as\n[nullability](https://www.jetbrains.com/help/idea/nullable-and-notnull-annotations.html) annotations,\n[@Contract](https://www.jetbrains.com/help/idea/contract-annotations.html) annotation,\n`@Range` annotation and so on.\n\nConfigure the inspection:\n\n* Use the **Suggest @Nullable annotation for methods/fields/parameters where nullable values are used** option to warn when a nullable value is passed as an argument to a method with a non-annotated parameter, stored into non-annotated field, or returned from a non-annotated method. In this case, the inspection will suggest propagating the `@Nullable` annotation. You can also configure nullability annotations using the **Configure Annotations** button.\n* Use the **Treat non-annotated members and parameters as @Nullable** option to assume that non-annotated members can be null, so they must not be used in non-null context.\n* Use the **Report not-null required parameter with null-literal argument usages** option to report method parameters that cannot be null (e.g. immediately dereferenced in the method body), but there are call sites where a `null` literal is passed.\n* Use the **Report nullable methods that always return a non-null value** option to report methods that are annotated as `@Nullable`, but always return non-null value. In this case, it's suggested that you change the annotation to `@NotNull`.\n* Use the **Ignore assert statements** option to control how the inspection treats `assert` statements. By default, the option is disabled, which means that the assertions are assumed to be executed (-ea mode). If the option is enabled, the assertions will be completely ignored (-da mode).\n* Use the **Report problems that happen only on some code paths** option to control whether to report problems that may happen only on some code path. If this option is disabled, warnings like *exception is possible* will not be reported. The inspection will report only warnings like *exception will definitely occur*. This mode may greatly reduce the number of false-positives, especially if the code is not consistently annotated with nullability and contract annotations. That is why it can be useful for finding the most important problems in legacy code bases.\n\n\nBefore IntelliJ IDEA 2022.3, this inspection was part of the \"Constant Conditions \\& Exceptions\" inspection.\nNow, it is split into two inspections:\n\"Constant Values\" and \"Nullability and data flow problems\".",
   "sources": [
     {
       "type": "file",
       "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarDownloader.java",
       "language": "JAVA",
-      "line": 69,
-      "offset": 9,
-      "length": 10,
+      "line": 126,
+      "offset": 69,
+      "length": 9,
       "code": {
-        "startLine": 67,
-        "length": 10,
-        "offset": 183,
-        "surroundingCode": "                                             @Nullable final Runnable onSuccess,\n                                             @Nullable final Consumer<Throwable> onFailure) {\n        System.out.println(\"downloadLatestRelease\");\n        final List<String> versions;\n        try {"
+        "startLine": 124,
+        "length": 9,
+        "offset": 220,
+        "surroundingCode": "                        throw new IOException(\"Unable to rename file '\" + file.getAbsolutePath() + \"' to '\" + jarFileName + \"'\");\n                    }\n                    ApplicationManager.getApplication().invokeLater(onSuccess);\n                } catch (IOException e) {\n                    LOG.warn(\"Can't download content '\" + jarUrl + \"' as '\" + jarFileName + \"'\", e);"
       }
     }
   ],
   "attributes": {
     "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "SystemOutErr"
+    "inspectionName": "DataFlowIssue"
   },
-  "hash": "7c732d45b31ebd7df15083545471b6d613471464d8caf4027706eeba9d99f498"
+  "hash": "0e1b4e121762b6bc73198a1320fba3894063bfa2e985661cc999bfbf95e764e8"
 },{
   "tool": "Code Inspection",
   "category": "Code maturity",
-  "type": "Use of 'System.out' or 'System.err'",
+  "type": "Deprecated API usage",
   "tags": [
     "JAVA"
   ],
   "severity": "High",
-  "comment": "Uses of 'System.out' should probably be replaced with more robust logging",
-  "detailsInfo": "Reports usages of `System.out` or `System.err`.\n\nSuch statements are often used for temporary debugging and should be either removed from the production code, or replaced by a more robust\nlogging facility.",
+  "comment": "'TemplateContextType(java.lang.@org.jetbrains.annotations.NotNull String, java.lang.@com.intellij.openapi.util.NlsContexts.Label @org.jetbrains.annotations.NotNull String)' is deprecated",
+  "detailsInfo": "Reports usages of deprecated classes, fields, and methods. A quick-fix is available to automatically convert the deprecated usage, when the necessary information can be extracted from the Javadoc of the deprecated member.\n\n**Example:**\n\n\n      class Interesting {\n\n        /**\n         * @deprecated Use {@link #newHotness()} instead\n         */\n        @Deprecated\n        public void oldAndBusted() {}\n\n        public void newHotness() {}\n      }\n      class ElseWhere {\n        void x(Interesting i) {\n          i.oldAndBusted(); // deprecated warning here\n        }\n      }\n\nAfter the quick-fix is applied:\n\n\n      class Interesting {\n\n        /**\n         * @deprecated Use {@link #newHotness()} instead\n         */\n        @Deprecated\n        public void oldAndBusted() {}\n\n        public void newHotness() {}\n      }\n      class ElseWhere {\n        void x(Interesting i) {\n          i.newHotness();\n        }\n      }\n\nBy default, the inspection doesn't produce a warning if it's impossible or hard to avoid it. For example,\nthe following code won't be reported:\n\n\n      abstract class A { //library code\n         @Deprecated\n         abstract void m();\n      }\n      class B extends A { //project code\n         @Override\n         void m() {\n            //doSmth;\n         }\n      }\n\nConfigure the inspection:\n\n\nUse the options to disable this inspection inside deprecated members,\noverrides of abstract deprecated methods, non-static import statements, methods of deprecated classes, or same top-level classes.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/fsh/FshContext.java",
+      "language": "JAVA",
+      "line": 20,
+      "offset": 9,
+      "length": 5,
+      "code": {
+        "startLine": 18,
+        "length": 5,
+        "offset": 38,
+        "surroundingCode": "\n    protected FshContext() {\n        super(\"FSH\", \"FSH\");\n    }\n"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "jetbrains-plugin-fhir.main",
+    "inspectionName": "Deprecation"
+  },
+  "hash": "10c4328b3582bdbb114b27cef303f51e16a2b016b4f0fb14457afb5366ba3768"
+},{
+  "tool": "Code Inspection",
+  "category": "Code maturity",
+  "type": "Deprecated API usage",
+  "tags": [
+    "JAVA"
+  ],
+  "severity": "High",
+  "comment": "'setListener(com.intellij.notification.@org.jetbrains.annotations.NotNull NotificationListener)' is deprecated",
+  "detailsInfo": "Reports usages of deprecated classes, fields, and methods. A quick-fix is available to automatically convert the deprecated usage, when the necessary information can be extracted from the Javadoc of the deprecated member.\n\n**Example:**\n\n\n      class Interesting {\n\n        /**\n         * @deprecated Use {@link #newHotness()} instead\n         */\n        @Deprecated\n        public void oldAndBusted() {}\n\n        public void newHotness() {}\n      }\n      class ElseWhere {\n        void x(Interesting i) {\n          i.oldAndBusted(); // deprecated warning here\n        }\n      }\n\nAfter the quick-fix is applied:\n\n\n      class Interesting {\n\n        /**\n         * @deprecated Use {@link #newHotness()} instead\n         */\n        @Deprecated\n        public void oldAndBusted() {}\n\n        public void newHotness() {}\n      }\n      class ElseWhere {\n        void x(Interesting i) {\n          i.newHotness();\n        }\n      }\n\nBy default, the inspection doesn't produce a warning if it's impossible or hard to avoid it. For example,\nthe following code won't be reported:\n\n\n      abstract class A { //library code\n         @Deprecated\n         abstract void m();\n      }\n      class B extends A { //project code\n         @Override\n         void m() {\n            //doSmth;\n         }\n      }\n\nConfigure the inspection:\n\n\nUse the options to disable this inspection inside deprecated members,\noverrides of abstract deprecated methods, non-static import statements, methods of deprecated classes, or same top-level classes.",
   "sources": [
     {
       "type": "file",
       "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarDownloader.java",
       "language": "JAVA",
-      "line": 89,
-      "offset": 9,
-      "length": 10,
+      "line": 162,
+      "offset": 26,
+      "length": 11,
       "code": {
-        "startLine": 87,
-        "length": 10,
-        "offset": 187,
-        "surroundingCode": "                                               @Nullable final Runnable onSuccess,\n                                               @Nullable final Consumer<Throwable> onFailure) {\n        System.out.println(\"downloadSpecificRelease: \" + version);\n        final String jarUrl = String.format(SPECIFIC_JAR_URL, version);\n        final String jarFileName = String.format(\"publisher-%s.jar\", version);"
+        "startLine": 160,
+        "length": 11,
+        "offset": 240,
+        "surroundingCode": "                                + (download ? \"\" : \" If you haven't downloaded the file yet, you can download it from <a href=\\\"\" + jarUrl + \"\\\">\" + jarUrl + \"</a>\"),\n                        NotificationType.ERROR)\n                        .setListener(new NotificationListener.UrlOpeningListener(false))\n                        .addAction(retry)\n                        .addAction(pick);"
       }
     }
   ],
   "attributes": {
     "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "SystemOutErr"
+    "inspectionName": "Deprecation"
   },
-  "hash": "76ce5d7efc00eaaa4ea087967a1b0a8ad6b9ddecb1d0584c3d7883c5de371e5f"
+  "hash": "a2c653cc69763c8a8a6697ebddce6f54e639712105cee65bcf063acaeeb8e2d7"
 },{
   "tool": "Code Inspection",
   "category": "Code maturity",
-  "type": "Use of 'System.out' or 'System.err'",
+  "type": "Deprecated API usage",
   "tags": [
     "JAVA"
   ],
   "severity": "High",
-  "comment": "Uses of 'System.out' should probably be replaced with more robust logging",
-  "detailsInfo": "Reports usages of `System.out` or `System.err`.\n\nSuch statements are often used for temporary debugging and should be either removed from the production code, or replaced by a more robust\nlogging facility.",
+  "comment": "'getFilesByName(com.intellij.openapi.project.@org.jetbrains.annotations.NotNull Project, java.lang.@org.jetbrains.annotations.NotNull String, com.intellij.psi.search.@org.jetbrains.annotations.NotNull GlobalSearchScope)' is deprecated",
+  "detailsInfo": "Reports usages of deprecated classes, fields, and methods. A quick-fix is available to automatically convert the deprecated usage, when the necessary information can be extracted from the Javadoc of the deprecated member.\n\n**Example:**\n\n\n      class Interesting {\n\n        /**\n         * @deprecated Use {@link #newHotness()} instead\n         */\n        @Deprecated\n        public void oldAndBusted() {}\n\n        public void newHotness() {}\n      }\n      class ElseWhere {\n        void x(Interesting i) {\n          i.oldAndBusted(); // deprecated warning here\n        }\n      }\n\nAfter the quick-fix is applied:\n\n\n      class Interesting {\n\n        /**\n         * @deprecated Use {@link #newHotness()} instead\n         */\n        @Deprecated\n        public void oldAndBusted() {}\n\n        public void newHotness() {}\n      }\n      class ElseWhere {\n        void x(Interesting i) {\n          i.newHotness();\n        }\n      }\n\nBy default, the inspection doesn't produce a warning if it's impossible or hard to avoid it. For example,\nthe following code won't be reported:\n\n\n      abstract class A { //library code\n         @Deprecated\n         abstract void m();\n      }\n      class B extends A { //project code\n         @Override\n         void m() {\n            //doSmth;\n         }\n      }\n\nConfigure the inspection:\n\n\nUse the options to disable this inspection inside deprecated members,\noverrides of abstract deprecated methods, non-static import statements, methods of deprecated classes, or same top-level classes.",
   "sources": [
     {
       "type": "file",
-      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarDownloader.java",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/common/ThePlugin.java",
       "language": "JAVA",
-      "line": 93,
-      "offset": 9,
-      "length": 10,
+      "line": 43,
+      "offset": 23,
+      "length": 14,
       "code": {
-        "startLine": 91,
-        "length": 10,
-        "offset": 149,
-        "surroundingCode": "        final String jarFileName = String.format(\"publisher-%s.jar\", version);\n        final String jarPartFileName = jarFileName + \".part\";\n        System.out.println(jarUrl);\n        System.out.println(jarFileName);\n        System.out.println(jarPartFileName);"
+        "startLine": 41,
+        "length": 14,
+        "offset": 58,
+        "surroundingCode": "            return false;\n        }\n        FilenameIndex.getFilesByName(project, \"ig.ini\", GlobalSearchScope.EMPTY_SCOPE);\n        return true;\n    }"
       }
     }
   ],
   "attributes": {
     "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "SystemOutErr"
+    "inspectionName": "Deprecation"
   },
-  "hash": "1f17bc5217d8c37aad1b0328b0048b135b6f54f672a1b95f95cf266dd20e8d89"
+  "hash": "d1739ad3806ef156b5f62e23a1a5948f82b0135331e13cff45fce807ff617d5c"
 },{
   "tool": "Code Inspection",
   "category": "Code maturity",
-  "type": "Use of 'System.out' or 'System.err'",
+  "type": "Method can be extracted",
   "tags": [
     "JAVA"
   ],
-  "severity": "High",
-  "comment": "Uses of 'System.out' should probably be replaced with more robust logging",
-  "detailsInfo": "Reports usages of `System.out` or `System.err`.\n\nSuch statements are often used for temporary debugging and should be either removed from the production code, or replaced by a more robust\nlogging facility.",
+  "severity": "Moderate",
+  "comment": "It's possible to extract method returning 'commandLine' from a long surrounding method",
+  "detailsInfo": "Suggests extracting fragments of code to a separate method to make code more clear. This inspection has a number of heuristics to select good candidates for extraction, including the following ones.\n\n* The extracted fragment has no non-local control flow\n* The extracted fragment has exactly one output variable\n* There are no similar uses of output variable inside the extracted fragment and outside it\n* The extracted fragment has only few input parameters (no more than three by default; configured with the inspection option)\n* The extracted fragment is not smaller than the configured length (500 characters by default) but no bigger than 60% of the containing method body",
   "sources": [
     {
       "type": "file",
-      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarDownloader.java",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherConfiguration.java",
       "language": "JAVA",
-      "line": 94,
-      "offset": 9,
-      "length": 10,
+      "line": 106,
+      "offset": 17,
+      "length": 46,
       "code": {
-        "startLine": 92,
-        "length": 10,
-        "offset": 106,
-        "surroundingCode": "        final String jarPartFileName = jarFileName + \".part\";\n        System.out.println(jarUrl);\n        System.out.println(jarFileName);\n        System.out.println(jarPartFileName);\n        System.out.println(IgPublisherJarManager.LOCAL_JAR_DIRECTORY);"
+        "startLine": 104,
+        "length": 46,
+        "offset": 118,
+        "surroundingCode": "            @Override\n            protected ProcessHandler startProcess() throws ExecutionException {\n                final var commands = new ArrayList<String>(9);\n                commands.add(\"java\");\n                commands.add(\"-Dfile.encoding=UTF-8\");"
       }
     }
   ],
   "attributes": {
     "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "SystemOutErr"
+    "inspectionName": "ExtractMethodRecommender"
   },
-  "hash": "498a23ad922e37cc0b233040e09197121d717fd39a37786fa7ae1597332d42fe"
+  "hash": "34aad52915c5803aea81978048f1b5f78bb23a308bfd29c881477c628e65ed03"
 },{
   "tool": "Code Inspection",
-  "category": "Code maturity",
-  "type": "Use of 'System.out' or 'System.err'",
+  "category": "Javadoc",
+  "type": "Javadoc declaration problems",
   "tags": [
     "JAVA"
   ],
   "severity": "High",
-  "comment": "Uses of 'System.out' should probably be replaced with more robust logging",
-  "detailsInfo": "Reports usages of `System.out` or `System.err`.\n\nSuch statements are often used for temporary debugging and should be either removed from the production code, or replaced by a more robust\nlogging facility.",
+  "comment": "`@param configuration` tag description is missing",
+  "detailsInfo": "Reports Javadoc comments and tags with the following problems:\n\n* invalid tag names\n* incomplete tag descriptions\n* duplicated tags\n* missing Javadoc descriptions\n\nExample:\n\n\n      /**\n       * Invalid tag name\n       * @poram param description\n       */\n      public void sample(int param){\n      }\n\nExample:\n\n\n      /**\n       * Pointing to itself {@link #sample(int)}\n       */\n      public void sample(int param){\n      }\n\nQuick-fix adds the unknown Javadoc tag to the list of user defined additional tags.\n\nUse textfield below to define additional Javadoc tags.\n\nUse first checkbox to ignore duplicated 'throws' tag.\n\nUse second checkbox to ignore problem with missing or incomplete first sentence in the description.\n\nUse third checkbox to ignore references pointing to itself.",
   "sources": [
     {
       "type": "file",
-      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarDownloader.java",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherSettingsEditor.java",
       "language": "JAVA",
-      "line": 95,
-      "offset": 9,
-      "length": 10,
+      "line": 87,
+      "offset": 15,
+      "length": 13,
       "code": {
-        "startLine": 93,
-        "length": 10,
-        "offset": 85,
-        "surroundingCode": "        System.out.println(jarUrl);\n        System.out.println(jarFileName);\n        System.out.println(jarPartFileName);\n        System.out.println(IgPublisherJarManager.LOCAL_JAR_DIRECTORY);\n"
+        "startLine": 85,
+        "length": 13,
+        "offset": 23,
+        "surroundingCode": "\n    /**\n     * @param configuration\n     */\n    @Override"
       }
     }
   ],
   "attributes": {
     "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "SystemOutErr"
+    "inspectionName": "JavadocDeclaration"
   },
-  "hash": "52017a756bccb3edd39f520159f5b0074bbd53ab25d8830d92a123226c979979"
+  "hash": "083ffd8f394a341cb41bd6abb0cd81f86f2069dc40c8daf2af7d9bde790a5cb0"
 },{
   "tool": "Code Inspection",
-  "category": "Code maturity",
-  "type": "Use of 'System.out' or 'System.err'",
+  "category": "Javadoc",
+  "type": "Javadoc declaration problems",
   "tags": [
     "JAVA"
   ],
   "severity": "High",
-  "comment": "Uses of 'System.out' should probably be replaced with more robust logging",
-  "detailsInfo": "Reports usages of `System.out` or `System.err`.\n\nSuch statements are often used for temporary debugging and should be either removed from the production code, or replaced by a more robust\nlogging facility.",
+  "comment": "`@param configuration` tag description is missing",
+  "detailsInfo": "Reports Javadoc comments and tags with the following problems:\n\n* invalid tag names\n* incomplete tag descriptions\n* duplicated tags\n* missing Javadoc descriptions\n\nExample:\n\n\n      /**\n       * Invalid tag name\n       * @poram param description\n       */\n      public void sample(int param){\n      }\n\nExample:\n\n\n      /**\n       * Pointing to itself {@link #sample(int)}\n       */\n      public void sample(int param){\n      }\n\nQuick-fix adds the unknown Javadoc tag to the list of user defined additional tags.\n\nUse textfield below to define additional Javadoc tags.\n\nUse first checkbox to ignore duplicated 'throws' tag.\n\nUse second checkbox to ignore problem with missing or incomplete first sentence in the description.\n\nUse third checkbox to ignore references pointing to itself.",
   "sources": [
     {
       "type": "file",
-      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarDownloader.java",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherSettingsEditor.java",
       "language": "JAVA",
-      "line": 96,
-      "offset": 9,
-      "length": 10,
+      "line": 73,
+      "offset": 15,
+      "length": 13,
       "code": {
-        "startLine": 94,
-        "length": 10,
-        "offset": 94,
-        "surroundingCode": "        System.out.println(jarFileName);\n        System.out.println(jarPartFileName);\n        System.out.println(IgPublisherJarManager.LOCAL_JAR_DIRECTORY);\n\n        final File directory = new File(IgPublisherJarManager.LOCAL_JAR_DIRECTORY);"
+        "startLine": 71,
+        "length": 13,
+        "offset": 23,
+        "surroundingCode": "\n    /**\n     * @param configuration\n     */\n    @Override"
       }
     }
   ],
   "attributes": {
     "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "SystemOutErr"
+    "inspectionName": "JavadocDeclaration"
   },
-  "hash": "94b385d6bbd633961f256f2968ecdfdade20fc9d868225766c97948688878c45"
+  "hash": "37f7e3e98ce400c20332e2badd6af473ec51b8b31e55a79b8e8e6b8b63685652"
 },{
   "tool": "Code Inspection",
-  "category": "Verbose or redundant code constructs",
-  "type": "Redundant array length check",
+  "category": "Javadoc",
+  "type": "Javadoc declaration problems",
   "tags": [
     "JAVA"
   ],
   "severity": "High",
-  "comment": "Redundant array length check",
-  "detailsInfo": "Reports unnecessary array length checks followed by array iteration. When array length is zero, the iteration will be skipped anyway, so there's no need to check length explicitly.\n\nExample:\n\n\n      void f(String[] array) {\n        if (array.length != 0) { // unnecessary check\n          for (String str : array) {\n            System.out.println(str);\n          }\n        }\n      }\n\nA quick-fix is suggested to unwrap or remove the length check:\n\n\n      void f(String[] array) {\n        for (String str : array) {\n          System.out.println(str);\n        }\n      }\n\nNew in 2022.3",
+  "comment": "`@return` tag description is missing",
+  "detailsInfo": "Reports Javadoc comments and tags with the following problems:\n\n* invalid tag names\n* incomplete tag descriptions\n* duplicated tags\n* missing Javadoc descriptions\n\nExample:\n\n\n      /**\n       * Invalid tag name\n       * @poram param description\n       */\n      public void sample(int param){\n      }\n\nExample:\n\n\n      /**\n       * Pointing to itself {@link #sample(int)}\n       */\n      public void sample(int param){\n      }\n\nQuick-fix adds the unknown Javadoc tag to the list of user defined additional tags.\n\nUse textfield below to define additional Javadoc tags.\n\nUse first checkbox to ignore duplicated 'throws' tag.\n\nUse second checkbox to ignore problem with missing or incomplete first sentence in the description.\n\nUse third checkbox to ignore references pointing to itself.",
   "sources": [
     {
       "type": "file",
-      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarManager.java",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherConfiguration.java",
       "language": "JAVA",
-      "line": 79,
-      "offset": 30,
-      "length": 17,
+      "line": 100,
+      "offset": 16,
+      "length": 7,
       "code": {
-        "startLine": 77,
-        "length": 17,
-        "offset": 103,
-        "surroundingCode": "        };\n        final var files = directory.listFiles(filenameFilter);\n        if (files == null || files.length == 0) {\n            return null;\n        }"
+        "startLine": 98,
+        "length": 7,
+        "offset": 45,
+        "surroundingCode": "             *\n             *\n             * @return\n             * @throws ExecutionException\n             */"
       }
     }
   ],
   "attributes": {
     "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "RedundantLengthCheck"
+    "inspectionName": "JavadocDeclaration"
   },
-  "hash": "ceb1695218eafdd43515a835a4bbb6b45390161a8549fde9fc92af25639e201d"
+  "hash": "5e24c916c7bc9a27a9b0aea6c0902cfd0e0229193c2a375278d4c774ab200f8b"
 },{
   "tool": "Code Inspection",
-  "category": "Verbose or redundant code constructs",
-  "type": "Redundant array length check",
+  "category": "Javadoc",
+  "type": "Javadoc declaration problems",
   "tags": [
     "JAVA"
   ],
   "severity": "High",
-  "comment": "Redundant array length check",
-  "detailsInfo": "Reports unnecessary array length checks followed by array iteration. When array length is zero, the iteration will be skipped anyway, so there's no need to check length explicitly.\n\nExample:\n\n\n      void f(String[] array) {\n        if (array.length != 0) { // unnecessary check\n          for (String str : array) {\n            System.out.println(str);\n          }\n        }\n      }\n\nA quick-fix is suggested to unwrap or remove the length check:\n\n\n      void f(String[] array) {\n        for (String str : array) {\n          System.out.println(str);\n        }\n      }\n\nNew in 2022.3",
+  "comment": "`@return` tag description is missing",
+  "detailsInfo": "Reports Javadoc comments and tags with the following problems:\n\n* invalid tag names\n* incomplete tag descriptions\n* duplicated tags\n* missing Javadoc descriptions\n\nExample:\n\n\n      /**\n       * Invalid tag name\n       * @poram param description\n       */\n      public void sample(int param){\n      }\n\nExample:\n\n\n      /**\n       * Pointing to itself {@link #sample(int)}\n       */\n      public void sample(int param){\n      }\n\nQuick-fix adds the unknown Javadoc tag to the list of user defined additional tags.\n\nUse textfield below to define additional Javadoc tags.\n\nUse first checkbox to ignore duplicated 'throws' tag.\n\nUse second checkbox to ignore problem with missing or incomplete first sentence in the description.\n\nUse third checkbox to ignore references pointing to itself.",
   "sources": [
     {
       "type": "file",
-      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarManager.java",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherConfiguration.java",
       "language": "JAVA",
-      "line": 50,
-      "offset": 30,
-      "length": 17,
+      "line": 35,
+      "offset": 8,
+      "length": 7,
       "code": {
-        "startLine": 48,
-        "length": 17,
-        "offset": 103,
-        "surroundingCode": "        };\n        final var files = directory.listFiles(filenameFilter);\n        if (files == null || files.length == 0) {\n            return;\n        }"
+        "startLine": 33,
+        "length": 7,
+        "offset": 16,
+        "surroundingCode": "\n    /**\n     * @return\n     */\n    @Override"
       }
     }
   ],
   "attributes": {
     "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "RedundantLengthCheck"
+    "inspectionName": "JavadocDeclaration"
   },
-  "hash": "53335e9b625d369e6589c3027795c9a73c3b908f7e70609a010218eb7756f7c2"
+  "hash": "73d4d2995aecbf8de849b8a671dba47bc31d32ec65d0a57c7c673322adbb2e65"
 },{
   "tool": "Code Inspection",
-  "category": "Code maturity",
-  "type": "Usage of API marked for removal",
+  "category": "Javadoc",
+  "type": "Javadoc declaration problems",
   "tags": [
     "JAVA"
   ],
-  "severity": "Critical",
-  "comment": "'com.intellij.openapi.actionSystem.UpdateInBackground' is deprecated and marked for removal",
-  "detailsInfo": "Reports usages of deprecated APIs (classes, fields, and methods) that are marked for removal with `@Deprecated(`**forRemoval**`=true)`.\n\n\nThe code that uses an API marked for removal may cause a runtime error with a future version of the API. That is why\nthe recommended severity for this inspection is *Error*.\n\n\nYou can change the severity to *Warning* if you want to use the same code highlighting as in ordinary deprecation.\n\nNew in 2017.3",
+  "severity": "High",
+  "comment": "`@return` tag description is missing",
+  "detailsInfo": "Reports Javadoc comments and tags with the following problems:\n\n* invalid tag names\n* incomplete tag descriptions\n* duplicated tags\n* missing Javadoc descriptions\n\nExample:\n\n\n      /**\n       * Invalid tag name\n       * @poram param description\n       */\n      public void sample(int param){\n      }\n\nExample:\n\n\n      /**\n       * Pointing to itself {@link #sample(int)}\n       */\n      public void sample(int param){\n      }\n\nQuick-fix adds the unknown Javadoc tag to the list of user defined additional tags.\n\nUse textfield below to define additional Javadoc tags.\n\nUse first checkbox to ignore duplicated 'throws' tag.\n\nUse second checkbox to ignore problem with missing or incomplete first sentence in the description.\n\nUse third checkbox to ignore references pointing to itself.",
   "sources": [
     {
       "type": "file",
-      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/DownloadLatestIgPublisherJarAction.java",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherConfigurationFactory.java",
       "language": "JAVA",
-      "line": 11,
-      "offset": 42,
+      "line": 54,
+      "offset": 8,
+      "length": 7,
+      "code": {
+        "startLine": 52,
+        "length": 7,
+        "offset": 16,
+        "surroundingCode": "\n    /**\n     * @return\n     */\n    @Override"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "jetbrains-plugin-fhir.main",
+    "inspectionName": "JavadocDeclaration"
+  },
+  "hash": "78e6b83f12bc28308ac7401b31d8bfbdaf52f711cc2a7c8cd453a72f5761fa6d"
+},{
+  "tool": "Code Inspection",
+  "category": "Javadoc",
+  "type": "Javadoc declaration problems",
+  "tags": [
+    "JAVA"
+  ],
+  "severity": "High",
+  "comment": "`@return` tag description is missing",
+  "detailsInfo": "Reports Javadoc comments and tags with the following problems:\n\n* invalid tag names\n* incomplete tag descriptions\n* duplicated tags\n* missing Javadoc descriptions\n\nExample:\n\n\n      /**\n       * Invalid tag name\n       * @poram param description\n       */\n      public void sample(int param){\n      }\n\nExample:\n\n\n      /**\n       * Pointing to itself {@link #sample(int)}\n       */\n      public void sample(int param){\n      }\n\nQuick-fix adds the unknown Javadoc tag to the list of user defined additional tags.\n\nUse textfield below to define additional Javadoc tags.\n\nUse first checkbox to ignore duplicated 'throws' tag.\n\nUse second checkbox to ignore problem with missing or incomplete first sentence in the description.\n\nUse third checkbox to ignore references pointing to itself.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherSettingsEditor.java",
+      "language": "JAVA",
+      "line": 99,
+      "offset": 8,
+      "length": 7,
+      "code": {
+        "startLine": 97,
+        "length": 7,
+        "offset": 16,
+        "surroundingCode": "\n    /**\n     * @return\n     */\n    @Override"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "jetbrains-plugin-fhir.main",
+    "inspectionName": "JavadocDeclaration"
+  },
+  "hash": "90505a42c46450a2db2f852b158335f16717f1e4e5920bc470086b62933db04c"
+},{
+  "tool": "Code Inspection",
+  "category": "Javadoc",
+  "type": "Javadoc declaration problems",
+  "tags": [
+    "JAVA"
+  ],
+  "severity": "High",
+  "comment": "`@return` tag description is missing",
+  "detailsInfo": "Reports Javadoc comments and tags with the following problems:\n\n* invalid tag names\n* incomplete tag descriptions\n* duplicated tags\n* missing Javadoc descriptions\n\nExample:\n\n\n      /**\n       * Invalid tag name\n       * @poram param description\n       */\n      public void sample(int param){\n      }\n\nExample:\n\n\n      /**\n       * Pointing to itself {@link #sample(int)}\n       */\n      public void sample(int param){\n      }\n\nQuick-fix adds the unknown Javadoc tag to the list of user defined additional tags.\n\nUse textfield below to define additional Javadoc tags.\n\nUse first checkbox to ignore duplicated 'throws' tag.\n\nUse second checkbox to ignore problem with missing or incomplete first sentence in the description.\n\nUse third checkbox to ignore references pointing to itself.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/common/ThePlugin.java",
+      "language": "JAVA",
+      "line": 37,
+      "offset": 8,
+      "length": 7,
+      "code": {
+        "startLine": 35,
+        "length": 7,
+        "offset": 16,
+        "surroundingCode": "\n    /**\n     * @return\n     */\n    public static boolean shouldActivateInProject(@Nullable final Project project) {"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "jetbrains-plugin-fhir.main",
+    "inspectionName": "JavadocDeclaration"
+  },
+  "hash": "a5076813a8b279678b484fd08cd39781e4983a7272445a0e2081f36262b1f3bd"
+},{
+  "tool": "Code Inspection",
+  "category": "Javadoc",
+  "type": "Javadoc declaration problems",
+  "tags": [
+    "JAVA"
+  ],
+  "severity": "High",
+  "comment": "`@throws` tag description is missing",
+  "detailsInfo": "Reports Javadoc comments and tags with the following problems:\n\n* invalid tag names\n* incomplete tag descriptions\n* duplicated tags\n* missing Javadoc descriptions\n\nExample:\n\n\n      /**\n       * Invalid tag name\n       * @poram param description\n       */\n      public void sample(int param){\n      }\n\nExample:\n\n\n      /**\n       * Pointing to itself {@link #sample(int)}\n       */\n      public void sample(int param){\n      }\n\nQuick-fix adds the unknown Javadoc tag to the list of user defined additional tags.\n\nUse textfield below to define additional Javadoc tags.\n\nUse first checkbox to ignore duplicated 'throws' tag.\n\nUse second checkbox to ignore problem with missing or incomplete first sentence in the description.\n\nUse third checkbox to ignore references pointing to itself.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherConfiguration.java",
+      "language": "JAVA",
+      "line": 101,
+      "offset": 16,
+      "length": 7,
+      "code": {
+        "startLine": 99,
+        "length": 7,
+        "offset": 53,
+        "surroundingCode": "             *\n             * @return\n             * @throws ExecutionException\n             */\n            @NotNull"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "jetbrains-plugin-fhir.main",
+    "inspectionName": "JavadocDeclaration"
+  },
+  "hash": "b0b7e040cf6df9874bd76bcac7c27c788da30819da97710327221fe1ef741c5a"
+},{
+  "tool": "Code Inspection",
+  "category": "Javadoc",
+  "type": "Link specified as plain text",
+  "tags": [
+    "JAVA"
+  ],
+  "severity": "High",
+  "comment": "Link specified as plain text",
+  "detailsInfo": "Reports plain text links in Javadoc comments.\n\n\nThe quick-fix suggests to wrap the link in an `<a>` tag.\n\n**Example:**\n\n\n      class Main {\n       /**\n        * https://en.wikipedia.org/\n        */\n        void foo() {}\n      }\n\nAfter the quick-fix is applied:\n\n\n      class Main {\n       /**\n        * <a href=\"https://en.wikipedia.org/\">https://en.wikipedia.org/</a>\n        */\n        void foo() {}\n      }\n\nNew in 2022.1",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherConfiguration.java",
+      "language": "JAVA",
+      "line": 90,
+      "offset": 82,
       "length": 18,
       "code": {
-        "startLine": 9,
+        "startLine": 88,
         "length": 18,
-        "offset": 148,
-        "surroundingCode": "import com.intellij.openapi.actionSystem.AnAction;\nimport com.intellij.openapi.actionSystem.AnActionEvent;\nimport com.intellij.openapi.actionSystem.UpdateInBackground;\nimport com.intellij.openapi.project.DumbAware;\nimport org.jetbrains.annotations.NotNull;"
+        "offset": 231,
+        "surroundingCode": "             *\n             * -ig: a path or an url where the implementation guide JSON control file is found (see control file format documentation)\n             * -tx: (optional) address to use for terminology server (default is http://tx.fhir.org - which is currently the only supported option).\n             * Use -tx n/a to run without the terminology server (however, if your IG has vocabulary bindings, the tx server connection is required).\n             * -packages: (optional) directory containing packages (tarball/gzips with implementation guide-associated artifacts with extension .tgz) to be used for packages to load without using package management infrastructure"
       }
     }
   ],
   "attributes": {
     "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "MarkedForRemoval"
+    "inspectionName": "JavadocLinkAsPlainText"
   },
-  "hash": "3ea67ac9b1160f7389415c6fa449d79da061e9ce548115530ce0dd21a3d7ee74"
+  "hash": "e4a5ac4233084d7fc2eb4f2ac29366c0bab6a1e03488cf526eb836cd925ac8bb"
 },{
   "tool": "Code Inspection",
   "category": "Code maturity",
@@ -338,100 +463,131 @@
     "module": "jetbrains-plugin-fhir.main",
     "inspectionName": "MarkedForRemoval"
   },
-  "hash": "7c6fae43b665898cc68f531cb8a61feee09bc911d5ff4e87da4a333812a5278f"
+  "hash": "0e8502f5d35e1b7db97d2faf1abb18126a3c590018748ff1550c0f1c8d49d7aa"
 },{
   "tool": "Code Inspection",
-  "category": "Probable bugs",
-  "type": "Nullability and data flow problems",
+  "category": "Code maturity",
+  "type": "Usage of API marked for removal",
+  "tags": [
+    "JAVA"
+  ],
+  "severity": "Critical",
+  "comment": "'com.intellij.openapi.actionSystem.UpdateInBackground' is deprecated and marked for removal",
+  "detailsInfo": "Reports usages of deprecated APIs (classes, fields, and methods) that are marked for removal with `@Deprecated(`**forRemoval**`=true)`.\n\n\nThe code that uses an API marked for removal may cause a runtime error with a future version of the API. That is why\nthe recommended severity for this inspection is *Error*.\n\n\nYou can change the severity to *Warning* if you want to use the same code highlighting as in ordinary deprecation.\n\nNew in 2017.3",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/DownloadLatestIgPublisherJarAction.java",
+      "language": "JAVA",
+      "line": 11,
+      "offset": 42,
+      "length": 18,
+      "code": {
+        "startLine": 9,
+        "length": 18,
+        "offset": 148,
+        "surroundingCode": "import com.intellij.openapi.actionSystem.AnAction;\nimport com.intellij.openapi.actionSystem.AnActionEvent;\nimport com.intellij.openapi.actionSystem.UpdateInBackground;\nimport com.intellij.openapi.project.DumbAware;\nimport org.jetbrains.annotations.NotNull;"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "jetbrains-plugin-fhir.main",
+    "inspectionName": "MarkedForRemoval"
+  },
+  "hash": "58d8af8f509c7ec5897b20ab87d393a0aa2e98453ee9f4b19c5cb59eb8da1c3b"
+},{
+  "tool": "Code Inspection",
+  "category": "Verbose or redundant code constructs",
+  "type": "Redundant array length check",
   "tags": [
     "JAVA"
   ],
   "severity": "High",
-  "comment": "Argument 'onSuccess' might be null",
-  "detailsInfo": "Reports code constructs that always violate nullability contracts, may throw exceptions, or are just redundant, based on data flow analysis.\n\nExamples:\n\n    if (array.length < index) {\n      System.out.println(array[index]);\n    } // Array index is always out of bounds\n\n    if (str == null) System.out.println(\"str is null\");\n    System.out.println(str.trim());\n    // the last statement may throw an NPE\n\n    @NotNull\n    Integer square(@Nullable Integer input) {\n        // the method contract is violated\n        return input == null ? null : input * input;\n    }\n\n\nThe inspection behavior may be controlled by a number of annotations, such as\n[nullability](https://www.jetbrains.com/help/idea/nullable-and-notnull-annotations.html) annotations,\n[@Contract](https://www.jetbrains.com/help/idea/contract-annotations.html) annotation,\n`@Range` annotation and so on.\n\nConfigure the inspection:\n\n* Use the **Suggest @Nullable annotation for methods/fields/parameters where nullable values are used** option to warn when a nullable value is passed as an argument to a method with a non-annotated parameter, stored into non-annotated field, or returned from a non-annotated method. In this case, the inspection will suggest propagating the `@Nullable` annotation. You can also configure nullability annotations using the **Configure Annotations** button.\n* Use the **Treat non-annotated members and parameters as @Nullable** option to assume that non-annotated members can be null, so they must not be used in non-null context.\n* Use the **Report not-null required parameter with null-literal argument usages** option to report method parameters that cannot be null (e.g. immediately dereferenced in the method body), but there are call sites where a `null` literal is passed.\n* Use the **Report nullable methods that always return a non-null value** option to report methods that are annotated as `@Nullable`, but always return non-null value. In this case, it's suggested that you change the annotation to `@NotNull`.\n* Use the **Ignore assert statements** option to control how the inspection treats `assert` statements. By default, the option is disabled, which means that the assertions are assumed to be executed (-ea mode). If the option is enabled, the assertions will be completely ignored (-da mode).\n* Use the **Report problems that happen only on some code paths** option to control whether to report problems that may happen only on some code path. If this option is disabled, warnings like *exception is possible* will not be reported. The inspection will report only warnings like *exception will definitely occur*. This mode may greatly reduce the number of false-positives, especially if the code is not consistently annotated with nullability and contract annotations. That is why it can be useful for finding the most important problems in legacy code bases.\n\n\nBefore IntelliJ IDEA 2022.3, this inspection was part of the \"Constant Conditions \\& Exceptions\" inspection.\nNow, it is split into two inspections:\n\"Constant Values\" and \"Nullability and data flow problems\".",
+  "comment": "Redundant array length check",
+  "detailsInfo": "Reports unnecessary array length checks followed by array iteration. When array length is zero, the iteration will be skipped anyway, so there's no need to check length explicitly.\n\nExample:\n\n\n      void f(String[] array) {\n        if (array.length != 0) { // unnecessary check\n          for (String str : array) {\n            System.out.println(str);\n          }\n        }\n      }\n\nA quick-fix is suggested to unwrap or remove the length check:\n\n\n      void f(String[] array) {\n        for (String str : array) {\n          System.out.println(str);\n        }\n      }\n\nNew in 2022.3",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarManager.java",
+      "language": "JAVA",
+      "line": 50,
+      "offset": 30,
+      "length": 17,
+      "code": {
+        "startLine": 48,
+        "length": 17,
+        "offset": 103,
+        "surroundingCode": "        };\n        final var files = directory.listFiles(filenameFilter);\n        if (files == null || files.length == 0) {\n            return;\n        }"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "jetbrains-plugin-fhir.main",
+    "inspectionName": "RedundantLengthCheck"
+  },
+  "hash": "745c562251491ab07e3649da26523c0788f746da5db54461740ea3607ef3658a"
+},{
+  "tool": "Code Inspection",
+  "category": "Verbose or redundant code constructs",
+  "type": "Redundant array length check",
+  "tags": [
+    "JAVA"
+  ],
+  "severity": "High",
+  "comment": "Redundant array length check",
+  "detailsInfo": "Reports unnecessary array length checks followed by array iteration. When array length is zero, the iteration will be skipped anyway, so there's no need to check length explicitly.\n\nExample:\n\n\n      void f(String[] array) {\n        if (array.length != 0) { // unnecessary check\n          for (String str : array) {\n            System.out.println(str);\n          }\n        }\n      }\n\nA quick-fix is suggested to unwrap or remove the length check:\n\n\n      void f(String[] array) {\n        for (String str : array) {\n          System.out.println(str);\n        }\n      }\n\nNew in 2022.3",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarManager.java",
+      "language": "JAVA",
+      "line": 79,
+      "offset": 30,
+      "length": 17,
+      "code": {
+        "startLine": 77,
+        "length": 17,
+        "offset": 103,
+        "surroundingCode": "        };\n        final var files = directory.listFiles(filenameFilter);\n        if (files == null || files.length == 0) {\n            return null;\n        }"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "jetbrains-plugin-fhir.main",
+    "inspectionName": "RedundantLengthCheck"
+  },
+  "hash": "ce0282945861257a9d14514ac3d5f5bdb2f4ceb3748715bf8e030632ff05667c"
+},{
+  "tool": "Code Inspection",
+  "category": "Code style issues",
+  "type": "'size() == 0' can be replaced with 'isEmpty()'",
+  "tags": [
+    "JAVA"
+  ],
+  "severity": "High",
+  "comment": "`files.size() == 0` can be replaced with 'files.isEmpty()'",
+  "detailsInfo": "Reports `.size()` or `.length()` comparisons with a `0` literal that can be replaced with a call to `.isEmpty()`.\n\n**Example:**\n\n\n      boolean emptyList = list.size() == 0;\n\nAfter the quick-fix is applied:\n\n\n      boolean emptyList = list.isEmpty();\n      \n\nUse the **Ignored classes** table to add classes for which any `.size()` or `.length()` comparisons should not be replaced.\n\nUse the **Ignore expressions which would be replaced with `!isEmpty()`** option to ignore any expressions which would be replaced with `!isEmpty()`.",
   "sources": [
     {
       "type": "file",
       "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/jar/IgPublisherJarDownloader.java",
       "language": "JAVA",
-      "line": 126,
-      "offset": 69,
-      "length": 9,
+      "line": 117,
+      "offset": 42,
+      "length": 17,
       "code": {
-        "startLine": 124,
-        "length": 9,
-        "offset": 220,
-        "surroundingCode": "                        throw new IOException(\"Unable to rename file '\" + file.getAbsolutePath() + \"' to '\" + jarFileName + \"'\");\n                    }\n                    ApplicationManager.getApplication().invokeLater(onSuccess);\n                } catch (IOException e) {\n                    LOG.warn(\"Can't download content '\" + jarUrl + \"' as '\" + jarFileName + \"'\", e);"
+        "startLine": 115,
+        "length": 17,
+        "offset": 113,
+        "surroundingCode": "                            project,\n                            null);\n                    if (files == null || files.size() == 0) {\n                        throw new IOException(\"Download failed\");\n                    }"
       }
     }
   ],
   "attributes": {
     "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "DataFlowIssue"
+    "inspectionName": "SizeReplaceableByIsEmpty"
   },
-  "hash": "c7dbb4e9fd787d7d6271ef9cc7c93526fef7b4adedabb0aba5a5085da3e699d4"
-},{
-  "tool": "Code Inspection",
-  "category": "JVM languages",
-  "type": "Unstable API Usage",
-  "tags": [
-    "JAVA"
-  ],
-  "severity": "High",
-  "comment": "Overridden method 'onFileChosen(com.intellij.openapi.vfs.@org.jetbrains.annotations.NotNull VirtualFile)' is declared in unstable class 'com.intellij.openapi.ui.BrowseFolderRunnable' marked with @ApiStatus.Experimental",
-  "detailsInfo": "Reports usages of an API marked with one of the annotations as unstable. Such an API may be changed or removed in future versions, breaking the code that uses it.\n\nThe annotations which are used to mark unstable APIs are shown in the list below.\n\nBy default, the inspection ignores usages of unstable APIs\nif their declarations are located in sources of the same project. In such cases it'll be possible to update the usages when you change APIs.\nHowever, it may be inconvenient if the project is big, so one can switch off the **Ignore API declared in this project** option to report\nthe usages of unstable APIs declared in both the project sources and libraries.",
-  "sources": [
-    {
-      "type": "file",
-      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherSettingsEditor.java",
-      "language": "JAVA",
-      "line": 147,
-      "offset": 28,
-      "length": 12,
-      "code": {
-        "startLine": 145,
-        "length": 12,
-        "offset": 143,
-        "surroundingCode": "                                                                                    false)) {\n            @Override\n            protected void onFileChosen(@NotNull final VirtualFile chosenFile) {\n                super.onFileChosen(chosenFile);\n                ComponentValidator.getInstance(parentThis.textFieldJarPath).ifPresent(ComponentValidator::revalidate);"
-      }
-    }
-  ],
-  "attributes": {
-    "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "UnstableApiUsage"
-  },
-  "hash": "882b1fab3c25be907c084ae1018697a5db0e4620cd9b33e4f658e8cb559dc662"
-},{
-  "tool": "Code Inspection",
-  "category": "JVM languages",
-  "type": "Unstable API Usage",
-  "tags": [
-    "JAVA"
-  ],
-  "severity": "High",
-  "comment": "'onFileChosen(com.intellij.openapi.vfs.@org.jetbrains.annotations.NotNull VirtualFile)' is declared in unstable class 'com.intellij.openapi.ui.BrowseFolderRunnable' marked with @ApiStatus.Experimental",
-  "detailsInfo": "Reports usages of an API marked with one of the annotations as unstable. Such an API may be changed or removed in future versions, breaking the code that uses it.\n\nThe annotations which are used to mark unstable APIs are shown in the list below.\n\nBy default, the inspection ignores usages of unstable APIs\nif their declarations are located in sources of the same project. In such cases it'll be possible to update the usages when you change APIs.\nHowever, it may be inconvenient if the project is big, so one can switch off the **Ignore API declared in this project** option to report\nthe usages of unstable APIs declared in both the project sources and libraries.",
-  "sources": [
-    {
-      "type": "file",
-      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherSettingsEditor.java",
-      "language": "JAVA",
-      "line": 148,
-      "offset": 23,
-      "length": 12,
-      "code": {
-        "startLine": 146,
-        "length": 12,
-        "offset": 125,
-        "surroundingCode": "            @Override\n            protected void onFileChosen(@NotNull final VirtualFile chosenFile) {\n                super.onFileChosen(chosenFile);\n                ComponentValidator.getInstance(parentThis.textFieldJarPath).ifPresent(ComponentValidator::revalidate);\n                updateIgPublisherStatus();"
-      }
-    }
-  ],
-  "attributes": {
-    "module": "jetbrains-plugin-fhir.main",
-    "inspectionName": "UnstableApiUsage"
-  },
-  "hash": "893fae138197560eff695fa01d7e4884c50a08c1f3d6c8c99fc988c42d83e190"
+  "hash": "6d12b8517013e0a50fe6c1e967ff2eef0613f5e58ae4fef816415556474d5bf3"
 },{
   "tool": "Code Inspection",
   "category": "JVM languages",
@@ -462,7 +618,38 @@
     "module": "jetbrains-plugin-fhir.main",
     "inspectionName": "UnstableApiUsage"
   },
-  "hash": "76de63b8304f7c670f85f621c28a6231b59b54c0bf35fd9c97335e6f45f3f868"
+  "hash": "16569e98135ae88825645eb43c212a9a562b2ba31edab58c66e674c2b6f23498"
+},{
+  "tool": "Code Inspection",
+  "category": "JVM languages",
+  "type": "Unstable API Usage",
+  "tags": [
+    "JAVA"
+  ],
+  "severity": "High",
+  "comment": "'onFileChosen(com.intellij.openapi.vfs.@org.jetbrains.annotations.NotNull VirtualFile)' is declared in unstable class 'com.intellij.openapi.ui.BrowseFolderRunnable' marked with @ApiStatus.Experimental",
+  "detailsInfo": "Reports usages of an API marked with one of the annotations as unstable. Such an API may be changed or removed in future versions, breaking the code that uses it.\n\nThe annotations which are used to mark unstable APIs are shown in the list below.\n\nBy default, the inspection ignores usages of unstable APIs\nif their declarations are located in sources of the same project. In such cases it'll be possible to update the usages when you change APIs.\nHowever, it may be inconvenient if the project is big, so one can switch off the **Ignore API declared in this project** option to report\nthe usages of unstable APIs declared in both the project sources and libraries.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherSettingsEditor.java",
+      "language": "JAVA",
+      "line": 148,
+      "offset": 23,
+      "length": 12,
+      "code": {
+        "startLine": 146,
+        "length": 12,
+        "offset": 125,
+        "surroundingCode": "            @Override\n            protected void onFileChosen(@NotNull final VirtualFile chosenFile) {\n                super.onFileChosen(chosenFile);\n                ComponentValidator.getInstance(parentThis.textFieldJarPath).ifPresent(ComponentValidator::revalidate);\n                updateIgPublisherStatus();"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "jetbrains-plugin-fhir.main",
+    "inspectionName": "UnstableApiUsage"
+  },
+  "hash": "51ac6a68957bd1e8e77ea48e1c0a7815fc9c3b98a3adbd1f0656c316d4914bf1"
 },{
   "tool": "Code Inspection",
   "category": "JVM languages",
@@ -493,5 +680,36 @@
     "module": "jetbrains-plugin-fhir.main",
     "inspectionName": "UnstableApiUsage"
   },
-  "hash": "3a29a7c160b3fa8ed6e0f37218b24720e46e19bc882623199c94a23a6e19c5b2"
+  "hash": "af0809f23f6b8cfa9756718b63c958c590b16e4b1919dc39586d30a679c1abe8"
+},{
+  "tool": "Code Inspection",
+  "category": "JVM languages",
+  "type": "Unstable API Usage",
+  "tags": [
+    "JAVA"
+  ],
+  "severity": "High",
+  "comment": "Overridden method 'onFileChosen(com.intellij.openapi.vfs.@org.jetbrains.annotations.NotNull VirtualFile)' is declared in unstable class 'com.intellij.openapi.ui.BrowseFolderRunnable' marked with @ApiStatus.Experimental",
+  "detailsInfo": "Reports usages of an API marked with one of the annotations as unstable. Such an API may be changed or removed in future versions, breaking the code that uses it.\n\nThe annotations which are used to mark unstable APIs are shown in the list below.\n\nBy default, the inspection ignores usages of unstable APIs\nif their declarations are located in sources of the same project. In such cases it'll be possible to update the usages when you change APIs.\nHowever, it may be inconvenient if the project is big, so one can switch off the **Ignore API declared in this project** option to report\nthe usages of unstable APIs declared in both the project sources and libraries.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/java/ch/qligier/jetbrains/plugin/fhir/igpublisher/configuration/IgPublisherSettingsEditor.java",
+      "language": "JAVA",
+      "line": 147,
+      "offset": 28,
+      "length": 12,
+      "code": {
+        "startLine": 145,
+        "length": 12,
+        "offset": 143,
+        "surroundingCode": "                                                                                    false)) {\n            @Override\n            protected void onFileChosen(@NotNull final VirtualFile chosenFile) {\n                super.onFileChosen(chosenFile);\n                ComponentValidator.getInstance(parentThis.textFieldJarPath).ifPresent(ComponentValidator::revalidate);"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "jetbrains-plugin-fhir.main",
+    "inspectionName": "UnstableApiUsage"
+  },
+  "hash": "df24746fb44596128bf6c1db20c1bcd6b6054820b63e44e8544b9e27c9b5b92c"
 }]}
