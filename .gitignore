@@ -12,6 +12,7 @@ jflex*.jar
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/sonarlint/
 *.iws
 *.iml
 *.ipr
