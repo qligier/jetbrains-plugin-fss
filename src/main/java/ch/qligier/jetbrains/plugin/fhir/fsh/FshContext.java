@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class FshContext extends TemplateContextType {
 
     protected FshContext() {
-        super("FSH", "FSH");
+        super("FSH");
     }
 
     @Override

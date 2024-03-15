@@ -3,11 +3,11 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.specification;
 
 /**
- * The types of FSH metadata.
+ * The types of FSH keyword.
  *
  * @author Quentin Ligier
  **/
-public enum MetadataType {
+public enum KeywordType {
 
     ID("Id"),
     DESCRIPTION("Description"),
@@ -20,10 +20,12 @@ public enum MetadataType {
     SEVERITY("Severity"),
     XPATH("Xpath"),
     EXPRESSION("Expression");
+    // Trial Use: Context
+    // Trial Use: Characteristics
 
     private final String name;
 
-    MetadataType(final String name) {
+    KeywordType(final String name) {
         this.name = name;
     }
 

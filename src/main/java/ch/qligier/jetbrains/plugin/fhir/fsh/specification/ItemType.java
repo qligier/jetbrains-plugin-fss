@@ -13,17 +13,17 @@ import javax.swing.*;
  **/
 public enum ItemType {
 
-    ALIAS("Alias", Icons.ALIAS, ItemNameType.EXPRESSION, MetadataPolicy.NONE),
-    CODESYSTEM("CodeSystem", Icons.CODESYSTEM, ItemNameType.NAME, MetadataPolicy.SSS),
-    EXTENSION("Extension", Icons.EXTENSION, ItemNameType.NAME, MetadataPolicy.SSSO),
-    INSTANCE("Instance", Icons.INSTANCE, ItemNameType.ID, MetadataPolicy.SSRO),
-    INVARIANT("Invariant", Icons.INVARIANT, ItemNameType.ID, MetadataPolicy.RROO),
-    LOGICAL("Logical", Icons.LOGICAL, ItemNameType.NAME, MetadataPolicy.SSSO),
-    MAPPING("Mapping", Icons.MAPPING, ItemNameType.ID, MetadataPolicy.SSSRR),
-    PROFILE("Profile", Icons.PROFILE, ItemNameType.NAME, MetadataPolicy.SSSR),
-    RESOURCE("Resource", Icons.RESOURCE, ItemNameType.NAME, MetadataPolicy.SSSO),
-    RULESET("RuleSet", Icons.RULESET, ItemNameType.NAME, MetadataPolicy.NONE),
-    VALUESET("ValueSet", Icons.VALUESET, ItemNameType.NAME, MetadataPolicy.SSS);
+    ALIAS("Alias", Icons.ALIAS, ItemNameType.EXPRESSION, KeywordPolicy.NONE),
+    CODESYSTEM("CodeSystem", Icons.CODESYSTEM, ItemNameType.NAME, KeywordPolicy.SSS),
+    EXTENSION("Extension", Icons.EXTENSION, ItemNameType.NAME, KeywordPolicy.SSSO),
+    INSTANCE("Instance", Icons.INSTANCE, ItemNameType.ID, KeywordPolicy.SSRO),
+    INVARIANT("Invariant", Icons.INVARIANT, ItemNameType.ID, KeywordPolicy.RROO),
+    LOGICAL("Logical", Icons.LOGICAL, ItemNameType.NAME, KeywordPolicy.SSSO),
+    MAPPING("Mapping", Icons.MAPPING, ItemNameType.ID, KeywordPolicy.SSSRR),
+    PROFILE("Profile", Icons.PROFILE, ItemNameType.NAME, KeywordPolicy.SSSR),
+    RESOURCE("Resource", Icons.RESOURCE, ItemNameType.NAME, KeywordPolicy.SSSO),
+    RULESET("RuleSet", Icons.RULESET, ItemNameType.NAME, KeywordPolicy.NONE),
+    VALUESET("ValueSet", Icons.VALUESET, ItemNameType.NAME, KeywordPolicy.SSS);
 
     private final String name;
 
@@ -31,16 +31,16 @@ public enum ItemType {
 
     private final ItemNameType nameType;
 
-    private final MetadataPolicy metadataPolicy;
+    private final KeywordPolicy keywordPolicy;
 
     ItemType(final String name,
              final Icon icon,
              final ItemNameType nameType,
-             final MetadataPolicy metadataPolicy) {
+             final KeywordPolicy keywordPolicy) {
         this.name = name;
         this.icon = icon;
         this.nameType = nameType;
-        this.metadataPolicy = metadataPolicy;
+        this.keywordPolicy = keywordPolicy;
     }
 
     public String getName() {
@@ -55,7 +55,7 @@ public enum ItemType {
         return this.nameType;
     }
 
-    public MetadataPolicy getMetadataPolicy() {
-        return this.metadataPolicy;
+    public KeywordPolicy getKeywordPolicy() {
+        return this.keywordPolicy;
     }
 }

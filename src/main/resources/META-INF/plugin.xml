@@ -48,9 +48,23 @@
                 fieldName="INSTANCE"
                 language="FSH"
                 extensions="fsh"/>
+        <lang.parserDefinition language="FSH"
+                               implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.parser.FshParserDefinition"/>
+        <lang.ast.factory language="FSH"
+                          implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.FshASTFactory"/>
+        <lang.syntaxHighlighterFactory language="FSH"
+                                       implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.color.FshSyntaxHighlighterFactory"/>
+        <lang.commenter language="FSH"
+                        implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshCommenter"/>
+        <colorSettingsPage implementation="ch.qligier.jetbrains.plugin.fhir.fsh.color.FshColorSettingsPage"/>
 
         <!-- The IG Publisher Configuration type -->
         <configurationType
                 implementation="ch.qligier.jetbrains.plugin.fhir.igpublisher.configuration.IgPublisherConfigurationType"/>
     </extensions>
+
+    <applicationListeners>
+        <listener class="ch.qligier.jetbrains.plugin.fhir.FhirPluginActivationListener"
+                  topic="com.intellij.openapi.application.ApplicationActivationListener"/>
+    </applicationListeners>
 </idea-plugin>

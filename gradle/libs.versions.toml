@@ -1,6 +1,8 @@
 [versions]
 # libraries
 annotations = "24.1.0"
+antlr4Intellij = "0.1"
+antlr4 = "4.13.1"
 
 # plugins
 kotlin = "1.9.23"
@@ -11,6 +13,8 @@ kover = "0.7.6"
 
 [libraries]
 annotations = { group = "org.jetbrains", name = "annotations", version.ref = "annotations" }
+antlr4Intellij = { group = "org.antlr", name = "antlr4-intellij-adaptor", version.ref = "antlr4Intellij" }
+antlr4 = { group = "org.antlr", name = "antlr4", version.ref = "antlr4" }
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }

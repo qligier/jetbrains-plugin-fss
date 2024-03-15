@@ -1,8 +1,6 @@
-/*
- * Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license
- */
+// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
 
-package ch.qligier.jetbrains.plugin.fhir.fsh;
+package ch.qligier.jetbrains.plugin.fhir.fsh.language;
 
 import com.intellij.lang.Commenter;
 import org.jetbrains.annotations.Nullable;

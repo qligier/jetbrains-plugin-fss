@@ -1,8 +1,10 @@
 # ![FHIR and SUSHI Support Logo](src/main/resources/META-INF/pluginIcon.svg) JetBrains Plugin: FHIR and SUSHI Support
 
+<!-- Plugin description -->
 A plugin that add supports for the [FHIR Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html)
 (_FSH_) and the [IG Publisher](https://github.com/HL7/fhir-ig-publisher) and [SUSHI](https://github.com/FHIR/sushi/)
 tools.
+<!-- Plugin description end -->
 
 <p align="center">
 

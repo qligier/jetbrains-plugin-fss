@@ -37,7 +37,7 @@ public class FshFileType extends LanguageFileType {
     @Override
     public
     @NotNull String getDescription() {
-        return "FSH (SUSHI) file";
+        return "FSH file";
     }
 
     /**
