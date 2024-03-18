@@ -56,6 +56,8 @@
                                        implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.color.FshSyntaxHighlighterFactory"/>
         <lang.commenter language="FSH"
                         implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshCommenter"/>
+        <lang.braceMatcher language="FSH"
+                           implementationClass="ch.qligier.jetbrains.plugin.fhir.fsh.language.FshPairedBraceMatcher"/>
         <colorSettingsPage implementation="ch.qligier.jetbrains.plugin.fhir.fsh.color.FshColorSettingsPage"/>
 
         <!-- The IG Publisher Configuration type -->
