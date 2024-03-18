@@ -3,6 +3,12 @@
  * with the corresponding FSH.g4 parser representation. This file is considered "informational"
  * material in respect to the FSH specification. If there is a conflict between the FSH language
  * specification and this file, the language specification takes precedence.
+ *
+ * Taken from: https://github.com/FHIR/sushi/blob/master/antlr/src/main/antlr/FSHLexer.g4
+ * At commit: 1450d27
+ *
+ * Changelog:
+ * - 2024/03/15: Replace occurences of "-> skip" with "-> channel(HIDDEN)" to get a continuous stream of tokens.
  */
 lexer grammar FSHLexer;
 

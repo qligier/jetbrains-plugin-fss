@@ -3,6 +3,11 @@
  * the corresponding FSHLexer.g4 lexer representation. This file is considered "informational"
  * material in respect to the FSH specification. If there is a conflict between the FSH language
  * specification and this file, the language specification takes precedence.
+ *
+ * Taken from: https://github.com/FHIR/sushi/blob/master/antlr/src/main/antlr/FSH.g4
+ * At commit: d9fdd64
+ *
+ * Changelog:
  */
 grammar FSH;
 
