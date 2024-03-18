@@ -9,6 +9,7 @@
  *
  * Changelog:
  * - 2024/03/15: Replace occurences of "-> skip" with "-> channel(HIDDEN)" to get a continuous stream of tokens.
+ * - 2024/03/18: Add LEFT_PAREN and RIGHT_PAREN tokens to the lexer.
  */
 lexer grammar FSHLexer;
 
@@ -44,10 +45,10 @@ KW_TU:              'TU';
 KW_NORMATIVE:       'N';
 KW_DRAFT:           'D';
 KW_FROM:            'from';
-KW_EXAMPLE:         '(' WS* 'example' WS* ')';
-KW_PREFERRED:       '(' WS* 'preferred' WS* ')';
-KW_EXTENSIBLE:      '(' WS* 'extensible' WS* ')';
-KW_REQUIRED:        '(' WS* 'required' WS* ')';
+KW_EXAMPLE:         LEFT_PAREN WS* 'example' WS* RIGHT_PAREN;
+KW_PREFERRED:       LEFT_PAREN WS* 'preferred' WS* RIGHT_PAREN;
+KW_EXTENSIBLE:      LEFT_PAREN WS* 'extensible' WS* RIGHT_PAREN;
+KW_REQUIRED:        LEFT_PAREN WS* 'required' WS* RIGHT_PAREN;
 KW_CONTAINS:        'contains';
 KW_NAMED:           'named';
 KW_AND:             'and';
@@ -62,7 +63,7 @@ KW_CODES:           'codes';
 KW_WHERE:           'where';
 KW_VSREFERENCE:     'valueset';
 KW_SYSTEM:          'system';
-KW_EXACTLY:         '(' WS* 'exactly' WS* ')';
+KW_EXACTLY:         LEFT_PAREN WS* 'exactly' WS* RIGHT_PAREN;
 KW_INSERT:          'insert' -> pushMode(RULESET_OR_INSERT);
 KW_CONTENTREFERENCE:'contentReference';
 
@@ -72,6 +73,8 @@ STAR:               ([\r\n] | LINE_COMMENT) WS* '*' [ \u00A0];
 COLON:              ':';
 COMMA:              ',';
 ARROW:              '->';
+LEFT_PAREN:         '(';
+RIGHT_PAREN:        ')';
 
 // PATTERNS
 
@@ -103,13 +106,13 @@ TIME:               [0-9][0-9](':'[0-9][0-9](':'[0-9][0-9]('.'[0-9]+)?)?)?('Z' |
 CARD:               ([0-9]+)? '..' ([0-9]+ | '*')?;
 
               //  Reference       (        ITEM         |         ITEM         )
-REFERENCE:       'Reference' WS* '(' WS* SEQUENCE WS* (WS 'or' WS+ SEQUENCE WS*)* ')';
+REFERENCE:       'Reference' WS* LEFT_PAREN WS* SEQUENCE WS* (WS 'or' WS+ SEQUENCE WS*)* RIGHT_PAREN;
 
                  // CodeableReference       (         ITEM           or          ITEM         )
-CODEABLE_REFERENCE: 'CodeableReference' WS* '(' WS* SEQUENCE WS* (WS 'or' WS+ SEQUENCE WS*)* ')';
+CODEABLE_REFERENCE: 'CodeableReference' WS* LEFT_PAREN WS* SEQUENCE WS* (WS 'or' WS+ SEQUENCE WS*)* RIGHT_PAREN;
 
                  // Canonical       (              URL|VERSION               or              URL|VERSION             )
-CANONICAL     :    'Canonical' WS* '(' WS* SEQUENCE ('|' SEQUENCE)? WS* (WS 'or' WS+ SEQUENCE ('|' SEQUENCE)? WS*)* ')';
+CANONICAL     :    'Canonical' WS* LEFT_PAREN WS* SEQUENCE ('|' SEQUENCE)? WS* (WS 'or' WS+ SEQUENCE ('|' SEQUENCE)? WS*)* RIGHT_PAREN;
 
                  //  ^  NON-WHITESPACE
 CARET_SEQUENCE:     '^' NONWS+;
@@ -134,15 +137,15 @@ WHITESPACE:         WS -> channel(HIDDEN);
 LINE_COMMENT:       '//' ~[\r\n]* [\r\n] -> channel(HIDDEN);
 
 mode RULESET_OR_INSERT;
-PARAM_RULESET_REFERENCE:      WS* RSNONWS+ WS* '(' -> pushMode(PARAM_RULESET_OR_INSERT);
+PARAM_RULESET_REFERENCE:      WS* RSNONWS+ WS* LEFT_PAREN -> pushMode(PARAM_RULESET_OR_INSERT);
 RULESET_REFERENCE:            WS* RSNONWS+ -> popMode;
 fragment RSNONWS: ~[ \t\r\n\f\u00A0(];
 
 mode PARAM_RULESET_OR_INSERT;
 BRACKETED_PARAM: WS* '[[' ( ~[\]] | (']'~[\]]) | (']]' WS* ~[,) \t\r\n\f\u00A0]) )+ ']]' WS* ',';
-LAST_BRACKETED_PARAM: WS* '[[' ( ~[\]] | (']'~[\]]) | (']]' WS* ~[,) \t\r\n\f\u00A0]) )+ ']]' WS* ')' -> popMode, popMode;
+LAST_BRACKETED_PARAM: WS* '[[' ( ~[\]] | (']'~[\]]) | (']]' WS* ~[,) \t\r\n\f\u00A0]) )+ ']]' WS* RIGHT_PAREN -> popMode, popMode;
 PLAIN_PARAM: WS* ('\\)' | '\\,' | '\\\\' | ~[),])* WS* ',';
-LAST_PLAIN_PARAM: WS* ('\\)' | '\\,' | '\\\\' | ~[),])* WS* ')' -> popMode, popMode;
+LAST_PLAIN_PARAM: WS* ('\\)' | '\\,' | '\\\\' | ~[),])* WS* RIGHT_PAREN -> popMode, popMode;
 
 mode LIST_OF_CONTEXTS;
 QUOTED_CONTEXT: STRING WS* ',';
