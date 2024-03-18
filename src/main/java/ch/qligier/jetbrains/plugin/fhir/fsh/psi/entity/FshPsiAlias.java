@@ -3,7 +3,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.psi.entity;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshLanguage;
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FSHLexer;
+import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshLexer;
 import ch.qligier.jetbrains.plugin.fhir.fsh.specification.ItemType;
 import com.intellij.lang.ASTNode;
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory;
@@ -39,7 +39,7 @@ public class FshPsiAlias extends FshPsiItem {
     }
 
     protected @Nullable String extractAliasValue(@NotNull final ASTNode node) {
-        final var type = PSIElementTypeFactory.getTokenIElementTypes(FshLanguage.INSTANCE).get(FSHLexer.SEQUENCE);
+        final var type = PSIElementTypeFactory.getTokenIElementTypes(FshLanguage.INSTANCE).get(FshLexer.SEQUENCE);
         final var child = node.findChildByType(type);
         return (child != null) ? child.getText() : null;
     }

@@ -3,7 +3,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.language;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshLanguage;
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FSHLexer;
+import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshLexer;
 import com.intellij.lang.BracePair;
 import com.intellij.lang.PairedBraceMatcher;
 import com.intellij.psi.PsiFile;
@@ -26,8 +26,8 @@ public class FshPairedBraceMatcher implements PairedBraceMatcher {
 
     static {
         final var types = PSIElementTypeFactory.getTokenIElementTypes(FshLanguage.INSTANCE);
-        LEFT_PAREN_TYPE = types.get(FSHLexer.LEFT_PAREN);
-        RIGHT_PAREN_TYPE = types.get(FSHLexer.RIGHT_PAREN);
+        LEFT_PAREN_TYPE = types.get(FshLexer.LEFT_PAREN);
+        RIGHT_PAREN_TYPE = types.get(FshLexer.RIGHT_PAREN);
     }
 
     private static final BracePair[] PAIRS = new BracePair[]{

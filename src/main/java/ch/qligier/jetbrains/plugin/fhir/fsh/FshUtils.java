@@ -2,8 +2,8 @@
 
 package ch.qligier.jetbrains.plugin.fhir.fsh;
 
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FSHLexer;
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FSHParser;
+import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshLexer;
+import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshParser;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor;
@@ -26,21 +26,21 @@ public class FshUtils {
     }
 
     public static @NotNull ANTLRLexerAdaptor createLexer() {
-        final var antlrLexer = new FSHLexer(null);
+        final var antlrLexer = new FshLexer(null);
         return new ANTLRLexerAdaptor(FshLanguage.INSTANCE, antlrLexer);
     }
 
     public static @NotNull ANTLRParserAdaptor createParser() {
-        final var antlrParser = new FSHParser(null);
+        final var antlrParser = new FshParser(null);
         return new ANTLRParserAdaptor(FshLanguage.INSTANCE, antlrParser) {
             @Override
             protected ParseTree parse(Parser parser, IElementType root) {
                 // start rule depends on root passed in; sometimes we want to create an ID node etc...
                 if (root instanceof IFileElementType) {
-                    return ((FSHParser) parser).doc();
+                    return ((FshParser) parser).doc();
                 }
                 // let's hope it's an ID as needed by "rename function"
-                return ((FSHParser) parser).profile();
+                return ((FshParser) parser).profile();
             }
         };
     }

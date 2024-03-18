@@ -9,9 +9,9 @@
  *
  * Changelog:
  */
-grammar FSH;
+grammar Fsh;
 
-options { tokenVocab = FSHLexer; }
+options { tokenVocab = FshLexer; }
 
 doc:                entity* EOF;
 entity:             (alias | profile | extension | invariant | instance | valueSet | codeSystem | ruleSet | paramRuleSet | mapping | logical | resource);

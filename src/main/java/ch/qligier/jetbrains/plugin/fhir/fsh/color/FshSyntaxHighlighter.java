@@ -3,7 +3,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.color;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshUtils;
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FSHLexer;
+import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshLexer;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -69,55 +69,55 @@ public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
             return EMPTY_KEYS;
 
         switch (myType.getANTLRTokenType()) {
-            case FSHLexer.STRING:
+            case FshLexer.STRING:
                 return pack(STRING);
-            case FSHLexer.LINE_COMMENT:
+            case FshLexer.LINE_COMMENT:
                 return pack(LINE_COMMENT);
-            case FSHLexer.BLOCK_COMMENT:
+            case FshLexer.BLOCK_COMMENT:
                 return pack(BLOCK_COMMENT);
-            case FSHLexer.KW_ALIAS:
-            case FSHLexer.KW_CODESYSTEM:
-            case FSHLexer.KW_EXTENSION:
-            case FSHLexer.KW_INSTANCE:
-            case FSHLexer.KW_INVARIANT:
-            case FSHLexer.KW_LOGICAL:
-            case FSHLexer.KW_MAPPING:
-            case FSHLexer.KW_PROFILE:
-            case FSHLexer.KW_RESOURCE:
-            case FSHLexer.KW_RULESET:
-            case FSHLexer.KW_VALUESET:
+            case FshLexer.KW_ALIAS:
+            case FshLexer.KW_CODESYSTEM:
+            case FshLexer.KW_EXTENSION:
+            case FshLexer.KW_INSTANCE:
+            case FshLexer.KW_INVARIANT:
+            case FshLexer.KW_LOGICAL:
+            case FshLexer.KW_MAPPING:
+            case FshLexer.KW_PROFILE:
+            case FshLexer.KW_RESOURCE:
+            case FshLexer.KW_RULESET:
+            case FshLexer.KW_VALUESET:
                 return pack(DECLARATION);
-            case FSHLexer.KW_CHARACTERISTICS:
-            case FSHLexer.KW_CONTEXT:
-            case FSHLexer.KW_DESCRIPTION:
-            case FSHLexer.KW_EXPRESSION:
-            case FSHLexer.KW_ID:
-            case FSHLexer.KW_INSTANCEOF:
-            case FSHLexer.KW_PARENT:
-            case FSHLexer.KW_SEVERITY:
-            case FSHLexer.KW_SOURCE:
-            case FSHLexer.KW_TARGET:
-            case FSHLexer.KW_TITLE:
-            case FSHLexer.KW_USAGE:
-            case FSHLexer.KW_XPATH:
+            case FshLexer.KW_CHARACTERISTICS:
+            case FshLexer.KW_CONTEXT:
+            case FshLexer.KW_DESCRIPTION:
+            case FshLexer.KW_EXPRESSION:
+            case FshLexer.KW_ID:
+            case FshLexer.KW_INSTANCEOF:
+            case FshLexer.KW_PARENT:
+            case FshLexer.KW_SEVERITY:
+            case FshLexer.KW_SOURCE:
+            case FshLexer.KW_TARGET:
+            case FshLexer.KW_TITLE:
+            case FshLexer.KW_USAGE:
+            case FshLexer.KW_XPATH:
                 return pack(KEYWORD);
-            case FSHLexer.KW_AND:
-            case FSHLexer.KW_OR:
-            case FSHLexer.KW_OBEYS:
-            case FSHLexer.KW_INCLUDE:
-            case FSHLexer.KW_EXCLUDE:
+            case FshLexer.KW_AND:
+            case FshLexer.KW_OR:
+            case FshLexer.KW_OBEYS:
+            case FshLexer.KW_INCLUDE:
+            case FshLexer.KW_EXCLUDE:
                 return pack(OPERATOR);
-            case FSHLexer.COMMA:
+            case FshLexer.COMMA:
                 return pack(COMMA);
-            case FSHLexer.DATETIME:
-            case FSHLexer.TIME:
-            case FSHLexer.CANONICAL:
-            case FSHLexer.REGEX:
-            case FSHLexer.UNIT:
-            case FSHLexer.CODE:
-            case FSHLexer.NUMBER:
+            case FshLexer.DATETIME:
+            case FshLexer.TIME:
+            case FshLexer.CANONICAL:
+            case FshLexer.REGEX:
+            case FshLexer.UNIT:
+            case FshLexer.CODE:
+            case FshLexer.NUMBER:
                 return pack(VALUE);
-            case FSHLexer.STAR:
+            case FshLexer.STAR:
                 return pack(STAR);
             default:
                 return EMPTY_KEYS;

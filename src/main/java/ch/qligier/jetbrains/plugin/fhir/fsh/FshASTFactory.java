@@ -37,7 +37,7 @@ public class FshASTFactory extends DefaultASTFactoryImpl {
     @Override
     public LeafElement createLeaf(@NotNull IElementType type, CharSequence text) {
         /*if (type instanceof TokenIElementType &&
-                ((TokenIElementType) type).getANTLRTokenType() == FSHLexer.CANONICAL) {
+                ((TokenIElementType) type).getANTLRTokenType() == FshLexer.CANONICAL) {
             // found an ID node; here we do not distinguish between definitions and references
             // because we have no context information here. All we know is that
             // we have an identifier node that will be connected somewhere in a tree.

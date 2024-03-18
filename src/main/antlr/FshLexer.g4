@@ -11,7 +11,7 @@
  * - 2024/03/15: Replace occurences of "-> skip" with "-> channel(HIDDEN)" to get a continuous stream of tokens.
  * - 2024/03/18: Add LEFT_PAREN and RIGHT_PAREN tokens to the lexer.
  */
-lexer grammar FSHLexer;
+lexer grammar FshLexer;
 
 // KEYWORDS
 KW_ALIAS:           'Alias' WS* ':';

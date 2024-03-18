@@ -4,8 +4,8 @@ package ch.qligier.jetbrains.plugin.fhir.fsh.parser;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshLanguage;
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshUtils;
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FSHLexer;
-import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FSHParser;
+import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshLexer;
+import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshParser;
 import ch.qligier.jetbrains.plugin.fhir.fsh.psi.DebugPsiNode;
 import ch.qligier.jetbrains.plugin.fhir.fsh.psi.FshPsiDocument;
 import ch.qligier.jetbrains.plugin.fhir.fsh.psi.FshPsiFile;
@@ -46,15 +46,15 @@ public class FshParserDefinition implements ParserDefinition {
     static {
         COMMENTS = PSIElementTypeFactory.createTokenSet(
                 FshLanguage.INSTANCE,
-                FSHLexer.LINE_COMMENT,
-                FSHLexer.BLOCK_COMMENT);
+                FshLexer.LINE_COMMENT,
+                FshLexer.BLOCK_COMMENT);
         WHITESPACE = PSIElementTypeFactory.createTokenSet(
                 FshLanguage.INSTANCE,
-                FSHLexer.WHITESPACE);
+                FshLexer.WHITESPACE);
         STRING = PSIElementTypeFactory.createTokenSet(
                 FshLanguage.INSTANCE,
-                FSHLexer.STRING,
-                FSHLexer.MULTILINE_STRING);
+                FshLexer.STRING,
+                FshLexer.MULTILINE_STRING);
     }
 
     /**
@@ -142,10 +142,10 @@ public class FshParserDefinition implements ParserDefinition {
             return new DebugPsiNode(node, "notRule");
         }
         return switch (ruleElType.getRuleIndex()) {
-            case FSHParser.RULE_doc -> new FshPsiDocument(node);
-            case FSHParser.RULE_alias -> new FshPsiAlias(node);
-            case FSHParser.RULE_entity -> this.createEntityElement(node);
-            case FSHParser.RULE_name -> new FshPsiName(node);
+            case FshParser.RULE_doc -> new FshPsiDocument(node);
+            case FshParser.RULE_alias -> new FshPsiAlias(node);
+            case FshParser.RULE_entity -> this.createEntityElement(node);
+            case FshParser.RULE_name -> new FshPsiName(node);
             default -> new DebugPsiNode(node, "default");
         };
     }
@@ -160,7 +160,7 @@ public class FshParserDefinition implements ParserDefinition {
             throw new RuntimeException();
         }
         switch (ruleElType.getRuleIndex()) {
-            case FSHParser.RULE_profile:
+            case FshParser.RULE_profile:
                 return new DebugPsiNode(node, "profile");
         }
         return new DebugPsiNode(node, "defaultEntity");
