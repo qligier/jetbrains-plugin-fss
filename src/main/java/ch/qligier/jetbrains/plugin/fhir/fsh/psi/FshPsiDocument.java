@@ -4,7 +4,6 @@ package ch.qligier.jetbrains.plugin.fhir.fsh.psi;
 
 import com.intellij.lang.ASTNode;
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * jetbrains-plugin-fhir
@@ -12,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Quentin Ligier
  **/
 public class FshPsiDocument extends ANTLRPsiNode {
-    public FshPsiDocument(@NotNull final ASTNode node) {
+    public FshPsiDocument(final ASTNode node) {
         super(node);
     }
 }

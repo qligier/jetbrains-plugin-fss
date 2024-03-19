@@ -9,8 +9,8 @@ import com.intellij.lang.PairedBraceMatcher;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Defines the brace matching support for the FSH language. Only parentheses are supported.
@@ -23,6 +23,11 @@ public class FshPairedBraceMatcher implements PairedBraceMatcher {
 
     private static final IElementType LEFT_PAREN_TYPE;
     private static final IElementType RIGHT_PAREN_TYPE;
+    private static final BracePair[] PAIRS = new BracePair[]{
+            new BracePair(LEFT_PAREN_TYPE,
+                          RIGHT_PAREN_TYPE,
+                          false),
+    };
 
     static {
         final var types = PSIElementTypeFactory.getTokenIElementTypes(FshLanguage.INSTANCE);
@@ -30,19 +35,13 @@ public class FshPairedBraceMatcher implements PairedBraceMatcher {
         RIGHT_PAREN_TYPE = types.get(FshLexer.RIGHT_PAREN);
     }
 
-    private static final BracePair[] PAIRS = new BracePair[]{
-            new BracePair(LEFT_PAREN_TYPE,
-                          RIGHT_PAREN_TYPE,
-                          false),
-    };
-
     /**
      * Returns the array of definitions for brace pairs that need to be matched when editing code in the language.
      *
      * @return the array of brace pair definitions.
      */
     @Override
-    public BracePair @NotNull [] getPairs() {
+    public BracePair @NonNull [] getPairs() {
         return PAIRS;
     }
 
@@ -55,7 +54,7 @@ public class FshPairedBraceMatcher implements PairedBraceMatcher {
      * @return true / false as described
      */
     @Override
-    public boolean isPairedBracesAllowedBeforeType(@NotNull final IElementType lbraceType,
+    public boolean isPairedBracesAllowedBeforeType(final IElementType lbraceType,
                                                    @Nullable final IElementType contextType) {
         return true;
     }

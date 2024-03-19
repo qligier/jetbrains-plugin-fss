@@ -1,4 +1,4 @@
-// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.common;
 
@@ -6,8 +6,7 @@ import com.intellij.ide.FileIconProvider;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import javax.swing.*;
 
@@ -29,7 +28,7 @@ public class CustomIconProvider implements FileIconProvider {
      * @return an icon to override the default one or {@code null}.
      */
     @Override
-    public @Nullable Icon getIcon(@NotNull final VirtualFile file,
+    public @Nullable Icon getIcon(final VirtualFile file,
                                   final @Iconable.IconFlags int flags,
                                   @Nullable final Project project) {
         if ("ig.ini".equals(file.getName())) {

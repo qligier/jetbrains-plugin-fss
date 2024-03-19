@@ -1,4 +1,4 @@
-// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.igpublisher.configuration;
 
@@ -14,7 +14,6 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.Gray;
 import com.intellij.ui.JBColor;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,7 +72,7 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
      * @param configuration
      */
     @Override
-    protected void resetEditorFrom(@NotNull final IgPublisherConfiguration configuration) {
+    protected void resetEditorFrom(final IgPublisherConfiguration configuration) {
         this.textFieldJarPath.setText(configuration.getOptions().getJarPath());
         this.checkboxUseWatch.setSelected(configuration.getOptions().getUseWatch());
         this.checkboxUseTxServer.setSelected(configuration.getOptions().getUseTxServer());
@@ -87,7 +86,7 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
      * @param configuration
      */
     @Override
-    protected void applyEditorTo(@NotNull final IgPublisherConfiguration configuration) {
+    protected void applyEditorTo(final IgPublisherConfiguration configuration) {
         configuration.getOptions().setJarPath(this.textFieldJarPath.getText());
         configuration.getOptions().setUseWatch(this.checkboxUseWatch.isSelected());
         configuration.getOptions().setUseTxServer(this.checkboxUseTxServer.isSelected());
@@ -99,7 +98,7 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
      * @return
      */
     @Override
-    protected @NotNull JComponent createEditor() {
+    protected JComponent createEditor() {
         return this.globalPanel;
     }
 
@@ -144,7 +143,7 @@ public class IgPublisherSettingsEditor extends SettingsEditor<IgPublisherConfigu
         final var listener = new TextBrowseFolderListener(new FileChooserDescriptor(false, false, true, true, false,
                                                                                     false)) {
             @Override
-            protected void onFileChosen(@NotNull final VirtualFile chosenFile) {
+            protected void onFileChosen(final VirtualFile chosenFile) {
                 super.onFileChosen(chosenFile);
                 ComponentValidator.getInstance(parentThis.textFieldJarPath).ifPresent(ComponentValidator::revalidate);
                 updateIgPublisherStatus();

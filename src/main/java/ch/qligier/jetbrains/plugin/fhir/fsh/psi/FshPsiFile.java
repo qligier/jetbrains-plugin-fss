@@ -10,8 +10,7 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import org.antlr.intellij.adaptor.psi.ScopeNode;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * jetbrains-plugin-fhir
@@ -20,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
  **/
 public class FshPsiFile extends PsiFileBase implements ScopeNode {
 
-    public FshPsiFile(@NotNull final FileViewProvider viewProvider) {
+    public FshPsiFile(final FileViewProvider viewProvider) {
         super(viewProvider, FshLanguage.INSTANCE);
     }
 
@@ -30,7 +29,7 @@ public class FshPsiFile extends PsiFileBase implements ScopeNode {
      * @return the file type instance.
      */
     @Override
-    public @NotNull FileType getFileType() {
+    public FileType getFileType() {
         return FshFileType.INSTANCE;
     }
 

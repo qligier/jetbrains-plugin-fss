@@ -4,7 +4,6 @@ package ch.qligier.jetbrains.plugin.fhir.fsh.psi;
 
 import com.intellij.lang.ASTNode;
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * jetbrains-plugin-fhir
@@ -16,7 +15,7 @@ public class DebugPsiNode extends ANTLRPsiNode {
     private final String text;
     private final ASTNode node;
 
-    public DebugPsiNode(@NotNull final ASTNode node,
+    public DebugPsiNode(final ASTNode node,
                         final String text) {
         super(node);
         this.text = text;

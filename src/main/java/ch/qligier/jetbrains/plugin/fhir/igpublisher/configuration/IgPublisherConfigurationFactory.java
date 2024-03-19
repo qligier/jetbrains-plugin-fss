@@ -1,4 +1,4 @@
-// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.igpublisher.configuration;
 
@@ -9,8 +9,7 @@ import com.intellij.execution.configurations.SimpleConfigurationType;
 import com.intellij.openapi.components.BaseState;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * The IG Publisher Configuration factory.
@@ -31,7 +30,7 @@ public class IgPublisherConfigurationFactory extends ConfigurationFactory {
      * @param project the project in which the run configuration will be used
      */
     @Override
-    public @NotNull RunConfiguration createTemplateConfiguration(@NotNull final Project project) {
+    public RunConfiguration createTemplateConfiguration(final Project project) {
         return new IgPublisherConfiguration(project, this, "IG Publisher");
     }
 
@@ -46,7 +45,7 @@ public class IgPublisherConfigurationFactory extends ConfigurationFactory {
      * instead.
      */
     @Override
-    public @NotNull @NonNls String getId() {
+    public @NonNls String getId() {
         return IgPublisherConfigurationType.ID;
     }
 

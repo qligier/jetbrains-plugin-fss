@@ -8,7 +8,6 @@ import com.intellij.psi.impl.source.tree.CompositeElement;
 import com.intellij.psi.impl.source.tree.LeafElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * jetbrains-plugin-fhir
@@ -22,7 +21,6 @@ public class FshASTFactory extends DefaultASTFactoryImpl {
      * token. The FileElement is a parse tree node, which is converted to a PsiFile by
      * {@link ParserDefinition#createFile}.
      */
-    @NotNull
     @Override
     public CompositeElement createComposite(IElementType type) {
         return super.createComposite(type);
@@ -33,9 +31,8 @@ public class FshASTFactory extends DefaultASTFactoryImpl {
      * Default impl makes {@link LeafPsiElement} or {@link PsiCoreCommentImpl} depending on
      * {@link ParserDefinition#getCommentTokens()}.
      */
-    @NotNull
     @Override
-    public LeafElement createLeaf(@NotNull IElementType type, CharSequence text) {
+    public LeafElement createLeaf(IElementType type, CharSequence text) {
         /*if (type instanceof TokenIElementType &&
                 ((TokenIElementType) type).getANTLRTokenType() == FshLexer.CANONICAL) {
             // found an ID node; here we do not distinguish between definitions and references

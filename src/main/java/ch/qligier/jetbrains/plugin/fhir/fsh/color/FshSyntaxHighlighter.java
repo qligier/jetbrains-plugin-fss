@@ -10,7 +10,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import org.antlr.intellij.adaptor.lexer.TokenIElementType;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
@@ -51,7 +51,7 @@ public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
      * @return The lexer implementation.
      */
     @Override
-    public @NotNull Lexer getHighlightingLexer() {
+    public Lexer getHighlightingLexer() {
         return FshUtils.createLexer();
     }
 
@@ -64,7 +64,7 @@ public class FshSyntaxHighlighter extends SyntaxHighlighterBase {
      * @return The array of text attribute keys.
      */
     @Override
-    public TextAttributesKey @NotNull [] getTokenHighlights(final IElementType tokenType) {
+    public TextAttributesKey @NonNull [] getTokenHighlights(final IElementType tokenType) {
         if (!(tokenType instanceof final TokenIElementType myType))
             return EMPTY_KEYS;
 

@@ -1,4 +1,4 @@
-// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.igpublisher.configuration;
 
@@ -7,7 +7,6 @@ import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.icons.AllIcons;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
@@ -30,7 +29,7 @@ public class IgPublisherConfigurationType implements ConfigurationType {
      * @return the display name of the configuration type.
      */
     @Override
-    public @NotNull
+    public
     @Nls(capitalization = Nls.Capitalization.Title) String getDisplayName() {
         return "IG Publisher";
     }
@@ -62,8 +61,7 @@ public class IgPublisherConfigurationType implements ConfigurationType {
      * plugin versions.
      */
     @Override
-    public @NotNull
-    @NonNls String getId() {
+    public @NonNls String getId() {
         return ID;
     }
 

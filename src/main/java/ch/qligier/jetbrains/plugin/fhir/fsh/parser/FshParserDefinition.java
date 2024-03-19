@@ -11,6 +11,7 @@ import ch.qligier.jetbrains.plugin.fhir.fsh.psi.FshPsiDocument;
 import ch.qligier.jetbrains.plugin.fhir.fsh.psi.FshPsiFile;
 import ch.qligier.jetbrains.plugin.fhir.fsh.psi.FshPsiName;
 import ch.qligier.jetbrains.plugin.fhir.fsh.psi.entity.FshPsiAlias;
+import ch.qligier.jetbrains.plugin.fhir.fsh.psi.entity.FshPsiProfile;
 import com.intellij.lang.ASTFactory;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -27,8 +28,7 @@ import com.intellij.psi.tree.TokenSet;
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory;
 import org.antlr.intellij.adaptor.lexer.RuleIElementType;
 import org.antlr.intellij.adaptor.lexer.TokenIElementType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 
 /**
@@ -65,7 +65,7 @@ public class FshParserDefinition implements ParserDefinition {
      * @return the lexer instance.
      */
     @Override
-    public @NotNull Lexer createLexer(final Project project) {
+    public Lexer createLexer(final Project project) {
         return FshUtils.createLexer();
     }
 
@@ -76,7 +76,7 @@ public class FshParserDefinition implements ParserDefinition {
      * @return the parser instance.
      */
     @Override
-    public @NotNull PsiParser createParser(final Project project) {
+    public PsiParser createParser(final Project project) {
         return FshUtils.createParser();
     }
 
@@ -86,7 +86,7 @@ public class FshParserDefinition implements ParserDefinition {
      * @return the file node element type.
      */
     @Override
-    public @NotNull IFileElementType getFileNodeType() {
+    public IFileElementType getFileNodeType() {
         return FILE;
     }
 
@@ -99,7 +99,7 @@ public class FshParserDefinition implements ParserDefinition {
      * @return the set of comment token types.
      */
     @Override
-    public @NotNull TokenSet getCommentTokens() {
+    public TokenSet getCommentTokens() {
         return COMMENTS;
     }
 
@@ -110,7 +110,7 @@ public class FshParserDefinition implements ParserDefinition {
      * @return the set of string literal element types.
      */
     @Override
-    public @NotNull TokenSet getStringLiteralElements() {
+    public TokenSet getStringLiteralElements() {
         return STRING;
     }
 
@@ -132,7 +132,7 @@ public class FshParserDefinition implements ParserDefinition {
      * @return the PSI element matching the element type of the AST node.
      */
     @Override
-    public @NotNull PsiElement createElement(final ASTNode node) {
+    public PsiElement createElement(final ASTNode node) {
         final IElementType elType = node.getElementType();
         System.out.println("Creating PSI node for element type " + elType);
         if (elType instanceof TokenIElementType) {
@@ -150,7 +150,7 @@ public class FshParserDefinition implements ParserDefinition {
         };
     }
 
-    public @NotNull PsiElement createEntityElement(final ASTNode node) {
+    public PsiElement createEntityElement(final ASTNode node) {
         final var firstChild = node.getFirstChildNode();
         if (firstChild == null) {
             throw new RuntimeException();
@@ -174,7 +174,7 @@ public class FshParserDefinition implements ParserDefinition {
      * @return the PSI file element.
      */
     @Override
-    public @NotNull PsiFile createFile(@NotNull final FileViewProvider viewProvider) {
+    public PsiFile createFile(final FileViewProvider viewProvider) {
         return new FshPsiFile(viewProvider);
     }
 
@@ -189,7 +189,7 @@ public class FshParserDefinition implements ParserDefinition {
      * @return the set of whitespace token types.
      */
     @Override
-    public @NotNull TokenSet getWhitespaceTokens() {
+    public TokenSet getWhitespaceTokens() {
         return WHITESPACE;
     }
 
@@ -202,7 +202,6 @@ public class FshParserDefinition implements ParserDefinition {
      * @param right the second token to check.
      * @return the spacing requirements.
      */
-    @NotNull
     @Override
     public SpaceRequirements spaceExistenceTypeBetweenTokens(final ASTNode left, final ASTNode right) {
         return SpaceRequirements.MAY;
@@ -221,8 +220,8 @@ public class FshParserDefinition implements ParserDefinition {
      * @see ASTFactory#leaf(IElementType, CharSequence)
      */
     @Override
-    public @Nullable ASTNode reparseSpace(@NotNull final ASTNode originalSpaceNode,
-                                          @NotNull final CharSequence newWhiteSpaceSequence) {
+    public @Nullable ASTNode reparseSpace(final ASTNode originalSpaceNode,
+                                          final CharSequence newWhiteSpaceSequence) {
         return ParserDefinition.super.reparseSpace(originalSpaceNode, newWhiteSpaceSequence);
     }
 }

@@ -3,7 +3,7 @@
 package ch.qligier.jetbrains.plugin.fhir.fsh.language;
 
 import com.intellij.lang.Commenter;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Defines the support for "Comment with Line Comment" and "Comment with Block Comment" actions in the FSH language.

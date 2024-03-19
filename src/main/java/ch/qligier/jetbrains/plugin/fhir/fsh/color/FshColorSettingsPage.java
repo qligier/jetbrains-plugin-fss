@@ -11,8 +11,8 @@ import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
 import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import javax.swing.*;
 import java.util.Map;
@@ -52,7 +52,7 @@ public class FshColorSettingsPage implements ColorSettingsPage {
      * @return the syntax highlighter instance.
      */
     @Override
-    public @NotNull SyntaxHighlighter getHighlighter() {
+    public SyntaxHighlighter getHighlighter() {
         return new FshSyntaxHighlighter();
     }
 
@@ -68,7 +68,7 @@ public class FshColorSettingsPage implements ColorSettingsPage {
      * @return the text to show in the preview pane or empty text to hide it.
      */
     @Override
-    public @NonNls @NotNull String getDemoText() {
+    public @NonNls String getDemoText() {
         return """
                 // Comment.
                 Profile: MyPatient
@@ -107,7 +107,7 @@ public class FshColorSettingsPage implements ColorSettingsPage {
      * @return the array of attribute descriptors.
      */
     @Override
-    public AttributesDescriptor @NotNull [] getAttributeDescriptors() {
+    public AttributesDescriptor @NonNull [] getAttributeDescriptors() {
         return DESCRIPTORS;
     }
 
@@ -118,7 +118,7 @@ public class FshColorSettingsPage implements ColorSettingsPage {
      * @return the array of color descriptors.
      */
     @Override
-    public ColorDescriptor @NotNull [] getColorDescriptors() {
+    public ColorDescriptor @NonNull [] getColorDescriptors() {
         return ColorDescriptor.EMPTY_ARRAY;
     }
 
@@ -128,7 +128,7 @@ public class FshColorSettingsPage implements ColorSettingsPage {
      * @return the title of the custom page.
      */
     @Override
-    public @NotNull String getDisplayName() {
+    public String getDisplayName() {
         return "FSH";
     }
 }

@@ -1,10 +1,9 @@
-// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.fsh;
 
 import com.intellij.codeInsight.template.TemplateActionContext;
 import com.intellij.codeInsight.template.TemplateContextType;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A TemplateContextType tells the IntelliJ Platform where the Live Template is applicable: FSH files.
@@ -21,7 +20,7 @@ public class FshContext extends TemplateContextType {
     }
 
     @Override
-    public boolean isInContext(@NotNull final TemplateActionContext templateActionContext) {
+    public boolean isInContext(final TemplateActionContext templateActionContext) {
         return templateActionContext.getFile().getName().endsWith(".fsh");
     }
 }

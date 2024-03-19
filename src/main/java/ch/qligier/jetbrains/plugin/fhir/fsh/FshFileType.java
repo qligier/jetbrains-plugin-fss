@@ -1,11 +1,10 @@
-// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.fsh;
 
 import ch.qligier.jetbrains.plugin.fhir.common.Icons;
 import com.intellij.openapi.fileTypes.LanguageFileType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import javax.swing.*;
 
@@ -26,8 +25,7 @@ public class FshFileType extends LanguageFileType {
      * Returns the name of the file type. The name must be unique among all file types registered in the system.
      */
     @Override
-    public
-    @NotNull String getName() {
+    public String getName() {
         return "FSH";
     }
 
@@ -35,8 +33,7 @@ public class FshFileType extends LanguageFileType {
      * Returns the user-readable description of the file type.
      */
     @Override
-    public
-    @NotNull String getDescription() {
+    public String getDescription() {
         return "FSH file";
     }
 
@@ -44,8 +41,7 @@ public class FshFileType extends LanguageFileType {
      * Returns the default extension for files of the type, <em>not</em> including the leading '.'.
      */
     @Override
-    public
-    @NotNull String getDefaultExtension() {
+    public String getDefaultExtension() {
         return "fsh";
     }
 

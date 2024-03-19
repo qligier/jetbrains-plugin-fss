@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.annotations)
     implementation(libs.antlr4Intellij)
     antlr(libs.antlr4)
+    implementation(libs.jspecify)
 }
 
 // Set the JVM language level used to build the project.

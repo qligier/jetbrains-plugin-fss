@@ -10,7 +10,6 @@ import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor;
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * jetbrains-plugin-fhir
@@ -25,12 +24,12 @@ public class FshUtils {
     private FshUtils() {
     }
 
-    public static @NotNull ANTLRLexerAdaptor createLexer() {
+    public static ANTLRLexerAdaptor createLexer() {
         final var antlrLexer = new FshLexer(null);
         return new ANTLRLexerAdaptor(FshLanguage.INSTANCE, antlrLexer);
     }
 
-    public static @NotNull ANTLRParserAdaptor createParser() {
+    public static ANTLRParserAdaptor createParser() {
         final var antlrParser = new FshParser(null);
         return new ANTLRParserAdaptor(FshLanguage.INSTANCE, antlrParser) {
             @Override

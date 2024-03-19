@@ -1,4 +1,4 @@
-// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.igpublisher.jar;
 
@@ -10,7 +10,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.UpdateInBackground;
 import com.intellij.openapi.project.DumbAware;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * An action that downloads the latest version of the IG Publisher JAR file.
@@ -26,7 +25,7 @@ public class DownloadLatestIgPublisherJarAction extends AnAction implements Dumb
      * @param e Carries information on the invocation place
      */
     @Override
-    public void actionPerformed(@NotNull final AnActionEvent e) {
+    public void actionPerformed(final AnActionEvent e) {
         final var onSuccess = new Runnable() {
             /**
              * When an object implementing interface {@code Runnable} is used to create a thread,

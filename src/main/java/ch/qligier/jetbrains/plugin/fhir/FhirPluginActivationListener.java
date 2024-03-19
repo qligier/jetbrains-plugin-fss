@@ -3,12 +3,10 @@
 package ch.qligier.jetbrains.plugin.fhir;
 
 import ch.qligier.jetbrains.plugin.fhir.fsh.FshLanguage;
-import ch.qligier.jetbrains.plugin.fhir.fsh.FshUtils;
 import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshParser;
 import com.intellij.openapi.application.ApplicationActivationListener;
 import com.intellij.openapi.wm.IdeFrame;
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * jetbrains-plugin-fhir
@@ -23,7 +21,7 @@ public class FhirPluginActivationListener implements ApplicationActivationListen
      * @param ideFrame
      */
     @Override
-    public void applicationActivated(@NotNull final IdeFrame ideFrame) {
+    public void applicationActivated(final IdeFrame ideFrame) {
         // Load all IElementTypes for FSH
         PSIElementTypeFactory.defineLanguageIElementTypes(FshLanguage.INSTANCE,
                                                           FshParser.tokenNames,

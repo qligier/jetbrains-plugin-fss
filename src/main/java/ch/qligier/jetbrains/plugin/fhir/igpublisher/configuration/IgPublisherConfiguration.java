@@ -1,4 +1,4 @@
-// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.igpublisher.configuration;
 
@@ -13,8 +13,7 @@ import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.options.SettingsEditorGroup;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ import java.util.ArrayList;
  **/
 public class IgPublisherConfiguration extends RunConfigurationBase<IgPublisherConfigurationOptions> {
 
-    public IgPublisherConfiguration(final @NotNull Project project,
+    public IgPublisherConfiguration(final Project project,
                                     @Nullable final ConfigurationFactory factory,
                                     @Nullable final String name) {
         super(project, factory, name);
@@ -35,7 +34,7 @@ public class IgPublisherConfiguration extends RunConfigurationBase<IgPublisherCo
      * @return
      */
     @Override
-    protected @NotNull IgPublisherConfigurationOptions getOptions() {
+    protected IgPublisherConfigurationOptions getOptions() {
         return (IgPublisherConfigurationOptions) super.getOptions();
     }
 
@@ -48,7 +47,7 @@ public class IgPublisherConfiguration extends RunConfigurationBase<IgPublisherCo
      * @return the settings editor component.
      */
     @Override
-    public @NotNull SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
+    public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
         return new IgPublisherSettingsEditor();
     }
 
@@ -75,8 +74,8 @@ public class IgPublisherConfiguration extends RunConfigurationBase<IgPublisherCo
      * start the process.
      */
     @Override
-    public @Nullable RunProfileState getState(@NotNull final Executor executor,
-                                              @NotNull final ExecutionEnvironment environment)
+    public @Nullable RunProfileState getState(final Executor executor,
+                                              final ExecutionEnvironment environment)
             throws ExecutionException {
         return new CommandLineState(environment) {
 
@@ -100,7 +99,6 @@ public class IgPublisherConfiguration extends RunConfigurationBase<IgPublisherCo
              * @return
              * @throws ExecutionException
              */
-            @NotNull
             @Override
             protected ProcessHandler startProcess() throws ExecutionException {
                 final var commands = new ArrayList<String>(9);

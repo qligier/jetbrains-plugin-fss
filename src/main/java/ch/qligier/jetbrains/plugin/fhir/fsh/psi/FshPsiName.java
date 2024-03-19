@@ -7,8 +7,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
 import com.intellij.util.IncorrectOperationException;
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * jetbrains-plugin-fhir
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  **/
 public class FshPsiName extends ANTLRPsiNode implements PsiNameIdentifierOwner {
 
-    public FshPsiName(@NotNull final ASTNode node) {
+    public FshPsiName(final ASTNode node) {
         super(node);
         System.out.printf("FshPsiName.<init> text=%s%n", node.getText());
     }
@@ -40,7 +39,7 @@ public class FshPsiName extends ANTLRPsiNode implements PsiNameIdentifierOwner {
      * @throws IncorrectOperationException if the modification is not supported or not possible for some reason.
      */
     @Override
-    public PsiElement setName(final @NotNull String name) throws IncorrectOperationException {
+    public PsiElement setName(final String name) throws IncorrectOperationException {
         return null;
     }
 }

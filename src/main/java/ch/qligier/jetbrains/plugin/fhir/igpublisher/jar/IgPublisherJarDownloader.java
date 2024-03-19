@@ -1,4 +1,4 @@
-// Copyright 2022 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fhir.igpublisher.jar;
 
@@ -18,7 +18,6 @@ import com.intellij.util.download.DownloadableFileDescription;
 import com.intellij.util.download.DownloadableFileService;
 import com.intellij.util.download.FileDownloader;
 import org.apache.commons.io.FileUtils;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -108,7 +107,7 @@ public class IgPublisherJarDownloader {
         final var task = new Task.Backgroundable(project, "Downloading the IG Publisher v" + version) {
 
             @Override
-            public void run(final @NotNull ProgressIndicator indicator) {
+            public void run(final ProgressIndicator indicator) {
                 try {
                     final List<VirtualFile> files = downloader.downloadFilesWithProgress(
                             IgPublisherJarManager.LOCAL_JAR_DIRECTORY,

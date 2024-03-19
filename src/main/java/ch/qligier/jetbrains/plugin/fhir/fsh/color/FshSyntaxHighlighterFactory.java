@@ -6,8 +6,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * jetbrains-plugin-fhir
@@ -28,8 +27,8 @@ public class FshSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
      * @return {@code SyntaxHighlighter} interface implementation for this particular language.
      */
     @Override
-    public @NotNull SyntaxHighlighter getSyntaxHighlighter(@Nullable final Project project,
-                                                           @Nullable final VirtualFile virtualFile) {
+    public SyntaxHighlighter getSyntaxHighlighter(@Nullable final Project project,
+                                                  @Nullable final VirtualFile virtualFile) {
         return new FshSyntaxHighlighter();
     }
 }

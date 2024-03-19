@@ -3,6 +3,7 @@
 annotations = "24.1.0"
 antlr4Intellij = "0.1"
 antlr4 = "4.13.1"
+jspecify = "0.3.0"
 
 # plugins
 kotlin = "1.9.23"
@@ -15,6 +16,7 @@ kover = "0.7.6"
 annotations = { group = "org.jetbrains", name = "annotations", version.ref = "annotations" }
 antlr4Intellij = { group = "org.antlr", name = "antlr4-intellij-adaptor", version.ref = "antlr4Intellij" }
 antlr4 = { group = "org.antlr", name = "antlr4", version.ref = "antlr4" }
+jspecify = { group = "org.jspecify", name = "jspecify", version.ref = "jspecify" }
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
