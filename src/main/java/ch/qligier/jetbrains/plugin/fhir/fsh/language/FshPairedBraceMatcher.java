@@ -21,18 +21,15 @@ import org.jspecify.annotations.Nullable;
  **/
 public class FshPairedBraceMatcher implements PairedBraceMatcher {
 
-    private static final IElementType LEFT_PAREN_TYPE;
-    private static final IElementType RIGHT_PAREN_TYPE;
-    private static final BracePair[] PAIRS = new BracePair[]{
-            new BracePair(LEFT_PAREN_TYPE,
-                          RIGHT_PAREN_TYPE,
-                          false),
-    };
+    private static final BracePair[] PAIRS;
 
     static {
         final var types = PSIElementTypeFactory.getTokenIElementTypes(FshLanguage.INSTANCE);
-        LEFT_PAREN_TYPE = types.get(FshLexer.LEFT_PAREN);
-        RIGHT_PAREN_TYPE = types.get(FshLexer.RIGHT_PAREN);
+        PAIRS = new BracePair[]{
+                new BracePair(types.get(FshLexer.LEFT_PAREN),
+                              types.get(FshLexer.RIGHT_PAREN),
+                              false),
+        };
     }
 
     /**
