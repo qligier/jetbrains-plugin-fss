@@ -144,6 +144,7 @@ public class FshParserDefinition implements ParserDefinition {
         return switch (ruleElType.getRuleIndex()) {
             case FshParser.RULE_doc -> new FshPsiDocument(node);
             case FshParser.RULE_alias -> new FshPsiAlias(node);
+            case FshParser.RULE_profile -> new FshPsiProfile(node);
             case FshParser.RULE_entity -> this.createEntityElement(node);
             case FshParser.RULE_name -> new FshPsiName(node);
             default -> new DebugPsiNode(node, "default");

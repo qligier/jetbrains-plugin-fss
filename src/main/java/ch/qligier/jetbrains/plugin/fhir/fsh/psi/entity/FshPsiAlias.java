@@ -7,8 +7,8 @@ import ch.qligier.jetbrains.plugin.fhir.fsh.grammar.FshLexer;
 import ch.qligier.jetbrains.plugin.fhir.fsh.specification.ItemType;
 import com.intellij.lang.ASTNode;
 import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
+
 
 /**
  * PSI element representing an alias in an FSH file.
@@ -17,35 +17,28 @@ import org.jetbrains.annotations.Nullable;
  **/
 public class FshPsiAlias extends FshPsiItem {
 
-    private final @Nullable String aliasValue;
-
-    public FshPsiAlias(@NotNull final ASTNode node) {
+    public FshPsiAlias(final ASTNode node) {
         super(node);
-        this.aliasValue = this.extractAliasValue(node);
     }
 
     @Override
-    public @NotNull ItemType getItemType() {
+    public ItemType getItemType() {
         return ItemType.ALIAS;
     }
 
-    public @Nullable String getAliasValue() {
-        return this.aliasValue;
-    }
-
     @Override
-    protected @Nullable String extractItemName(@NotNull final ASTNode node) {
-        return node.getText(); //TODO get from name
+    public @Nullable String getItemName() {
+        return this.getNode().getText(); //TODO get from name
     }
 
-    protected @Nullable String extractAliasValue(@NotNull final ASTNode node) {
+    public @Nullable String getAliasValue() {
         final var type = PSIElementTypeFactory.getTokenIElementTypes(FshLanguage.INSTANCE).get(FshLexer.SEQUENCE);
-        final var child = node.findChildByType(type);
+        final var child = this.getNode().findChildByType(type);
         return (child != null) ? child.getText() : null;
     }
 
     @Override
     public @Nullable String toString() {
-        return "FshPsiAlias(%s, %s)".formatted(this.itemName, this.aliasValue);
+        return "FshPsiAlias(%s, %s)".formatted(this.getItemName(), this.getAliasValue());
     }
 }
