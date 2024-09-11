@@ -29,11 +29,24 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
-    
+
     <actions>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
+
+        <!-- The following two ("editorHighlighterProvider" and "lang.syntaxHighlighterFactory") are required
+            because defining a custom file type breaks the association of a TextMate grammar with a file extension.
+            https://intellij-support.jetbrains.com/hc/en-us/community/posts/360008202719/comments/8966725380242 -->
+        <editorHighlighterProvider
+                filetype="Snakeskin"
+                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateEditorHighlighterProvider" />
+
+        <lang.syntaxHighlighterFactory
+                language="Snakeskin"
+                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateSyntaxHighlighterFactory" />
+
+        <textmate.bundleProvider implementation="snakeskin.lang.SnakeskinTextMateBundleProvider" />
     </extensions>
 
     <applicationListeners>
