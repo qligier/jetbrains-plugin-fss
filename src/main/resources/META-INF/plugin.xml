@@ -1,18 +1,41 @@
+<!--
+  ~ Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
+  -->
+
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.qligier.testjb</id>
-    <name>test-jb</name>
-    <vendor>qligier</vendor>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>ch.qligier.jetbrains.plugin.fhir</id>
 
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>FHIR and SUSHI Support</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor url="https://github.com/qligier/jetbrains-plugin-fhir">Quentin Ligier</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    A plugin that adds support for the FSH language, the IG Publisher and SUSHI tools, and the <em>ig.ini</em> file.
+
+    <a href="https://github.com/qligier/jetbrains-plugin-fhir">Source code</a> |
+    <a href="https://github.com/qligier/jetbrains-plugin-fhir/issues">Issues</a> |
+    <a href="https://www.linkedin.com/in/qligier/">LinkedIn</a>
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
-
-    <resource-bundle>messages.MyBundle</resource-bundle>
+    <depends>com.intellij.modules.lang</depends>
+    
+    <actions>
+    </actions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.qligier.testjb.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.qligier.testjb.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
 </idea-plugin>

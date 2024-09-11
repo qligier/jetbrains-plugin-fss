@@ -1,6 +1,7 @@
 [versions]
 # libraries
 junit = "4.13.2"
+annotations = "24.1.0"
 
 # plugins
 changelog = "2.2.1"
@@ -11,6 +12,7 @@ qodana = "2024.1.9"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+annotations = { group = "org.jetbrains", name = "annotations", version.ref = "annotations" }
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }

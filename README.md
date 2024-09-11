@@ -1,51 +1,44 @@
-# test-jb
+# ![FHIR and SUSHI Support Logo](src/main/resources/META-INF/pluginIcon.svg) JetBrains Plugin: FHIR and SUSHI Support
 
-![Build](https://github.com/qligier/test-jb/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
+A plugin that add supports for the [FHIR Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html)
+(_FSH_) and the [IG Publisher](https://github.com/HL7/fhir-ig-publisher) and [SUSHI](https://github.com/FHIR/sushi/)
+tools.
 
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get familiar with the [template documentation][template].
-- [ ] Adjust the [pluginGroup](./gradle.properties) and [pluginName](./gradle.properties), as well as the [id](./src/main/resources/META-INF/plugin.xml) and [sources package](./src/main/kotlin).
-- [ ] Adjust the plugin description in `README` (see [Tips][docs:plugin-description])
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the `MARKETPLACE_ID` in the above README badges. You can obtain it once the plugin is published to JetBrains Marketplace.
-- [ ] Set the [Plugin Signing](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html?from=IJPluginTemplate) related [secrets](https://github.com/JetBrains/intellij-platform-plugin-template#environment-variables).
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html?from=IJPluginTemplate).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
+<p align="center">
 
-<!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
+![GitHub](https://img.shields.io/github/license/qligier/jetbrains-plugin-fhir?style=flat-square)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/qligier/jetbrains-plugin-fhir?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/qligier/jetbrains-plugin-fhir?style=flat-square)
+![JDK 17](https://img.shields.io/badge/JDK-11-blue?style=flat-square)
+</p>
 
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
+## IG Publisher support
 
-To keep everything working, do not remove `<!-- ... -->` sections. 
-<!-- Plugin description end -->
+A new configuration is available to run the IG Publisher on the current project. SUSHI is supported through the IG
+Publisher.
 
-## Installation
+> **Warning**
+>
+> It's currently the responsibility of the user to download the IG Publisher and update its path in the
+> configuration, and to make SUSHI available in the project if needed.
 
-- Using the IDE built-in plugin system:
-  
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "test-jb"</kbd> >
-  <kbd>Install</kbd>
-  
-- Using JetBrains Marketplace:
+## FSH language support
 
-  Go to [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID) and install it by clicking the <kbd>Install to ...</kbd> button in case your IDE is running.
+This plugin adds, for FSH files:
 
-  You can also download the [latest release](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID/versions) from JetBrains Marketplace and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+- Syntax highlighting;
+- Block and line commenting actions (`Comment with Line Comment` and `Comment with Block Comment`)
+- Braces matching;
+- Renaming capabilities;
+- Collapsable items;
+- Inspection: alias should start with '$';
+- Inspection: ids should be based on the item's name;
 
-- Manually:
+### Notice
 
-  Download the [latest release](https://github.com/qligier/test-jb/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+The FHIR
+Shorthand ![FSH icon](https://github.com/qligier/jetbrains-plugin-fhir/raw/master/src/main/resources/icons/fsh_flame.png)
+is maybe copyrighted?
 
-
----
-Plugin based on the [IntelliJ Platform Plugin Template][template].
-
-[template]: https://github.com/JetBrains/intellij-platform-plugin-template
-[docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+The logo is derived from [Burn Fire Flame Hot](https://www.svgrepo.com/svg/404501/burn-fire-flame-hot), published
+under [Creative Commons Zero](https://creativecommons.org/publicdomain/zero/1.0/) license.

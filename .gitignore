@@ -1,5 +1,24 @@
 .gradle
-.idea
-.intellijPlatform
-.qodana
-build
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+antlr*.jar
+idea-flex.skeleton
+jflex*.jar
+
+### IntelliJ IDEA ###
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+.idea/sonarlint/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Mac OS ###
+.DS_Store
