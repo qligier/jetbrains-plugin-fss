@@ -5,14 +5,14 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>ch.qligier.jetbrains.plugin.fhir</id>
+    <id>ch.qligier.jetbrains.plugin.fss</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>FHIR and SUSHI Support</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor url="https://github.com/qligier/jetbrains-plugin-fhir">Quentin Ligier</vendor>
+    <vendor url="https://github.com/qligier/jetbrains-plugin-fss">Quentin Ligier</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
@@ -20,8 +20,8 @@
     <description><![CDATA[
     A plugin that adds support for the FSH language, the IG Publisher and SUSHI tools, and the <em>ig.ini</em> file.
 
-    <a href="https://github.com/qligier/jetbrains-plugin-fhir">Source code</a> |
-    <a href="https://github.com/qligier/jetbrains-plugin-fhir/issues">Issues</a> |
+    <a href="https://github.com/qligier/jetbrains-plugin-fss">Source code</a> |
+    <a href="https://github.com/qligier/jetbrains-plugin-fss/issues">Issues</a> |
     <a href="https://www.linkedin.com/in/qligier/">LinkedIn</a>
   ]]></description>
 
@@ -29,24 +29,32 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
+    <depends>org.jetbrains.plugins.textmate</depends>
 
     <actions>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
+        <fileIconProvider implementation="ch.qligier.jetbrains.plugin.fss.common.FssIconProvider"/>
 
+        <!-- The FSH language -->
+        <fileType
+                name="FSH"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.FshFileType"
+                fieldName="INSTANCE"
+                language="FSH"
+                extensions="fsh"/>
+        <textmate.bundleProvider
+                implementation="ch.qligier.jetbrains.plugin.fss.fsh.FshTextMateBundleProvider"/>
         <!-- The following two ("editorHighlighterProvider" and "lang.syntaxHighlighterFactory") are required
             because defining a custom file type breaks the association of a TextMate grammar with a file extension.
             https://intellij-support.jetbrains.com/hc/en-us/community/posts/360008202719/comments/8966725380242 -->
         <editorHighlighterProvider
-                filetype="Snakeskin"
-                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateEditorHighlighterProvider" />
-
+                filetype="FSH"
+                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateEditorHighlighterProvider"/>
         <lang.syntaxHighlighterFactory
-                language="Snakeskin"
-                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateSyntaxHighlighterFactory" />
-
-        <textmate.bundleProvider implementation="snakeskin.lang.SnakeskinTextMateBundleProvider" />
+                language="FSH"
+                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateSyntaxHighlighterFactory"/>
     </extensions>
 
     <applicationListeners>

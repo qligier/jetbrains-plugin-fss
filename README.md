@@ -8,10 +8,10 @@ tools.
 
 <p align="center">
 
-![GitHub](https://img.shields.io/github/license/qligier/jetbrains-plugin-fhir?style=flat-square)
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/qligier/jetbrains-plugin-fhir?style=flat-square)
-![GitHub last commit](https://img.shields.io/github/last-commit/qligier/jetbrains-plugin-fhir?style=flat-square)
-![JDK 17](https://img.shields.io/badge/JDK-11-blue?style=flat-square)
+![GitHub](https://img.shields.io/github/license/qligier/jetbrains-plugin-fss?style=flat-square)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/qligier/jetbrains-plugin-fss?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/qligier/jetbrains-plugin-fss?style=flat-square)
+![JDK 17](https://img.shields.io/badge/JDK-17-blue?style=flat-square)
 </p>
 
 ## IG Publisher support
@@ -39,7 +39,7 @@ This plugin adds, for FSH files:
 ### Notice
 
 The FHIR
-Shorthand ![FSH icon](https://github.com/qligier/jetbrains-plugin-fhir/raw/master/src/main/resources/icons/fsh_flame.png)
+Shorthand ![FSH icon](https://github.com/qligier/jetbrains-plugin-fss/raw/master/src/main/resources/icons/fsh_flame.png)
 is maybe copyrighted?
 
 The logo is derived from [Burn Fire Flame Hot](https://www.svgrepo.com/svg/404501/burn-fire-flame-hot), published
