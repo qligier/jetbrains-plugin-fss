@@ -1,4 +1,4 @@
-# ![FHIR and SUSHI Support Logo](src/main/resources/META-INF/pluginIcon.svg) JetBrains Plugin: FHIR and SUSHI Support
+# ![FHIR® and SUSHI Support Logo](src/main/resources/META-INF/pluginIcon.svg) JetBrains Plugin: FHIR® and SUSHI Support
 
 <!-- Plugin description -->
 A plugin that add supports for the [FHIR Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html)
@@ -16,13 +16,13 @@ tools.
 
 ## IG Publisher support
 
-A new configuration is available to run the IG Publisher on the current project. SUSHI is supported through the IG
-Publisher.
+A new configuration is available to run the _IG Publisher_ on the current project. _SUSHI_ is supported through the _IG
+Publisher_.
 
 > **Warning**
 >
-> It's currently the responsibility of the user to download the IG Publisher and update its path in the
-> configuration, and to make SUSHI available in the project if needed.
+> It's currently the responsibility of the user to download the _IG Publisher_ and update its path in the
+> configuration, and to make _SUSHI_ available in the project if needed.
 
 ## FSH language support
 
@@ -44,3 +44,5 @@ is maybe copyrighted?
 
 The logo is derived from [Burn Fire Flame Hot](https://www.svgrepo.com/svg/404501/burn-fire-flame-hot), published
 under [Creative Commons Zero](https://creativecommons.org/publicdomain/zero/1.0/) license.
+
+_FHIR® is the registered trademark of HL7 and is used with the permission of HL7._
