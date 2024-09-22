@@ -22,11 +22,9 @@ public class FshTextMateBundleProvider implements TextMateBundleProvider {
     public @NonNull List<PluginBundle> getBundles() {
         final File directory = PluginPathManager.getPluginResource(this.getClass(), "textmate");
         if (directory == null) {
-            LOG.error("Could not find the FSH TextMate bundle");
+            LOG.warn("Could not find the FSH TextMate bundle");
             return List.of();
         }
-        LOG.warn("Found the FSH TextMate bundle at " + directory.getAbsolutePath());
-        System.out.println("Found the FSH TextMate bundle at " + directory.getAbsolutePath());
         return List.of(new PluginBundle("FSH", directory.toPath()));
     }
 }
