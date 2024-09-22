@@ -55,6 +55,13 @@
         <lang.syntaxHighlighterFactory
                 language="FSH"
                 implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateSyntaxHighlighterFactory"/>
+        <lang.commenter language="FSH"
+                        implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.FshCommenter"/>
+
+        <defaultLiveTemplates file="/fsh/liveTemplates.xml"/>
+        <liveTemplateContext
+                contextId="FSH"
+                implementation="ch.qligier.jetbrains.plugin.fss.fsh.FshTemplateContextType"/>
     </extensions>
 
     <applicationListeners>
