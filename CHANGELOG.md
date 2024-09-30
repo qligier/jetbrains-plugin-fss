@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Replace a non-fixed width lookbehind with an atomic group ([#1](https://github.com/qligier/fsh.tmbundle/issues/1))
+
 ## [0.0.1] - 2024-09-29
 
 ### Added
@@ -14,4 +18,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
 [Unreleased]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.1...HEAD
+
 [0.0.1]: https://github.com/qligier/jetbrains-plugin-fss/commits/v0.0.1
