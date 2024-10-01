@@ -1,0 +1,33 @@
+/*
+ * Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
+ */
+
+/*
+ * A parser for the INI file format, used to parse the ig.ini file.
+ * See https://plugins.jetbrains.com/docs/intellij/grammar-and-parser.html
+ * See https://plugins.jetbrains.com/docs/intellij/implementing-parser-and-psi.html
+*/
+
+{
+  parserClass="ch.qligier.jetbrains.plugin.fss.igini.language.parser.IniParser"
+  parserUtilClass="ch.qligier.jetbrains.plugin.fss.igini.language.parser.IniParserUtil"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Ini"
+  psiImplClassSuffix="Impl"
+  psiPackage="ch.qligier.jetbrains.plugin.fss.igini.language.psi"
+  psiImplPackage="ch.qligier.jetbrains.plugin.fss.igini.language.psi.impl"
+
+  elementTypeHolderClass="ch.qligier.jetbrains.plugin.fss.igini.language.psi.IniTypes"
+  elementTypeClass="ch.qligier.jetbrains.plugin.fss.igini.language.psi.IniElementType"
+  tokenTypeClass="ch.qligier.jetbrains.plugin.fss.igini.language.psi.IniTokenType"
+
+  psiImplUtilClass="ch.qligier.jetbrains.plugin.fss.igini.language.psi.impl.IniPsiImplUtil"
+}
+
+iniFile   ::= (property|COMMENT)* (section|property|COMMENT)*
+section   ::= SECTION_NAME property*                             { methods = [getSectionName getProperties] }
+property  ::= key EQUAL value                                    { methods = [getKeyName getKeyElement] }
+key       ::= PKEY
+value     ::= PVALUE

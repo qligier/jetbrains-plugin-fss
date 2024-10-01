@@ -62,6 +62,30 @@
         <liveTemplateContext
                 contextId="FSH"
                 implementation="ch.qligier.jetbrains.plugin.fss.fsh.FshTemplateContextType"/>
+
+
+        <!-- The ig.ini file -->
+        <fileType
+                name="ig.ini"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.igini.IgIniFileType"
+                fieldName="INSTANCE"
+                language="IG_INI"
+                fileNames="ig.ini"/>
+        <annotator
+                language="IG_INI"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.igini.IgIniAnnotator"/>
+        <lang.parserDefinition
+                language="IG_INI"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.igini.language.parser.IniParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="IG_INI"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.igini.language.highlighter.IniSyntaxHighlighterFactory"/>
+        <lang.commenter
+                language="IG_INI"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.igini.language.IniCommenter"/>
+        <completion.contributor
+                language="IG_INI"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.igini.IgIniCompletionContributor"/>
     </extensions>
 
     <applicationListeners>

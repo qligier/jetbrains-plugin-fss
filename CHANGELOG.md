@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add support for the ig.ini file: syntax highlighting, annotator, completion and some other features
+
 ### Fixed
 
 - Replace a non-fixed width lookbehind with an atomic group ([#1](https://github.com/qligier/fsh.tmbundle/issues/1))
