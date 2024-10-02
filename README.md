@@ -12,6 +12,7 @@ tools.
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/qligier/jetbrains-plugin-fss?style=flat-square)
 ![GitHub last commit](https://img.shields.io/github/last-commit/qligier/jetbrains-plugin-fss?style=flat-square)
 ![JDK 17](https://img.shields.io/badge/JDK-17-blue?style=flat-square)
+[![JETBRAINS-Marketplace](https://img.shields.io/badge/JETBRAINS-Marketplace-f8015f)](https://plugins.jetbrains.com/plugin/25435-fhir-and-sushi-support)
 </p>
 
 ## FSH language support
