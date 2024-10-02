@@ -73,6 +73,21 @@ public class IgIniCompletionContributor extends CompletionContributor {
                                             resultSet.addElement(LookupElementBuilder.create("hl7.davinci.template"));
                                             resultSet.addElement(LookupElementBuilder.create("hl7.cda.template"));
                                             resultSet.addElement(LookupElementBuilder.create("hl7.other.template"));
+
+                                            // List of the trusted templates
+                                            // https://github.com/HL7/fhir-ig-publisher/blob/master/org.hl7.fhir.publisher.core/src/main/java/org/hl7/fhir/igtools/templates/TemplateManager.java#L244
+                                            resultSet.addElement(LookupElementBuilder.create("fhir.test.template"));
+                                            resultSet.addElement(LookupElementBuilder.create("hl7.au.base.template"));
+                                            resultSet.addElement(LookupElementBuilder.create("hl7.au.fhir.template"));
+                                            resultSet.addElement(LookupElementBuilder.create("hl7.utg.template"));
+                                            resultSet.addElement(LookupElementBuilder.create("hl7.be.fhir.template"));
+                                            resultSet.addElement(LookupElementBuilder.create("openhie.fhir.template"));
+                                            resultSet.addElement(LookupElementBuilder.create("who.fhir.template"));
+                                            resultSet.addElement(LookupElementBuilder.create("who.template.root"));
+                                            resultSet.addElement(LookupElementBuilder.create("hl7.davinci.template"));
+                                            resultSet.addElement(LookupElementBuilder.create("hl7.extensions.template"));
+                                            resultSet.addElement(LookupElementBuilder.create("ihe.fhir.template"));
+                                            resultSet.addElement(LookupElementBuilder.create("ch.fhir.ig.template"));
                                         }
                                     }
                                 }
