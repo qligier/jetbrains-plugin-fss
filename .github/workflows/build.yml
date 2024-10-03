@@ -172,6 +172,10 @@ jobs:
         uses: JetBrains/qodana-action@v2024.2.3
         with:
           cache-default-branch-only: true
+          pr-mode: false
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1211535525 }}
+          QODANA_ENDPOINT: 'https://qodana.cloud'
 
   # Run plugin structure verification along with IntelliJ Plugin Verifier
   verify:
