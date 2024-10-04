@@ -10,7 +10,7 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * jetbrains-plugin-fss
@@ -33,11 +33,11 @@ public class IniFile extends PsiFileBase {
         return "ig.ini file";
     }
 
-    public @NotNull Collection<IniSection> getSections() {
+    public @NotNull List<IniSection> getSections() {
         return IniPsiImplUtil.getSections(this);
     }
 
-    public @NotNull Collection<IniProperty> getProperties() {
+    public @NotNull List<IniProperty> getProperties() {
         return IniPsiImplUtil.getProperties(this);
     }
 }
