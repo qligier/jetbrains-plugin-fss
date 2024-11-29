@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Advertise support for the 2024.3 release of JetBrains IDEs
+
 ## [0.0.3] - 2024-10-26
 
 ### Fixed
