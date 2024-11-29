@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Advertise support for the 2024.3 release of JetBrains IDEs
+- Advertise support for the 2024.3 release of JetBrains IDEs ([#17](https://github.com/qligier/fsh.tmbundle/issues/17))
 
 ## [0.0.3] - 2024-10-26
 
@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Unreleased]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.2...HEAD
 
-[0.0.2]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.2...v0.0.3
+[0.0.3]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.2...v0.0.3
 
 [0.0.2]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.1...v0.0.2
 
