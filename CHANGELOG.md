@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.4] - 2024-11-29
+
 ### Added
 
 - Advertise support for the 2024.3 release of JetBrains IDEs ([#17](https://github.com/qligier/fsh.tmbundle/issues/17))
@@ -33,7 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial scaffold created
   from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.2...HEAD
+[Unreleased]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.4...HEAD
+
+[0.0.4]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.3...v0.0.4
 
 [0.0.3]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.2...v0.0.3
 
