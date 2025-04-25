@@ -3,6 +3,7 @@
     DEFAULT_LINE_COMMENT
     DEFAULT_DOT
 ␣last␣modified␣1␣April␣2001␣by␣John␣Doe
+
     DEFAULT_LINE_COMMENT
     DEFAULT_LINE_COMMENT
 [
@@ -42,6 +43,7 @@ database
     DEFAULT_LINE_COMMENT
     DEFAULT_DOT
 ␣use␣IP␣address␣in␣case␣network␣name␣resolution␣is␣not␣working
+
     DEFAULT_LINE_COMMENT
     DEFAULT_LINE_COMMENT
 server

@@ -1,4 +1,4 @@
-// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fss.fsh;
 
@@ -20,7 +20,7 @@ public class FshTextMateBundleProvider implements TextMateBundleProvider {
 
     @Override
     public @NonNull List<PluginBundle> getBundles() {
-        final File directory = PluginPathManager.getPluginResource(this.getClass(), "textmate");
+        final File directory = PluginPathManager.getPluginResource(this.getClass(), "fsh/fsh.tmbundle");
         if (directory == null) {
             LOG.warn("Could not find the FSH TextMate bundle");
             return List.of();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
+ * Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
  */
 
 import org.jetbrains.changelog.Changelog
@@ -148,9 +148,12 @@ tasks {
 
     prepareSandbox {
         from("src/main/resources/fsh/fsh.tmbundle") {
-            include("info.plist")
-            include("Syntaxes/fsh.tmLanguage")
-            into("${intellijPlatform.pluginConfiguration.id.get()}/textmate")
+            into(pluginName.map { "$it/fsh/fsh.tmbundle" })
+        }
+    }
+    prepareTestSandbox {
+        from("src/main/resources/fsh/fsh.tmbundle") {
+            into(pluginName.map { "$it/fsh/fsh.tmbundle" })
         }
     }
 }
