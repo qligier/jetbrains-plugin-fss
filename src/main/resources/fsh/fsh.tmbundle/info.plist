@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>contactName</key>
+	<string>Quentin Ligier</string>
+	<key>description</key>
+	<string>TextMate bundle for the FSH (FHIR Shorthand) language.</string>
+	<key>name</key>
+	<string>fsh</string>
+	<key>ordering</key>
+	<array>
+		<string>1E4DD6BF-567F-434F-B3FA-3D8276267A3D</string>
+	</array>
+	<key>uuid</key>
+	<string>DF7CCBF2-6486-4F9F-88E9-BE2AB374C25D</string>
+</dict>
+</plist>
