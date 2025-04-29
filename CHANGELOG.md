@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Restore syntax highlighting of some keyword that were followed by an alias
+  ([#16](https://github.com/qligier/fsh.tmbundle/issues/16))
+
 ## [0.0.5] - 2025-04-25
 
 ### Added
