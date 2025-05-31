@@ -1,29 +1,89 @@
+<!--
+  ~ Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
+  -->
+
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>ch.qligier.jetbrains.plugin.fss.jetbrains-plugin-fss</id>
+    <id>ch.qligier.jetbrains.plugin.fss</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Jetbrains-plugin-fss</name>
+    <name>FHIR® and SUSHI Support</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor url="https://github.com/qligier/jetbrains-plugin-fss">Quentin Ligier</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    A plugin that adds support for the FSH language, the IG Publisher and SUSHI tools, and the <em>ig.ini</em> file.
+
+    <a href="https://github.com/qligier/jetbrains-plugin-fss">Source code</a> |
+    <a href="https://github.com/qligier/jetbrains-plugin-fss/issues">Issues</a> |
+    <a href="https://www.linkedin.com/in/qligier/">LinkedIn</a>
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
 
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <actions>
+    </actions>
+
     <extensions defaultExtensionNs="com.intellij">
+        <fileIconProvider implementation="ch.qligier.jetbrains.plugin.fss.common.IconProvider"/>
 
+        <!-- The FSH language -->
+        <lang.commenter language="FSH"
+                        implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.FshCommenter"/>
+        <fileType
+                name="FSH"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.FshFileType"
+                language="FSH"
+                extensions="fsh"/>
+        <!--<textmate.bundleProvider
+                implementation="ch.qligier.jetbrains.plugin.fss.fsh.FshTextMateBundleProvider"/>-->
+        <!-- The following two ("editorHighlighterProvider" and "lang.syntaxHighlighterFactory") are required
+            because defining a custom file type breaks the association of a TextMate grammar with a file extension.
+            https://intellij-support.jetbrains.com/hc/en-us/community/posts/360008202719/comments/8966725380242 -->
+        <!--<editorHighlighterProvider
+                filetype="FSH"
+                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateEditorHighlighterProvider"/>
+        <lang.syntaxHighlighterFactory
+                language="FSH"
+                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateSyntaxHighlighterFactory"/>-->
+
+        <defaultLiveTemplates file="/fsh/liveTemplates.xml"/>
+        <liveTemplateContext
+                contextId="FSH"
+                implementation="ch.qligier.jetbrains.plugin.fss.fsh.FshTemplateContextType"/>
+
+        <!-- The ig.ini file -->
+        <fileType
+                name="ig.ini"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.ig_ini.IgIniFileType"
+                language="IG_INI"
+                fileNames="ig.ini"/>
+        <annotator
+                language="IG_INI"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.ig_ini.IgIniAnnotator"/>
+        <lang.parserDefinition
+                language="IG_INI"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.ig_ini.language.parser.IniParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="IG_INI"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.ig_ini.language.highlighter.IniSyntaxHighlighterFactory"/>
+        <lang.commenter
+                language="IG_INI"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.ig_ini.language.IniCommenter"/>
+        <completion.contributor
+                language="IG_INI"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.ig_ini.IgIniCompletionContributor"/>
     </extensions>
+
+    <applicationListeners>
+    </applicationListeners>
 </idea-plugin>
