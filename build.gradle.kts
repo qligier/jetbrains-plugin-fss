@@ -58,7 +58,10 @@ intellijPlatform {
     pluginConfiguration {
         ideaVersion {
             sinceBuild = "241"
-            untilBuild = "252.*"
+            // Do not set `untilBuild` here but in the Marketplace directly.
+            // This allows changing its value without re-publishing the plugin.
+            // https://platform.jetbrains.com/t/why-cant-i-set-an-until-build-value-greater-than-251/1840
+            // untilBuild = "252.*"
         }
 
         name = "FHIR and SUSHI Support"
