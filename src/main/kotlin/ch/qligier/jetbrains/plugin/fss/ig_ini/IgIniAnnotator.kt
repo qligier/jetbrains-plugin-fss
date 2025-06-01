@@ -12,9 +12,7 @@ import com.intellij.psi.PsiElement
 import java.lang.String
 
 /**
- * An annotator for the ig.ini file.
- *
- * @author Quentin Ligier
+ * An annotator for the 'ig.ini' file.
  * @see [Annotator](https://plugins.jetbrains.com/docs/intellij/annotator.html)
  */
 class IgIniAnnotator : Annotator {

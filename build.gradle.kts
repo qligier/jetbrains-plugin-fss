@@ -40,6 +40,7 @@ dependencies {
 
         // Add necessary plugin dependencies for compilation here, example:
         // bundledPlugin("com.intellij.java")
+        bundledPlugin("org.jetbrains.plugins.yaml")
     }
 
     // todo: v4.13.2 confuses the tokens, do not upgrade until it is fixed

@@ -29,6 +29,8 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
+    <depends optional="true" config-file="plugin_with_json.xml">com.intellij.modules.json</depends>
+    <depends optional="true" config-file="plugin_with_yaml.xml">org.jetbrains.plugins.yaml</depends>
 
     <actions>
     </actions>
@@ -87,6 +89,7 @@
         <completion.contributor
                 language="IG_INI"
                 implementationClass="ch.qligier.jetbrains.plugin.fss.ig_ini.IgIniCompletionContributor"/>
+
     </extensions>
 
     <applicationListeners>
