@@ -42,10 +42,17 @@ dependencies {
         // bundledPlugin("com.intellij.java")
     }
 
+    // todo: v4.13.2 confuses the tokens, do not upgrade until it is fixed
+    val antlrVersion = "4.13.1"
+
     implementation("org.jetbrains:annotations:26.0.2")
     implementation("org.antlr:antlr4-intellij-adaptor:0.1")
-    antlr("org.antlr:antlr4:4.13.2")
+    antlr("org.antlr:antlr4:$antlrVersion")
+    implementation("org.antlr:antlr4-runtime:$antlrVersion")
     implementation("org.jspecify:jspecify:1.0.0")
+
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.opentest4j:opentest4j:1.3.0")
 }
 
 // Set the JVM language level used to build the project.
@@ -158,10 +165,23 @@ tasks {
         dependsOn(patchChangelog)
     }
 
+    compileKotlin {
+        dependsOn(generateGrammarSource)
+    }
+
+    compileTestKotlin {
+        dependsOn(generateTestGrammarSource)
+    }
+
     generateGrammarSource {
-        arguments = arguments + listOf("-package", "ch.qligier.jetbrains.plugin.fhir.fsh.grammar")
+        arguments = arguments + listOf(
+            "-visitor",
+            "-package",
+            "ch.qligier.jetbrains.plugin.fss.fsh.antlr",
+            "-Xexact-output-dir"
+        )
         outputDirectory = file(
-            "src/main/gen/ch/qligier/jetbrains/plugin/fss/fsh/grammar/"
+            "src/main/gen/ch/qligier/jetbrains/plugin/fss/fsh/antlr",
         )
     }
 }

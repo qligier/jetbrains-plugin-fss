@@ -37,29 +37,34 @@
         <fileIconProvider implementation="ch.qligier.jetbrains.plugin.fss.common.IconProvider"/>
 
         <!-- The FSH language -->
-        <lang.commenter language="FSH"
-                        implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.FshCommenter"/>
         <fileType
                 name="FSH"
                 implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.FshFileType"
                 language="FSH"
                 extensions="fsh"/>
-        <!--<textmate.bundleProvider
-                implementation="ch.qligier.jetbrains.plugin.fss.fsh.FshTextMateBundleProvider"/>-->
-        <!-- The following two ("editorHighlighterProvider" and "lang.syntaxHighlighterFactory") are required
-            because defining a custom file type breaks the association of a TextMate grammar with a file extension.
-            https://intellij-support.jetbrains.com/hc/en-us/community/posts/360008202719/comments/8966725380242 -->
-        <!--<editorHighlighterProvider
-                filetype="FSH"
-                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateEditorHighlighterProvider"/>
+        <lang.parserDefinition
+                language="FSH"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.antlr.FshParserDefinition"/>
+        <lang.ast.factory
+                language="FSH"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.antlr.FshAstFactory"/>
         <lang.syntaxHighlighterFactory
                 language="FSH"
-                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateSyntaxHighlighterFactory"/>-->
+                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.color.FshSyntaxHighlighterFactory"/>
+        <lang.commenter
+                language="FSH"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.features.FshCommenter"/>
+        <lang.braceMatcher
+                language="FSH"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.features.FshPairedBraceMatcher"/>
 
-        <defaultLiveTemplates file="/fsh/liveTemplates.xml"/>
+        <defaultLiveTemplates
+                file="/fsh/liveTemplates.xml"/>
         <liveTemplateContext
                 contextId="FSH"
                 implementation="ch.qligier.jetbrains.plugin.fss.fsh.FshTemplateContextType"/>
+        <colorSettingsPage
+                implementation="ch.qligier.jetbrains.plugin.fss.fsh.color.FshColorSettingsPage"/>
 
         <!-- The ig.ini file -->
         <fileType
@@ -85,5 +90,7 @@
     </extensions>
 
     <applicationListeners>
+        <listener class="ch.qligier.jetbrains.plugin.fss.FssPluginActivationListener"
+                  topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
 </idea-plugin>

@@ -1,4 +1,5 @@
-generated-src/
+.intellijPlatform/
+.kotlin/
 
 .gradle
 build/

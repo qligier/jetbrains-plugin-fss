@@ -2,14 +2,12 @@
  * Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
  */
 
-package ch.qligier.jetbrains.plugin.fss.fsh
+package ch.qligier.jetbrains.plugin.fss.fsh.features
 
 import com.intellij.lang.Commenter
 
 /**
  * Defines the support for "Comment with Line Comment" and "Comment with Block Comment" actions in the FSH language.
- *
- * @author Quentin Ligier
  * @see [Comment Code](https://plugins.jetbrains.com/docs/intellij/additional-minor-features.html#comment-code)
  * @see [Commenter](https://plugins.jetbrains.com/docs/intellij/commenter.html)
  */
