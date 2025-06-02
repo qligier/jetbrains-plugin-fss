@@ -73,7 +73,7 @@ intellijPlatform {
         }
 
         name = "FHIR and SUSHI Support"
-        id = ""
+        id = "ch.qligier.jetbrains.plugin.fss"
         version = providers.gradleProperty("pluginVersion")
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
