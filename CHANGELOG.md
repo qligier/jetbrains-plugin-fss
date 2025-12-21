@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.6] - 2025-12-21
+
+### Added
+
+- Advertise support for the 2025.3 release of JetBrains IDEs
+
 ### Fixed
 
 - Restore syntax highlighting of some keyword that were followed by an alias
@@ -46,7 +52,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial scaffold created
   from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.5...HEAD
+[Unreleased]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.6...HEAD
+
+[0.0.6]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.5...v0.0.6
 
 [0.0.5]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.4...v0.0.5
 
