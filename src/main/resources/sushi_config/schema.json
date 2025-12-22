@@ -12,8 +12,7 @@
         },
         "canonical": {
             "description": "The canonical base URL to be used throughout the IG",
-            "type": "string",
-            "format": "uri"
+            "$ref": "#/definitions/fhir:uri"
         },
         "contact": {
             "description": "Contact details for the publisher",
@@ -97,7 +96,14 @@
             "type": "boolean"
         },
         "global": {
-            "description": "Key is the type and value is the profile"
+            "description": "Key is the type and value is the profile",
+            "type": "object",
+            "$comment": "Key is a `code`, value is a `canonical`",
+            "patternProperties": {
+                "\\S+( \\S+)*$": {
+                    "$ref": "#/definitions/fhir:uri"
+                }
+            }
         },
         "groups": {
             "description": "A `key: value` pair, where key is the group id and value is the description of the group. For advanced use cases, the value can be an object with keys for `name`, `description`, and `resources`."
@@ -167,7 +173,21 @@
             "$comment": "https://hl7.org/fhir/R5/valueset-spdx-license.html"
         },
         "menu": {
-            "description": ""
+            "description": "Used to generate the fsh-generated/includes/menu.xml file. The key is the menu item name and the value is the URL. Menus can contain sub-menus, but the IG Publisher currently only supports sub-menus one level deep.",
+            "type": "object",
+            "additionalProperties": {
+                "oneOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
         },
         "meta": {
             "description": "As specified in the IG resource"
