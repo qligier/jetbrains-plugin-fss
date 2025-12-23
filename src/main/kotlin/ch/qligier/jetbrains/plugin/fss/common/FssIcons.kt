@@ -26,17 +26,17 @@ object FssIcons {
 
     // Icons based on [JetBrains ones](https://jetbrains.design/intellij/resources/icons_list/).
     val FSH_FILE = loadIcon("fsh_file.svg")
-    val VALUESET = loadIcon("valueset.svg")
-    val PROFILE = loadIcon("profile.svg")
-    val EXTENSION = loadIcon("extension.svg")
-    val RESOURCE = loadIcon("resource.svg")
-    val MAPPING = loadIcon("mapping.svg")
-    val ALIAS = loadIcon("alias.svg")
-    val LOGICAL = loadIcon("logical.svg")
-    val CODESYSTEM = loadIcon("codesystem.svg")
-    val RULESET = loadIcon("ruleset.svg")
-    val INVARIANT = loadIcon("invariant.svg")
-    val INSTANCE = loadIcon("instance.svg")
+//    val VALUESET = loadIcon("valueset.svg")
+//    val PROFILE = loadIcon("profile.svg")
+//    val EXTENSION = loadIcon("extension.svg")
+//    val RESOURCE = loadIcon("resource.svg")
+//    val MAPPING = loadIcon("mapping.svg")
+//    val ALIAS = loadIcon("alias.svg")
+//    val LOGICAL = loadIcon("logical.svg")
+//    val CODESYSTEM = loadIcon("codesystem.svg")
+//    val RULESET = loadIcon("ruleset.svg")
+//    val INVARIANT = loadIcon("invariant.svg")
+//    val INSTANCE = loadIcon("instance.svg")
 
     // Utility function to load icons from the resources
     private fun loadIcon(path: String): Icon = IconLoader.getIcon("icons/$path", FssIcons::class.java)

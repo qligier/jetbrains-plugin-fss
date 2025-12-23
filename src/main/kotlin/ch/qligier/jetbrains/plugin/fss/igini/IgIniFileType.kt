@@ -7,8 +7,6 @@ package ch.qligier.jetbrains.plugin.fss.igini
 import ch.qligier.jetbrains.plugin.fss.common.FssIcons
 import com.intellij.openapi.fileTypes.LanguageFileType
 
-val IG_INI_FILE_TYPE = IgIniFileType()
-
 /**
  * Definition of the 'ig.ini' file type.
  *

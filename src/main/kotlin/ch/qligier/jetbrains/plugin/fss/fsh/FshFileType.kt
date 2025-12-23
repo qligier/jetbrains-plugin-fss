@@ -13,6 +13,11 @@ import com.intellij.openapi.fileTypes.LanguageFileType
  * @see [Language and File Type](https://plugins.jetbrains.com/docs/intellij/language-and-filetype.html)
  */
 class FshFileType : LanguageFileType(FshLanguage) {
+    companion object {
+        @Suppress("unused")
+        val INSTANCE: FshFileType = FshFileType()
+    }
+
     /**
      * Returns the name of the file type. The name must be unique among all file types registered in the system.
      */
@@ -33,7 +38,4 @@ class FshFileType : LanguageFileType(FshLanguage) {
      */
     override fun getIcon() = FssIcons.FSH_FILE
 
-    companion object {
-        val INSTANCE: FshFileType = FshFileType()
-    }
 }

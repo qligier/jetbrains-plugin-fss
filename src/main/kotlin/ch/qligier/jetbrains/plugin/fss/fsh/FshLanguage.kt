@@ -11,4 +11,6 @@ import com.intellij.lang.Language
  * @author Quentin Ligier
  * @see [Language and File Type](https://plugins.jetbrains.com/docs/intellij/language-and-filetype.html)
  */
-object FshLanguage : Language("FSH")
+object FshLanguage : Language("FSH") {
+    private fun readResolve(): Any = FshLanguage
+}
