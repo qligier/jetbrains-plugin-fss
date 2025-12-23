@@ -12,6 +12,6 @@ public interface IniSection extends PsiElement {
 
   @Nullable String getSectionName();
 
-  @NotNull List<IniProperty> getProperties();
+  @NotNull List<@NotNull IniProperty> getProperties();
 
 }

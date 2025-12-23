@@ -12,14 +12,3 @@ exclude:
       - .qodana
       # Exclude generated files
       - src/main/gen/
-      - src/main/java/ch/qligier/jetbrains/plugin/fss/igini/language/parser/IniParser.java
-      - src/main/java/ch/qligier/jetbrains/plugin/fss/igini/language/psi/IniKey.java
-      - src/main/java/ch/qligier/jetbrains/plugin/fss/igini/language/psi/IniProperty.java
-      - src/main/java/ch/qligier/jetbrains/plugin/fss/igini/language/psi/IniSection.java
-      - src/main/java/ch/qligier/jetbrains/plugin/fss/igini/language/psi/IniTypes.java
-      - src/main/java/ch/qligier/jetbrains/plugin/fss/igini/language/psi/IniValue.java
-      - src/main/java/ch/qligier/jetbrains/plugin/fss/igini/language/psi/IniVisitor.java
-      - src/main/java/ch/qligier/jetbrains/plugin/fss/igini/language/psi/impl/IniKeyImpl.java
-      - src/main/java/ch/qligier/jetbrains/plugin/fss/igini/language/psi/impl/IniPropertyImpl.java
-      - src/main/java/ch/qligier/jetbrains/plugin/fss/igini/language/psi/impl/IniSectionImpl.java
-      - src/main/java/ch/qligier/jetbrains/plugin/fss/igini/language/psi/impl/IniValueImpl.java

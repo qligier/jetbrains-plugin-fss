@@ -1,4 +1,4 @@
-// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
 // A lexer for the INI file format, used to parse the ig.ini file.
 // See https://plugins.jetbrains.com/docs/intellij/lexer-and-parser-definition.html
 // See https://plugins.jetbrains.com/docs/intellij/implementing-lexer.html

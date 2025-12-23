@@ -30,12 +30,12 @@ class IgIniAnnotator : Annotator {
         }
 
         // Properties outside a section aren't supported by the IG Publisher
-        for (property in element.properties) {
+        for (property in element.getProperties()) {
             this.createWarningForUnsupportedProperty(holder, property)
         }
 
         var sectionIgFound = false
-        for (section in element.sections) {
+        for (section in element.getSections()) {
             if (IgIniSpecs.IG_SECTION_NAME != section.getSectionName()) {
                 holder.newAnnotation(
                     HighlightSeverity.WEAK_WARNING,
