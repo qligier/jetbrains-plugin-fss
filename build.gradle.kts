@@ -58,7 +58,7 @@ dependencies {
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
 intellijPlatform {
     pluginConfiguration {
-        name = "FHIR® and SUSHI Support"
+        name = "FHIR and SUSHI Support"
         id = "jetbrains-plugin-fss"
         version = providers.gradleProperty("pluginVersion")
 
@@ -123,7 +123,15 @@ intellijPlatform {
 
     pluginVerification {
         ides {
-            recommended()
+            // The 'verifyPlugin' task is configured to test each minor version of IDEs in the configured
+            // compatibility range, which can be a lot of versions.
+            // Let's reduce that to the first and last versions only, to speed up the verification process.
+            // https://github.com/JetBrains/intellij-platform-plugin-template/issues/462#issuecomment-2745197887
+            val productReleases = ProductReleasesValueSource().get()
+            val reducedProductReleases =
+                if (productReleases.size > 2) listOf(productReleases.first(), productReleases.last())
+                else productReleases
+            ides(reducedProductReleases)
         }
     }
 }
