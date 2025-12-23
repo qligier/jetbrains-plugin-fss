@@ -1,0 +1,718 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/qligier/jetbrains-plugin-fss/refs/heads/master/src/main/resources/sushi_config/schema.json",
+    "title": "sushi-config.yaml",
+    "description": "A schema for the sushi-config.yaml file",
+    "type": "object",
+    "properties": {
+        "applyExtensionMetadataToRoot": {
+            "description": "When set to true, the “short” and “definition” field on the root element of an Extension will be set to the “Title” and “Description” of that Extension",
+            "default": true,
+            "type": "boolean"
+        },
+        "canonical": {
+            "description": "The canonical base URL to be used throughout the IG",
+            "$ref": "#/definitions/fhir:uri"
+        },
+        "contact": {
+            "description": "Contact details for the publisher",
+            "type": "array",
+            "items": {
+                "minItems": 1,
+                "$ref": "#/definitions/fhir:ContactDetail"
+            }
+        },
+        "contained": {
+            "description": "As specified in the IG resource",
+            "type": "array",
+            "items": {
+                "minItems": 1
+            }
+        },
+        "copyright": {
+            "description": "Use and/or publishing restrictions",
+            "$ref": "#/definitions/fhir:string"
+        },
+        "copyrightLabel": {
+            "description": "Copyright holder and year(s). Introduced in FHIR R5",
+            "$ref": "#/definitions/fhir:string"
+        },
+        "copyrightYear": {
+            "description": "Used to add a `copyrightyear` parameter to `IG.definition.parameter`. The copyright year text to include in the implementation guide footer",
+            "type": "string",
+            "$comment": "https://hl7.org/fhir/tools/CodeSystem-ig-parameters.html#:~:text=header%20and%20footer-,copyrightyear,-copyrightyear"
+        },
+        "copyrightyear": {
+            "description": "Used to add a `copyrightyear` parameter to `IG.definition.parameter`. The copyright year text to include in the implementation guide footer",
+            "type": "string",
+            "$comment": "https://hl7.org/fhir/tools/CodeSystem-ig-parameters.html#:~:text=header%20and%20footer-,copyrightyear,-copyrightyear"
+        },
+        "date": {
+            "description": "Date last changed",
+            "$ref": "#/definitions/fhir:dateTime"
+        },
+        "definition": {
+            "description": "A list of extensions that apply to `IG.definition`. Note: the only property supported on the definition property is `extension`.",
+            "properties": {
+                "extension": {}
+            }
+        },
+        "description": {
+            "description": "Natural language description of the implementation guide",
+            "$ref": "#/definitions/fhir:string"
+        },
+        "dependencies": {
+            "description": "A `key: value` pair, where key is the package id and value is the version (or dev/current). For advanced use cases, the value can be an object with keys for id, uri, version, and extension. For R5 IG resources, the key reason can also be provided."
+        },
+        "experimental": {
+            "description": "For testing purposes, not real usage",
+            "type": "boolean"
+        },
+        "extension": {
+            "description": "Additional content defined by implementations",
+            "type": "array",
+            "items": {
+                "minItems": 1
+            }
+        },
+        "fhirVersion": {
+            "$comment": "Versions must come from https://hl7.org/fhir/directory.html, see https://github.com/FHIR/sushi/blob/master/src/utils/Processing.ts#L86",
+            "description": "FHIR Version(s) this Implementation Guide targets. SUSHI supports FHIR versions in the R4 or R5 sequences, as given in the FHIR Publication History. 5.0.0-snapshot1. Projects that wish to use a 5.0.0 pre-release can specify the version in their sushi-config.yaml file, e.g., fhirVersion: 5.0.0-snapshot1.",
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/fhirVersion"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "minItems": 1,
+                        "$ref": "#/definitions/fhirVersion"
+                    }
+                }
+            ]
+        },
+        "FSHOnly": {
+            "description": "When this flag is set to true, no IG-specific content will be generate. SUSHI will only convert FSH definitions to JSON files. The author at least needs to provide a canonical and fhirVersion for FSHOnly processing to succeed. When FSHOnly is false or unspecified, IG content is generated.",
+            "type": "boolean"
+        },
+        "global": {
+            "description": "Key is the type and value is the profile",
+            "type": "object",
+            "$comment": "Key is a `code`, value is a `canonical`",
+            "patternProperties": {
+                "\\S+( \\S+)*$": {
+                    "$ref": "#/definitions/fhir:uri"
+                }
+            }
+        },
+        "groups": {
+            "description": "A `key: value` pair, where key is the group id and value is the description of the group. For advanced use cases, the value can be an object with keys for `name`, `description`, and `resources`."
+        },
+        "id": {
+            "description": "Logical id of this artifact",
+            "$ref": "#/definitions/fhir:id"
+        },
+        "implicitRules": {
+            "description": "A set of rules under which this content was created",
+            "$ref": "#/definitions/fhir:uri"
+        },
+        "instanceOptions": {
+            "description": "`key: value` pairs, where keys are `setId`, `setMetaProfile`, and `manualSliceOrdering`.",
+            "properties": {
+                "setId": {
+                    "description": "The `setId` value controls whether `id` is set on generated instances. Options are `always` (set `id` on all instances [the default]) or `standalone-only` (set `id` for instances where the Usage keyword is NOT `#inline`).",
+                    "type": "string",
+                    "default": "always",
+                    "enum": [
+                        "always",
+                        "standalone-only"
+                    ]
+                },
+                "setMetaProfile": {
+                    "description": "The `setMetaProfile` value controls whether `meta.profile` is set on generated instances. It can have the following values: `always` (set `meta.profile` for all instances [the default]), `never` (do not set `meta.profile` on any instances), `inline-only` (set meta.profile only for instances of profiles with Usage keyword set to `#inline`), or `standalone-only` (set `meta.profile` for instances where the Usage keyword is NOT `#inline`).",
+                    "type": "string",
+                    "default": "always",
+                    "enum": [
+                        "always",
+                        "never",
+                        "inline-only",
+                        "standalone-only"
+                    ]
+                },
+                "manualSliceOrdering": {
+                    "description": "The `manualSliceOrdering` value controls whether slice ordering is determined exclusively by the order in which slices are referenced in an instance’s FSH rules. When this flag is set to true, manual ordering is enabled",
+                    "type": "boolean"
+                }
+            }
+        },
+        "jurisdiction": {
+            "description": "Intended jurisdiction for implementation guide (if applicable)",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/definitions/fhir:CodeableConcept"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "minItems": 1,
+                        "$ref": "#/definitions/fhir:CodeableConcept"
+                    }
+                }
+            ]
+        },
+        "language": {
+            "description": "Language of the resource content",
+            "$ref": "#/definitions/fhir:code"
+        },
+        "license": {
+            "description": "SPDX license code for this IG (or not-open-source)",
+            "$ref": "#/definitions/fhir:code",
+            "$comment": "https://hl7.org/fhir/R5/valueset-spdx-license.html"
+        },
+        "menu": {
+            "description": "Used to generate the fsh-generated/includes/menu.xml file. The key is the menu item name and the value is the URL. Menus can contain sub-menus, but the IG Publisher currently only supports sub-menus one level deep.",
+            "type": "object",
+            "additionalProperties": {
+                "oneOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "meta": {
+            "description": "As specified in the IG resource"
+        },
+        "modifierExtension": {
+            "description": "As specified in the IG resource"
+        },
+        "name": {
+            "$ref": "#/definitions/fhir:string",
+            "description": "Name for this implementation guide (computer friendly)",
+            "type": "string"
+        },
+        "packageId": {
+            "description": "NPM Package name for IG. If unspecified, defaults to `id`.",
+            "$ref": "#/definitions/fhir:id"
+        },
+        "pages": {
+            "description": "SUSHI can auto-generate pages, but authors can manage pages through this property. If this property is used, SUSHI will not generate any page entries. The YAML key is the file name containing the page. The title key-value pair provides the title for the page. If a title is not provided, then the title will be generated from the file name. If a generation value (corresponding to definition.page.generation) is not provided, it will be inferred from the file name extension. In the IG resource, pages can contain sub-pages; so in the config file, any sub-properties that are valid filenames with supported extensions (e.g., .md/.xml) will be treated as sub-pages."
+        },
+        "parameters": {
+            "description": "Consists of key-value pairs where the keys are values of `definition.parameter.code`. For R5 IG resources, the key can be a FSH code that specifies the `code` and `system` values of `definition.parameter.code`, which is a Coding. See the Exhaustive Example for details. If a parameter allows repeating values, the value in the YAML may be a sequence/array. For example, the `path-resource` parameter specifies relative paths to additional folders that contain predefined resources"
+        },
+        "publisher": {
+            "description": "Publisher can be a single item or a list, each with a name and optional url and/or email. The first publisher’s name will be used as IG.publisher. The contact details and/or additional publishers will be translated into IG.contact values",
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/publisher"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "minItems": 1,
+                        "$ref": "#/definitions/publisher"
+                    }
+                }
+            ]
+        },
+        "releaseLabel": {
+            "description": "Used to add a `releaseLabel` parameter to `IG.definition.parameter`. The release label at the top of the page. This is a text label with no fixed set of values that describes the status of the publication to users. Typical values might be 'STU X' or 'Normative Standard' or '2024 Edition'",
+            "type": "string",
+            "$comment": "https://hl7.org/fhir/tools/CodeSystem-ig-parameters.html#:~:text=use%20across%20versions-,releaselabel,-releaselabel"
+        },
+        "releaselabel": {
+            "description": "Used to add a `releaseLabel` parameter to `IG.definition.parameter`. The release label at the top of the page. This is a text label with no fixed set of values that describes the status of the publication to users. Typical values might be 'STU X' or 'Normative Standard' or '2024 Edition'",
+            "type": "string",
+            "$comment": "https://hl7.org/fhir/tools/CodeSystem-ig-parameters.html#:~:text=use%20across%20versions-,releaselabel,-releaselabel"
+        },
+        "resources": {
+            "description": "SUSHI can auto-generate a list of resources based on FSH definitions and provided JSON or XML resources, but this property can be used to add additional entries or override generated entries. SUSHI uses the {resource type}/{resource name} format as the YAML key (corresponding to IG.definition.resource.reference). Authors can specify the value “omit” to omit a FSH-generated resource from the resource list. `groupingId` can be used, but top-level groups syntax may be a better option."
+        },
+        "status": {
+            "description": "draft | active | retired | unknown",
+            "$ref": "#/definitions/fhir:code",
+            "enum": [
+                "draft",
+                "active",
+                "retired",
+                "unknown"
+            ]
+        },
+        "templates": {
+            "description": "A template for building resources",
+            "type": "array",
+            "items": {
+                "minItems": 1,
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "$ref": "#/definitions/fhir:code",
+                        "description": "Type of template specified"
+                    },
+                    "source": {
+                        "$ref": "#/definitions/fhir:string",
+                        "description": "The source location for the template"
+                    },
+                    "scope": {
+                        "$ref": "#/definitions/fhir:string",
+                        "description": "The scope in which the template applies"
+                    }
+                },
+                "required": [
+                    "code",
+                    "source"
+                ],
+                "additionalProperties": false
+            }
+        },
+        "text": {
+            "description": "Text summary of the ImplementationGuide, for human interpretation",
+            "$ref": "#/definitions/fhir:Narrative"
+        },
+        "title": {
+            "$ref": "#/definitions/fhir:string",
+            "description": "Name for this implementation guide (human friendly)"
+        },
+        "url": {
+            "$ref": "#/definitions/fhir:uri",
+            "description": "Canonical identifier for this implementation guide, represented as a URI (globally unique). If unspecified, defaults to `{canonical}/ImplementationGuide/{id}`."
+        },
+        "useContext": {
+            "description": "The context that the content is intended to support",
+            "type": "array",
+            "items": {
+                "minItems": 1,
+                "$ref": "#/definitions/fhir:UsageContext"
+            }
+        },
+        "version": {
+            "$ref": "#/definitions/fhir:string",
+            "description": "Business version of the implementation guide"
+        },
+        "versionAlgorithmString": {
+            "description": "How to compare versions",
+            "$ref": "#/definitions/fhir:string"
+        },
+        "versionAlgorithmCoding": {
+            "description": "How to compare versions",
+            "$ref": "#/definitions/fhir:Coding"
+        }
+    },
+    "definitions": {
+        "fhirVersion": {
+            "type": "string",
+            "enum": [
+                "3.2.0",
+                "3.3.0",
+                "3.5.0",
+                "3.5a.0",
+                "4.0.1",
+                "4.1.0",
+                "4.3.0-snapshot1",
+                "4.3.0",
+                "4.2.0",
+                "4.4.0",
+                "4.5.0",
+                "4.6.0",
+                "5.0.0-snapshot1",
+                "5.0.0-ballot",
+                "5.0.0-snapshot3",
+                "5.0.0-draft-final",
+                "5.0.0",
+                "6.0.0-ballot1",
+                "6.0.0-ballot2",
+                "6.0.0-ballot3"
+            ]
+        },
+        "publisher": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the publisher"
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL for the publisher"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email address for the publisher"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false
+        },
+        "fhir:string": {
+            "type": "string",
+            "pattern": "^[\\s\\S]{1,1048576}$",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#string",
+            "description": "A string that conforms to the FHIR string data type"
+        },
+        "fhir:uri": {
+            "type": "string",
+            "format": "uri",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#uri",
+            "description": "A string that conforms to the FHIR uri data type"
+        },
+        "fhir:code": {
+            "type": "string",
+            "pattern": "^\\S+( \\S+)*$",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#code",
+            "description": "A string that conforms to the FHIR code data type"
+        },
+        "fhir:dateTime": {
+            "type": "string",
+            "pattern": "^([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]{1,9})?)?)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)?)?)?$",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#dateTime",
+            "description": "A string that conforms to the FHIR dateTime data type"
+        },
+        "fhir:positiveInt": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647,
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#positiveInt",
+            "description": "A positive integer that conforms to the FHIR positiveInt data type"
+        },
+        "fhir:id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9\\-\\.]{1,64}$",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#id",
+            "description": "A string that conforms to the FHIR id data type"
+        },
+        "fhir:Coding": {
+            "type": "object",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#Coding",
+            "properties": {
+                "system": {
+                    "$ref": "#/definitions/fhir:uri",
+                    "description": "The identification of the code system that defines the meaning of the symbol in the code"
+                },
+                "version": {
+                    "$ref": "#/definitions/fhir:string",
+                    "description": "The version of the code system that was used when choosing this code"
+                },
+                "code": {
+                    "$ref": "#/definitions/fhir:code",
+                    "description": "A symbol in syntax defined by the system"
+                },
+                "display": {
+                    "$ref": "#/definitions/fhir:string",
+                    "description": "A representation of the meaning of the code in a format that is not intended to be used for machine processing"
+                },
+                "userSelected": {
+                    "type": "boolean",
+                    "description": "Indicates whether this coding was chosen directly by the user"
+                }
+            },
+            "required": [
+                "code"
+            ],
+            "minProperties": 1,
+            "maxProperties": 5,
+            "additionalProperties": false
+        },
+        "fhir:CodeableConcept": {
+            "type": "object",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#CodeableConcept",
+            "description": "Concept - reference to a terminology or just text",
+            "properties": {
+                "coding": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/fhir:Coding"
+                    },
+                    "description": "Code defined by a terminology system"
+                },
+                "text": {
+                    "$ref": "#/definitions/fhir:string",
+                    "description": "Plain text representation of the concept"
+                }
+            },
+            "minProperties": 1,
+            "maxProperties": 2,
+            "additionalProperties": false
+        },
+        "fhir:Identifier": {
+            "type": "object",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#Identifier",
+            "description": "An identifier intended for computation",
+            "properties": {
+                "use": {
+                    "$ref": "#/definitions/fhir:code",
+                    "description": "usual | official | temp | secondary | old (If known)",
+                    "enum": [
+                        "usual",
+                        "official",
+                        "temp",
+                        "secondary",
+                        "old"
+                    ]
+                },
+                "type": {
+                    "$ref": "#/definitions/fhir:CodeableConcept",
+                    "description": "Description of identifier"
+                },
+                "system": {
+                    "$ref": "#/definitions/fhir:uri",
+                    "description": "The namespace for the identifier value"
+                },
+                "value": {
+                    "$ref": "#/definitions/fhir:string",
+                    "description": "The value that is unique"
+                },
+                "period": {
+                    "$ref": "#/definitions/fhir:Period",
+                    "description": "Time period when id is/was valid for use"
+                },
+                "assigner": {
+                    "$ref": "#/definitions/fhir:Reference",
+                    "description": "Organization that issued id (may be just text)"
+                }
+            },
+            "minProperties": 1,
+            "maxProperties": 6,
+            "additionalProperties": false
+        },
+        "fhir:Period": {
+            "type": "object",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#Period",
+            "description": "Time range defined by start and end date/time",
+            "properties": {
+                "start": {
+                    "$ref": "#/definitions/fhir:dateTime",
+                    "description": "Starting time with inclusive boundary"
+                },
+                "end": {
+                    "$ref": "#/definitions/fhir:dateTime",
+                    "description": "End time with inclusive boundary, if not ongoing"
+                }
+            },
+            "minProperties": 1,
+            "maxProperties": 2,
+            "additionalProperties": false
+        },
+        "fhir:Quantity": {
+            "type": "object",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#Quantity",
+            "description": "A measured or measurable amount",
+            "properties": {
+                "value": {
+                    "type": "number",
+                    "description": "Numerical value (with implicit precision)"
+                },
+                "comparator": {
+                    "type": "string",
+                    "description": "< | <= | >= | > | ad - how to understand the value",
+                    "enum": [
+                        "<",
+                        ">",
+                        "<=",
+                        ">=",
+                        "ad"
+                    ]
+                },
+                "unit": {
+                    "$ref": "#/definitions/fhir:string",
+                    "description": "Unit representation"
+                },
+                "system": {
+                    "$ref": "#/definitions/fhir:uri",
+                    "description": "System that defines coded unit form"
+                },
+                "code": {
+                    "$ref": "#/definitions/fhir:code",
+                    "description": "Coded form of the unit"
+                }
+            },
+            "minProperties": 1,
+            "maxProperties": 5,
+            "additionalProperties": false
+        },
+        "fhir:Range": {
+            "type": "object",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#Range",
+            "description": "Set of values bounded by low and high",
+            "properties": {
+                "low": {
+                    "$ref": "#/definitions/fhir:Quantity",
+                    "description": "Low limit"
+                },
+                "high": {
+                    "$ref": "#/definitions/fhir:Quantity",
+                    "description": "High limit"
+                }
+            },
+            "minProperties": 1,
+            "maxProperties": 2,
+            "additionalProperties": false
+        },
+        "fhir:Reference": {
+            "type": "object",
+            "$comment": "https://hl7.org/fhir/R5/references.html#Reference",
+            "description": "A reference from one resource to another",
+            "properties": {
+                "reference": {
+                    "$ref": "#/definitions/fhir:string",
+                    "description": "Literal reference, Relative, internal or absolute URL"
+                },
+                "type": {
+                    "$ref": "#/definitions/fhir:uri",
+                    "description": "Type the reference refers to (e.g. \"Patient\") - must be a resource in resources"
+                },
+                "identifier": {
+                    "$ref": "#/definitions/fhir:Identifier",
+                    "description": "Logical reference, when literal reference is not known"
+                },
+                "display": {
+                    "$ref": "#/definitions/fhir:string",
+                    "description": "Text alternative for the resource"
+                }
+            },
+            "minProperties": 1,
+            "maxProperties": 4,
+            "additionalProperties": false
+        },
+        "fhir:UsageContext": {
+            "type": "object",
+            "$comment": "https://hl7.org/fhir/R5/metadatatypes.html#UsageContext",
+            "properties": {
+                "code": {
+                    "description": "Type of context being specified",
+                    "$ref": "#/definitions/fhir:Coding"
+                },
+                "valueCodeableConcept": {
+                    "description": "Value that defines the context",
+                    "$ref": "#/definitions/fhir:CodeableConcept"
+                },
+                "valueQuantity": {
+                    "description": "Value that defines the context",
+                    "$ref": "#/definitions/fhir:Quantity"
+                },
+                "valueRange": {
+                    "description": "Value that defines the context",
+                    "$ref": "#/definitions/fhir:Range"
+                },
+                "valueReference": {
+                    "description": "Value that defines the context",
+                    "$ref": "#/definitions/fhir:Reference"
+                }
+            },
+            "required": [
+                "code"
+            ],
+            "minProperties": 2,
+            "maxProperties": 2,
+            "additionalProperties": false
+        },
+        "fhir:Narrative": {
+            "type": "object",
+            "$comment": "https://hl7.org/fhir/R5/narrative.html#Narrative",
+            "description": "Human-readable summary of the resource (essential clinical and business information)",
+            "properties": {
+                "status": {
+                    "$ref": "#/definitions/fhir:code",
+                    "description": "generated | extensions | additional | empty - how the narrative is generated",
+                    "enum": [
+                        "generated",
+                        "extensions",
+                        "additional",
+                        "empty"
+                    ]
+                },
+                "div": {
+                    "$ref": "#/definitions/fhir:string",
+                    "description": "Limited xhtml content"
+                }
+            },
+            "required": [
+                "status",
+                "div"
+            ],
+            "additionalProperties": false
+        },
+        "fhir:ContactDetail": {
+            "type": "object",
+            "$comment": "https://hl7.org/fhir/R5/metadatatypes.html#ContactDetail",
+            "description": "Contact information",
+            "properties": {
+                "name": {
+                    "$ref": "#/definitions/fhir:string",
+                    "description": "Name of an individual to contact"
+                },
+                "telecom": {
+                    "type": "array",
+                    "description": "Contact details for individual or organization",
+                    "items": {
+                        "minItems": 1,
+                        "$ref": "#/definitions/fhir:ContactPoint"
+                    }
+                }
+            },
+            "minProperties": 1,
+            "maxProperties": 2,
+            "additionalProperties": false
+        },
+        "fhir:ContactPoint": {
+            "type": "object",
+            "$comment": "https://hl7.org/fhir/R5/datatypes.html#ContactPoint",
+            "description": "Details of a Technology mediated contact point (phone, fax, email, etc.)",
+            "properties": {
+                "system": {
+                    "$ref": "#/definitions/fhir:code",
+                    "description": "phone | fax | email | pager | url | sms | other",
+                    "enum": [
+                        "phone",
+                        "fax",
+                        "email",
+                        "pager",
+                        "url",
+                        "sms",
+                        "other"
+                    ]
+                },
+                "value": {
+                    "$ref": "#/definitions/fhir:string",
+                    "description": "The actual contact point details"
+                },
+                "use": {
+                    "$ref": "#/definitions/fhir:code",
+                    "description": "home | work | temp | old | mobile - purpose of this contact point",
+                    "enum": [
+                        "home",
+                        "work",
+                        "temp",
+                        "old",
+                        "mobile"
+                    ]
+                },
+                "rank": {
+                    "$ref": "#/definitions/fhir:positiveInt",
+                    "description": "Specify preferred order of use (1 = highest)"
+                },
+                "period": {
+                    "$ref": "#/definitions/fhir:Period",
+                    "description": "Time period when the contact point is/was in use"
+                }
+            },
+            "minProperties": 1,
+            "maxProperties": 4,
+            "additionalProperties": false
+        }
+    }
+}

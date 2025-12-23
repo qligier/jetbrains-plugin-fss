@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
+  ~ Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
   -->
 
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
@@ -30,6 +30,8 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
     <depends>org.jetbrains.plugins.textmate</depends>
+    <depends optional="true" config-file="plugin_with_json.xml">com.intellij.modules.json</depends>
+    <depends optional="true" config-file="plugin_with_yaml.xml">org.jetbrains.plugins.yaml</depends>
 
     <actions>
     </actions>
@@ -86,6 +88,16 @@
         <completion.contributor
                 language="IG_INI"
                 implementationClass="ch.qligier.jetbrains.plugin.fss.igini.IgIniCompletionContributor"/>
+
+        <!-- The sushi-config.yaml file -->
+        <fileType
+                name="sushi-config.yaml"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.sushi_config.SushiConfigFileType"
+                fieldName="INSTANCE"
+                language="SUSHI_CONFIG"
+                fileNames="sushi-config.yaml"/>
+        <!-- The annotator is only loaded when the YAML plugin is available -->
+        <!-- The JSON schema provider factory is only loaded when the JSON plugin is available -->
     </extensions>
 
     <applicationListeners>
