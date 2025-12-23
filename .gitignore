@@ -23,3 +23,5 @@ out/
 
 ### Mac OS ###
 .DS_Store
+
+.idea/copilot.data.migration.*
