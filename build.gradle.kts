@@ -45,6 +45,7 @@ dependencies {
 
         // Plugin Dependencies. Uses `platformBundledPlugins` property from the gradle.properties file for bundled IntelliJ Platform plugins.
         bundledPlugin("org.jetbrains.plugins.yaml")
+        bundledPlugin("org.jetbrains.plugins.textmate")
 
         // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file for plugin from JetBrains Marketplace.
 

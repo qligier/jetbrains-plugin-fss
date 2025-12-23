@@ -1,4 +1,4 @@
-// Copyright 2024 Quentin Ligier. Use of this source code is governed by the MIT license.
+// Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
 
 package ch.qligier.jetbrains.plugin.fss.igini.language.psi;
 
@@ -25,7 +25,7 @@ public class IniFile extends PsiFileBase {
 
     @Override
     public @NotNull FileType getFileType() {
-        return IgIniFileType.INSTANCE;
+        return IgIniFileType.Companion.getINSTANCE();
     }
 
     @Override
