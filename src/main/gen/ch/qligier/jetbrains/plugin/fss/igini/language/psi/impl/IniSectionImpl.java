@@ -39,7 +39,7 @@ public class IniSectionImpl extends ASTWrapperPsiElement implements IniSection {
   }
 
   @Override
-  public @NotNull List<IniProperty> getProperties() {
+  public @NotNull List<@NotNull IniProperty> getProperties() {
     return IniPsiImplUtil.getProperties(this);
   }
 
