@@ -8,17 +8,15 @@ import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
     id("java") // Java support
-    alias(libs.plugins.kotlin) // Kotlin support
-    alias(libs.plugins.intelliJPlatform) // IntelliJ Platform Gradle Plugin
-    alias(libs.plugins.changelog) // Gradle Changelog Plugin
-    alias(libs.plugins.qodana) // Gradle Qodana Plugin
-    alias(libs.plugins.kover) // Gradle Kover Plugin
+    id("org.jetbrains.kotlin.jvm") version "2.2.21" // Kotlin support
+    id("org.jetbrains.intellij.platform") version "2.10.5" // IntelliJ Platform Gradle Plugin
+    id("org.jetbrains.changelog") version "2.5.0" // Gradle Changelog Plugin
+    id("org.jetbrains.qodana") version "2025.2.2" // Gradle Qodana Plugin
+    id("org.jetbrains.kotlinx.kover") version "0.9.3" // Gradle Kover Plugin
 }
 
-group = providers.gradleProperty("pluginGroup").get()
+group = "ch.qligier.jetbrains.plugin.fss"
 version = providers.gradleProperty("pluginVersion").get()
-
-sourceSets["main"].java.srcDirs("src/main/gen")
 
 // Set the JVM language level used to build the project.
 kotlin {
@@ -37,21 +35,18 @@ repositories {
 
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
-    implementation(libs.annotations)
-    implementation(libs.jspecify)
-    testImplementation(libs.junit)
+    implementation("org.jetbrains:annotations:26.0.2-1")
+    implementation("org.jspecify:jspecify:1.0.0")
+    testImplementation("junit:junit:4.13.2")
 
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
         intellijIdea("2025.3")
 
-        //create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
-
         // Plugin Dependencies. Uses `platformBundledPlugins` property from the gradle.properties file for bundled IntelliJ Platform plugins.
-        bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
+        bundledPlugin("org.jetbrains.plugins.yaml")
 
         // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file for plugin from JetBrains Marketplace.
-        plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
 
         pluginVerifier()
         zipSigner()
@@ -62,8 +57,8 @@ dependencies {
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
 intellijPlatform {
     pluginConfiguration {
-        name = providers.gradleProperty("pluginName")
-        id = providers.gradleProperty("pluginId")
+        name = "FHIR® and SUSHI Support"
+        id = "jetbrains-plugin-fss"
         version = providers.gradleProperty("pluginVersion")
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
@@ -93,8 +88,20 @@ intellijPlatform {
         }
 
         ideaVersion {
-            sinceBuild = providers.gradleProperty("pluginSinceBuild")
-            untilBuild = providers.gradleProperty("pluginUntilBuild")
+            // Supported build number ranges and IntelliJ Platform versions
+            // https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html
+            // To depend on the TextMate bundle API, the plugin must start build from 241
+            sinceBuild = "241"
+
+            // Do not set `untilBuild` here but in the Marketplace directly.
+            // This allows changing its value without re-publishing the plugin.
+            // https://platform.jetbrains.com/t/why-cant-i-set-an-until-build-value-greater-than-251/1840
+            // untilBuild = "253.*"
+
+            // List of changes:
+            // - https://plugins.jetbrains.com/docs/intellij/api-changes-list-2024.html#20243
+            // - https://plugins.jetbrains.com/docs/intellij/api-notable-list-2024.html#20243
+            // - https://plugins.jetbrains.com/docs/intellij/api-notable-list-2025.html
         }
     }
 
@@ -123,7 +130,7 @@ intellijPlatform {
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
     groups.empty()
-    repositoryUrl = providers.gradleProperty("pluginRepositoryUrl")
+    repositoryUrl = "https://github.com/qligier/jetbrains-plugin-fss"
 }
 
 // Configure Gradle Kover Plugin - read more: https://github.com/Kotlin/kotlinx-kover#configuration
@@ -137,7 +144,22 @@ kover {
     }
 }
 
+sourceSets {
+    main {
+        java {
+            srcDir("src/main/kotlin")
+            srcDir("src/main/gen")
+        }
+    }
+}
+
 tasks {
+    // Set the JVM compatibility versions
+    withType<JavaCompile> {
+        sourceCompatibility = "21"
+        targetCompatibility = "21"
+    }
+
     wrapper {
         gradleVersion = providers.gradleProperty("gradleVersion").get()
     }
