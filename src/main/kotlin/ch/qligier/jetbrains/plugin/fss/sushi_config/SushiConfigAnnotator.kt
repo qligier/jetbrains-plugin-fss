@@ -6,6 +6,8 @@ package ch.qligier.jetbrains.plugin.fss.sushi_config
 
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
+import com.intellij.lang.annotation.HighlightSeverity.ERROR
+import com.intellij.lang.annotation.HighlightSeverity.WARNING
 import com.intellij.psi.PsiElement
 import org.jetbrains.yaml.psi.YAMLFile
 import org.jetbrains.yaml.psi.YAMLMapping
@@ -30,18 +32,21 @@ class SushiConfigAnnotator : Annotator {
     private fun annotate(mapping: YAMLMapping, holder: AnnotationHolder) {
         val keys = mapping.keyValues.map { it.keyText }.toSet()
 
-        warnDuplicateKey(holder, mapping, keys, "copyrightyear", "copyrightYear")
-        warnDuplicateKey(holder, mapping, keys, "releaselabel", "releaseLabel")
+        warnOnDuplicateKeyUse(holder, mapping, keys, "copyrightyear", "copyrightYear")
+        warnOnDuplicateKeyUse(holder, mapping, keys, "releaselabel", "releaseLabel")
 
         // If we can extract the declared FHIR version, we can run additional checks
         val fhirVersion = getFhirVersion(mapping)
         if (fhirVersion != null) {
-            warnPropertyAddedLater(holder, mapping, "copyrightLabel", fhirVersion, FhirVersion.R5)
-            warnDeprecatedProperty(holder, mapping, "jurisdiction", fhirVersion, FhirVersion.R5)
+            warnOnYetUndefinedPropertyUse(holder, mapping, "copyrightLabel", fhirVersion, FhirVersion.R5)
+            warnOnDeprecatedPropertyUse(holder, mapping, "jurisdiction", fhirVersion, FhirVersion.R5)
         }
     }
 
-    private fun warnDuplicateKey(
+    /**
+     * Warns when two keys that represent the same property are both used in the same file.
+     */
+    private fun warnOnDuplicateKeyUse(
         holder: AnnotationHolder,
         mapping: YAMLMapping,
         keys: Set<String>,
@@ -52,14 +57,17 @@ class SushiConfigAnnotator : Annotator {
             return
         }
         holder.newAnnotation(
-            com.intellij.lang.annotation.HighlightSeverity.WARNING,
+            WARNING,
             "Both '$key1' and '$key2' are defined. Use only one."
         )
             .range(mapping.getKeyValueByKey(key1)!!)
             .create()
     }
 
-    private fun warnPropertyAddedLater(
+    /**
+     * Warns when a property that is not yet defined for the selected FHIR version is used.
+     */
+    private fun warnOnYetUndefinedPropertyUse(
         holder: AnnotationHolder,
         mapping: YAMLMapping,
         key: String,
@@ -69,19 +77,19 @@ class SushiConfigAnnotator : Annotator {
         if (sushiFhirVersion >= addedInVersion) {
             return
         }
-        val value = mapping.getKeyValueByKey(key)
-        if (value == null) {
-            return
-        }
+        val value = mapping.getKeyValueByKey(key) ?: return
         holder.newAnnotation(
-            com.intellij.lang.annotation.HighlightSeverity.ERROR,
+            ERROR,
             "The property '$key' was added in FHIR ${addedInVersion}."
         )
             .range(value)
             .create()
     }
 
-    private fun warnDeprecatedProperty(
+    /**
+     * Warns when a deprecated property is used.
+     */
+    private fun warnOnDeprecatedPropertyUse(
         holder: AnnotationHolder,
         mapping: YAMLMapping,
         key: String,
@@ -91,12 +99,9 @@ class SushiConfigAnnotator : Annotator {
         if (sushiFhirVersion < deprecatedInVersion) {
             return
         }
-        val value = mapping.getKeyValueByKey(key)
-        if (value == null) {
-            return
-        }
+        val value = mapping.getKeyValueByKey(key) ?: return
         holder.newAnnotation(
-            com.intellij.lang.annotation.HighlightSeverity.WARNING,
+            WARNING,
             "The property '$key' is deprecated in FHIR ${deprecatedInVersion}."
         )
             .range(value)
@@ -117,10 +122,10 @@ class SushiConfigAnnotator : Annotator {
         }
     }
 
-    private enum class FhirVersion(private val version: Double) : Comparable<FhirVersion> {
-        R4(4.0),
-        R4B(4.1),
-        R5(5.0),
-        R6(6.0);
+    private enum class FhirVersion : Comparable<FhirVersion> {
+        R4,
+        R4B,
+        R5,
+        R6;
     }
 }
