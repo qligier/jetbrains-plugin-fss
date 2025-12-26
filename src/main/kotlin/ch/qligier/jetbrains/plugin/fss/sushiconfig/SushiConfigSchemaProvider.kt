@@ -9,6 +9,7 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.jetbrains.jsonSchema.extension.JsonSchemaFileProvider
 import com.jetbrains.jsonSchema.extension.JsonSchemaProviderFactory
 import com.jetbrains.jsonSchema.extension.SchemaType
+import com.jetbrains.jsonSchema.impl.JsonSchemaVersion
 import org.jetbrains.annotations.Nls
 
 /**
@@ -21,6 +22,8 @@ class SushiConfigSchemaProvider : JsonSchemaFileProvider {
     override fun getName(): @Nls String = SushiConfigSpecs.FILENAME
 
     override fun getSchemaType(): SchemaType = SchemaType.embeddedSchema
+
+    override fun getSchemaVersion(): JsonSchemaVersion = JsonSchemaVersion.SCHEMA_2020_12
 
     override fun getSchemaFile(): VirtualFile? = JsonSchemaProviderFactory.getResourceFile(javaClass, "/sushiconfig/schema.json")
 }
