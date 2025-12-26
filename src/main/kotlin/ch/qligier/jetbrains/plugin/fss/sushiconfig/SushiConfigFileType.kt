@@ -2,13 +2,13 @@
  * Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
  */
 
-package ch.qligier.jetbrains.plugin.fss.sushi_config
+package ch.qligier.jetbrains.plugin.fss.sushiconfig
 
 import ch.qligier.jetbrains.plugin.fss.common.FssIcons
 import com.intellij.openapi.fileTypes.LanguageFileType
+import org.jetbrains.yaml.YAMLLanguage
 
-class SushiConfigFileType : LanguageFileType(SushiConfigLanguage) {
-
+class SushiConfigFileType : LanguageFileType(YAMLLanguage.INSTANCE) {
     /**
      * Returns the name of the file type. The name must be unique among all file types registered in the system.
      */

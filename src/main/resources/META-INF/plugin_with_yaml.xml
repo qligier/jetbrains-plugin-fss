@@ -7,8 +7,14 @@
     <extensions defaultExtensionNs="com.intellij">
 
         <!-- The sushi-config.yaml file -->
+        <fileType
+                name="sushi-config.yaml"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigFileType"
+                fieldName="INSTANCE"
+                language="yaml"
+                fileNames="sushi-config.yaml"/>
         <annotator
-                language="SUSHI_CONFIG"
-                implementationClass="ch.qligier.jetbrains.plugin.fss.sushi_config.SushiConfigAnnotator"/>
+                language="yaml"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigAnnotator"/>
     </extensions>
 </idea-plugin>

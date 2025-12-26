@@ -8,6 +8,6 @@
 
         <!-- The sushi-config.yaml file -->
         <JsonSchema.ProviderFactory
-                implementation="ch.qligier.jetbrains.plugin.fss.sushi_config.SushiConfigSchemaProviderFactory"/>
+                implementation="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigSchemaProviderFactory"/>
     </extensions>
 </idea-plugin>

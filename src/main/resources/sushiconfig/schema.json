@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/qligier/jetbrains-plugin-fss/refs/heads/master/src/main/resources/sushi_config/schema.json",
+    "$id": "https://raw.githubusercontent.com/qligier/jetbrains-plugin-fss/refs/heads/master/src/main/resources/sushiconfig/schema.json",
     "title": "sushi-config.yaml",
     "description": "A schema for the sushi-config.yaml file",
     "type": "object",

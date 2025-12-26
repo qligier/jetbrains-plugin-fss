@@ -1,0 +1,25 @@
+id: ch.fhir.ig.ch-epr-fhir
+canonical: http://fhir.ch/ig/ch-epr-fhir
+url: http://fhir.ch/ig/ch-epr-fhir/ImplementationGuide/ch.fhir.ig.ch-epr-fhir
+name: CHEprFhir
+title: CH EPR FHIR (R4)
+description: FHIR implementation guide to the Swiss EPR (Electronic Patient Record)
+status: active
+experimental: false
+date: 2025-12-18
+version: 5.0.0
+fhirVersion: 4.0.1
+copyrightYear: 2020+
+releaselabel: trial-use # ci-build | draft | qa-preview | ballot | trial-use | release | update | normative+trial-use
+publisher:
+  name: eHealth Suisse
+  url: https://www.e-health-suisse.ch
+contact:
+  - name: eHealth Suisse
+    telecom:
+      - system: url
+        value: https://www.e-health-suisse.ch
+        use: work
+license: CC0-1.0
+copyright: CC0-1.0
+jurisdiction: urn:iso:std:iso:3166#CH
