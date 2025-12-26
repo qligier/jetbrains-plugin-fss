@@ -1,0 +1,13 @@
+<!--
+  ~ Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
+  -->
+
+<!-- This configuration file is only loaded when the JSON module is available. -->
+<idea-plugin>
+    <extensions defaultExtensionNs="JavaScript">
+
+        <!-- The sushi-config.yaml file -->
+        <JsonSchema.ProviderFactory
+                implementation="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigSchemaProviderFactory"/>
+    </extensions>
+</idea-plugin>
