@@ -4,6 +4,7 @@
     "title": "sushi-config.yaml",
     "description": "A schema for the sushi-config.yaml file",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
         "applyExtensionMetadataToRoot": {
             "description": "When set to true, the “short” and “definition” field on the root element of an Extension will be set to the “Title” and “Description” of that Extension",

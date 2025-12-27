@@ -22,6 +22,11 @@ This plugin adds, for FSH files:
 - Syntax highlighting;
 - Block and line commenting actions (`Comment with Line Comment` and `Comment with Block Comment`)
 
+For the `sushi-config.yaml` file:
+
+- Annotations for the following issues:
+  - Unknown properties;
+
 ### Notice
 
 The logo is derived from [Burn Fire Flame Hot](https://www.svgrepo.com/svg/404501/burn-fire-flame-hot), published

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Implement support for the `sushi-config.yaml` file: annotations, auto-completion of some properties
+
 ## [0.0.6] - 2025-12-21
 
 ### Added
