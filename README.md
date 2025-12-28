@@ -20,12 +20,21 @@ tools.
 This plugin adds, for FSH files:
 
 - Syntax highlighting;
-- Block and line commenting actions (`Comment with Line Comment` and `Comment with Block Comment`)
+- Block and line commenting actions (`Comment with Line Comment` and `Comment with Block Comment`).
+
+For the `ig.ini` file:
+
+- Syntax highlighting;
+- Auto-completion of the `IG.template` property value;
+- Annotations for missing required properties.
 
 For the `sushi-config.yaml` file:
 
 - Annotations for the following issues:
-  - Unknown properties;
+  - Duplicate properties with different casing (e.g., `releaseLabel` and `releaselabel`);
+  - Properties used with a too-old FHIR version (e.g., `copyrightLabel` with FHIR R4);
+- Auto-completion for some properties (through a JSON Schema);
+- Validation of some property values (through a JSON Schema).
 
 ### Notice
 

@@ -24,7 +24,10 @@ class IgIniAnnotator : Annotator {
      * @param element to annotate.
      * @param holder  the container which receives annotations created by the plugin.
      */
-    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+    override fun annotate(
+        element: PsiElement,
+        holder: AnnotationHolder,
+    ) {
         if (element !is IniFile) {
             return
         }
@@ -37,14 +40,14 @@ class IgIniAnnotator : Annotator {
         var sectionIgFound = false
         for (section in element.getSections()) {
             if (IgIniSpecs.IG_SECTION_NAME != section.getSectionName()) {
-                holder.newAnnotation(
-                    HighlightSeverity.WEAK_WARNING,
-                    String.format(
-                        "The section '%s' is not supported by the IG Publisher",
-                        section.getSectionName()
-                    )
-                )
-                    .range(section.firstChild ?: section)
+                holder
+                    .newAnnotation(
+                        HighlightSeverity.WEAK_WARNING,
+                        String.format(
+                            "The section '%s' is not supported by the IG Publisher",
+                            section.getSectionName(),
+                        ),
+                    ).range(section.firstChild ?: section)
                     .create()
                 continue
             }
@@ -63,46 +66,45 @@ class IgIniAnnotator : Annotator {
             }
 
             if (!propertyIgFound) {
-                holder.newAnnotation(
-                    HighlightSeverity.ERROR,
-                    "The property '${IgIniSpecs.IG_KEY_NAME}' is not defined in the file"
-                )
-                    .range(section.firstChild)
+                holder
+                    .newAnnotation(
+                        HighlightSeverity.ERROR,
+                        "The property '${IgIniSpecs.IG_KEY_NAME}' is not defined in the file",
+                    ).range(section.firstChild)
                     .create()
             }
             if (!propertyTemplateFound) {
-                holder.newAnnotation(
-                    HighlightSeverity.ERROR,
-                    "The property '${IgIniSpecs.TEMPLATE_KEY_NAME}' is not defined in the file"
-                )
-                    .range(section.firstChild)
+                holder
+                    .newAnnotation(
+                        HighlightSeverity.ERROR,
+                        "The property '${IgIniSpecs.TEMPLATE_KEY_NAME}' is not defined in the file",
+                    ).range(section.firstChild)
                     .create()
             }
         }
 
         if (!sectionIgFound) {
-            holder.newAnnotation(
-                HighlightSeverity.ERROR,
-                String.format(
-                    "The section '%s' is not defined in the file",
-                    IgIniSpecs.IG_SECTION_NAME
-                )
-            )
-                .range(element)
+            holder
+                .newAnnotation(
+                    HighlightSeverity.ERROR,
+                    String.format(
+                        "The section '%s' is not defined in the file",
+                        IgIniSpecs.IG_SECTION_NAME,
+                    ),
+                ).range(element)
                 .create()
         }
     }
 
     private fun createWarningForUnsupportedProperty(
         holder: AnnotationHolder,
-        property: IniProperty
+        property: IniProperty,
     ) {
-        val keyElement: PsiElement? = property.getKeyElement()
-        holder.newAnnotation(
-            HighlightSeverity.WEAK_WARNING,
-            "The property '${property.getKeyName()}' is not supported by the IG Publisher",
-        )
-            .range(keyElement ?: property)
+        holder
+            .newAnnotation(
+                HighlightSeverity.WEAK_WARNING,
+                "The property '${property.getKeyName()}' is not supported by the IG Publisher",
+            ).range(property.getKeyElement() ?: property)
             .create()
     }
 }

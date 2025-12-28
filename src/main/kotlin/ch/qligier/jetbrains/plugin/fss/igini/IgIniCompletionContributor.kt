@@ -34,12 +34,12 @@ class IgIniCompletionContributor : CompletionContributor() {
                 public override fun addCompletions(
                     parameters: CompletionParameters,
                     context: ProcessingContext,
-                    resultSet: CompletionResultSet
+                    resultSet: CompletionResultSet,
                 ) {
                     resultSet.addElement(LookupElementBuilder.create(IgIniSpecs.IG_KEY_NAME))
                     resultSet.addElement(LookupElementBuilder.create(IgIniSpecs.TEMPLATE_KEY_NAME))
                 }
-            }
+            },
         )
 
         // Provide completion for values
@@ -50,7 +50,7 @@ class IgIniCompletionContributor : CompletionContributor() {
                 public override fun addCompletions(
                     parameters: CompletionParameters,
                     context: ProcessingContext,
-                    resultSet: CompletionResultSet
+                    resultSet: CompletionResultSet,
                 ) {
                     if (parameters.position is LeafPsiElement) {
                         if (parameters.position.elementType !== IniTypes.PVALUE) {
@@ -77,7 +77,7 @@ class IgIniCompletionContributor : CompletionContributor() {
                         }
                     }
                 }
-            }
+            },
         )
 
         // Provide completion for section names
@@ -88,11 +88,11 @@ class IgIniCompletionContributor : CompletionContributor() {
                 public override fun addCompletions(
                     parameters: CompletionParameters,
                     context: ProcessingContext,
-                    resultSet: CompletionResultSet
+                    resultSet: CompletionResultSet,
                 ) {
                     resultSet.addElement(LookupElementBuilder.create(IgIniSpecs.IG_SECTION_NAME))
                 }
-            }
+            },
         )
     }
 }

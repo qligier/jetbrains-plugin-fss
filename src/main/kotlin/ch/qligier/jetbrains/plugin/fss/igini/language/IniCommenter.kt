@@ -15,8 +15,7 @@ import com.intellij.lang.Commenter
 class IniCommenter : Commenter {
     override fun getLineCommentPrefix(): String = LINE_COMMENT_PREFIX
 
-    override fun getLineCommentPrefixes(): MutableList<String> =
-        mutableListOf(LINE_COMMENT_PREFIX, ALT_LINE_COMMENT_PREFIX)
+    override fun getLineCommentPrefixes(): MutableList<String> = mutableListOf(LINE_COMMENT_PREFIX, ALT_LINE_COMMENT_PREFIX)
 
     override fun getBlockCommentPrefix(): String? = null
 
