@@ -1,0 +1,20 @@
+<!--
+  ~ Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
+  -->
+
+<!-- This configuration file is only loaded when the YAML plugin is available. -->
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+
+        <!-- The sushi-config.yaml file -->
+        <fileType
+                name="sushi-config.yaml"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigFileType"
+                fieldName="INSTANCE"
+                language="yaml"
+                fileNames="sushi-config.yaml"/>
+        <annotator
+                language="yaml"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigAnnotator"/>
+    </extensions>
+</idea-plugin>
