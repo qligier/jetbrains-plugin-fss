@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Implement support for the `sushi-config.yaml` file: annotations, auto-completion of some properties
+- Implement support for the `sushi-config.yaml` file: annotations, auto-completion and validation of properties
+  (when possible)
 
 ## [0.0.6] - 2025-12-21
 
