@@ -136,9 +136,9 @@ jobs:
     needs: [ build ]
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       checks: write
-      pull-requests: write
+      security-events: write
     steps:
 
       # Free GitHub Actions Environment Disk Space
