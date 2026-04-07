@@ -1,0 +1,14 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="CallingMethodShouldBeRequiresBlockingContext" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="CanBeDumbAware" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="CancellationCheckInLoops" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ExtensionClassShouldBeFinalAndNonPublic" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ObsoleteDispatchersEdt" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="PathAnnotationInspection" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="PotentialDeadlockInServiceInitialization" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="SerializableCtor" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ThreadingConcurrency" enabled="true" level="ERROR" enabled_by_default="true" />
+  </profile>
+</component>
