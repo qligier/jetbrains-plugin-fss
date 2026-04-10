@@ -8,11 +8,11 @@ import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
     id("java") // Java support
-    id("org.jetbrains.kotlin.jvm") version "2.2.21" // Kotlin support
-    id("org.jetbrains.intellij.platform") version "2.10.5" // IntelliJ Platform Gradle Plugin
+    id("org.jetbrains.kotlin.jvm") version "2.3.20" // Kotlin support
+    id("org.jetbrains.intellij.platform") version "2.13.1" // IntelliJ Platform Gradle Plugin
     id("org.jetbrains.changelog") version "2.5.0" // Gradle Changelog Plugin
-    id("org.jetbrains.qodana") version "2025.2.2" // Gradle Qodana Plugin
-    id("org.jetbrains.kotlinx.kover") version "0.9.3" // Gradle Kover Plugin
+    id("org.jetbrains.qodana") version "2025.3.2" // Gradle Qodana Plugin
+    id("org.jetbrains.kotlinx.kover") version "0.9.7" // Gradle Kover Plugin
 }
 
 group = "ch.qligier.jetbrains.plugin.fss"
@@ -95,7 +95,7 @@ intellijPlatform {
             // Supported build number ranges and IntelliJ Platform versions
             // https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html
             // To depend on the TextMate bundle API, the plugin must start build from 241
-            sinceBuild = "241"
+            sinceBuild = "242"
 
             // Do not set `untilBuild` here but in the Marketplace directly.
             // This allows changing its value without re-publishing the plugin.
@@ -130,16 +130,16 @@ intellijPlatform {
         ides {
             // The 'verifyPlugin' task is configured to test each minor version of IDEs in the configured
             // compatibility range, which can be a lot of versions.
-            // Let's reduce that to the first and last versions only, to speed up the verification process.
-            // https://github.com/JetBrains/intellij-platform-plugin-template/issues/462#issuecomment-2745197887
-            val productReleases = ProductReleasesValueSource().get()
-            val reducedProductReleases =
-                if (productReleases.size > 2) {
-                    listOf(productReleases.first(), productReleases.last())
-                } else {
-                    productReleases
-                }
-            ides(reducedProductReleases)
+            // Let's reduce that to the first and last versions only, to speed up the verification process and reduce
+            // the storage used by the downloaded IDEs. This is especially important for GitHub actions, which have
+            // limited resources.
+            // https://github.com/JetBrains/intellij-platform-plugin-template/issues/462#issuecomment-4172769399
+            create(
+                ProductReleasesValueSource().map {
+                    listOf(it.first(), it.last()).distinct()
+                },
+            )
+            // In the future, we'll be able to reuse the current IDE: create(current())
         }
     }
 }
