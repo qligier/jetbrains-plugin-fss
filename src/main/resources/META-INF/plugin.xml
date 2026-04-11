@@ -50,6 +50,8 @@
                 extensions="fsh"/>
         <lang.parserDefinition language="FSH"
                                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.language.parser.FshParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="FSH"
+                                       implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.language.highlighter.FshSyntaxHighlighterFactory"/>
 
         <defaultLiveTemplates file="/fsh/liveTemplates.xml"/>
         <liveTemplateContext
