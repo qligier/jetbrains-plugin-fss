@@ -38,7 +38,7 @@ WHITESPACE      = [\ \t\f]+
 // Numeric patterns
 INTEGER         = -? {DIGIT}+
 DECIMAL         = -? {DIGIT}+ \. {DIGIT}+
-CARDINALITY     = {DIGIT}+ \.\. ({DIGIT}+ | \*)
+CARDINALITY_TOKEN = {DIGIT}+ \.\. ({DIGIT}+ | \*)
 
 // Date/time patterns
 DATE            = {DIGIT}{4} (\- {DIGIT}{2} (\- {DIGIT}{2})?)?
@@ -243,10 +243,10 @@ SEQUENCE        = ({ALPHANUM} | _)+
     {REGEX_LITERAL}         { return FshTypes.REGEX_LITERAL; }
 
     // Cardinality (must be before DECIMAL/INTEGER to match e.g., "0..1")
-    {CARDINALITY}           { return FshTypes.CARDINALITY; }
+    {CARDINALITY_TOKEN}     { return FshTypes.CARDINALITY_TOKEN; }
 
     // DateTime (must be before DATE and DECIMAL/INTEGER)
-    {DATETIME} / [TZ+\-]   { return FshTypes.DATETIME; }
+    {DATETIME} / [TZ+\-]    { return FshTypes.DATETIME; }
 
     // Time
     {TIME}                  { return FshTypes.TIME; }

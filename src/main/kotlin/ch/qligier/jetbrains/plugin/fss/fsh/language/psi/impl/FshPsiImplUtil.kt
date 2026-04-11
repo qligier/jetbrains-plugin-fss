@@ -13,16 +13,13 @@ import com.intellij.psi.util.PsiTreeUtil
  * Methods here are referenced in the BNF grammar via `methods = [...]`.
  */
 object FshPsiImplUtil {
-
     // ─── Alias ─────────────────────────────────────────
 
     @JvmStatic
-    fun getName(element: FshAlias): String? =
-        element.node.findChildByType(FshTypes.ALIAS_REF)?.text
+    fun getName(element: FshAlias): String? = element.node.findChildByType(FshTypes.ALIAS_REF)?.text
 
     @JvmStatic
-    fun getAliasRef(element: FshAlias): String? =
-        element.node.findChildByType(FshTypes.ALIAS_REF)?.text
+    fun getAliasRef(element: FshAlias): String? = element.node.findChildByType(FshTypes.ALIAS_REF)?.text
 
     @JvmStatic
     fun getAliasValue(element: FshAlias): String? {
@@ -40,130 +37,109 @@ object FshPsiImplUtil {
     // ─── Profile ───────────────────────────────────────
 
     @JvmStatic
-    fun getName(element: FshProfile): String? =
-        element.name?.text
+    fun getName(element: FshProfile): String? = element.nameToken?.text
 
     @JvmStatic
     fun getMetadata(element: FshProfile): List<FshProfileMetadata> =
         PsiTreeUtil.getChildrenOfTypeAsList(element, FshProfileMetadata::class.java)
 
     @JvmStatic
-    fun getRules(element: FshProfile): List<FshSdRule> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshSdRule::class.java)
+    fun getRules(element: FshProfile): List<FshSdRule> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshSdRule::class.java)
 
     // ─── Extension ─────────────────────────────────────
 
     @JvmStatic
-    fun getName(element: FshExtension): String? =
-        element.name?.text
+    fun getName(element: FshExtension): String? = element.nameToken?.text
 
     @JvmStatic
     fun getMetadata(element: FshExtension): List<FshExtensionMetadata> =
         PsiTreeUtil.getChildrenOfTypeAsList(element, FshExtensionMetadata::class.java)
 
     @JvmStatic
-    fun getRules(element: FshExtension): List<FshSdRule> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshSdRule::class.java)
+    fun getRules(element: FshExtension): List<FshSdRule> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshSdRule::class.java)
 
     // ─── Resource ──────────────────────────────────────
 
     @JvmStatic
-    fun getName(element: FshResource): String? =
-        element.name?.text
+    fun getName(element: FshResource): String? = element.nameToken?.text
 
     @JvmStatic
     fun getMetadata(element: FshResource): List<FshResourceMetadata> =
         PsiTreeUtil.getChildrenOfTypeAsList(element, FshResourceMetadata::class.java)
 
     @JvmStatic
-    fun getRules(element: FshResource): List<FshSdRule> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshSdRule::class.java)
+    fun getRules(element: FshResource): List<FshSdRule> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshSdRule::class.java)
 
     // ─── Logical ───────────────────────────────────────
 
     @JvmStatic
-    fun getName(element: FshLogical): String? =
-        element.name?.text
+    fun getName(element: FshLogical): String? = element.nameToken?.text
 
     @JvmStatic
     fun getMetadata(element: FshLogical): List<FshLogicalMetadata> =
         PsiTreeUtil.getChildrenOfTypeAsList(element, FshLogicalMetadata::class.java)
 
     @JvmStatic
-    fun getRules(element: FshLogical): List<FshSdRule> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshSdRule::class.java)
+    fun getRules(element: FshLogical): List<FshSdRule> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshSdRule::class.java)
 
     // ─── Instance ──────────────────────────────────────
 
     @JvmStatic
-    fun getName(element: FshInstance): String? =
-        element.name?.text
+    fun getName(element: FshInstance): String? = element.nameToken?.text
 
     @JvmStatic
     fun getMetadata(element: FshInstance): List<FshInstanceMetadata> =
         PsiTreeUtil.getChildrenOfTypeAsList(element, FshInstanceMetadata::class.java)
 
     @JvmStatic
-    fun getRules(element: FshInstance): List<FshInstanceRule> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshInstanceRule::class.java)
+    fun getRules(element: FshInstance): List<FshInstanceRule> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshInstanceRule::class.java)
 
     // ─── ValueSet ──────────────────────────────────────
 
     @JvmStatic
-    fun getName(element: FshValueSet): String? =
-        element.name?.text
+    fun getName(element: FshValueSet): String? = element.nameToken?.text
 
     @JvmStatic
-    fun getMetadata(element: FshValueSet): List<FshVsMetadata> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshVsMetadata::class.java)
+    fun getMetadata(element: FshValueSet): List<FshVsMetadata> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshVsMetadata::class.java)
 
     @JvmStatic
-    fun getRules(element: FshValueSet): List<FshVsRule> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshVsRule::class.java)
+    fun getRules(element: FshValueSet): List<FshVsRule> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshVsRule::class.java)
 
     // ─── CodeSystem ────────────────────────────────────
 
     @JvmStatic
-    fun getName(element: FshCodeSystem): String? =
-        element.name?.text
+    fun getName(element: FshCodeSystem): String? = element.nameToken?.text
 
     @JvmStatic
-    fun getMetadata(element: FshCodeSystem): List<FshCsMetadata> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshCsMetadata::class.java)
+    fun getMetadata(element: FshCodeSystem): List<FshCsMetadata> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshCsMetadata::class.java)
 
     @JvmStatic
-    fun getRules(element: FshCodeSystem): List<FshCsRule> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshCsRule::class.java)
+    fun getRules(element: FshCodeSystem): List<FshCsRule> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshCsRule::class.java)
 
     // ─── Mapping ───────────────────────────────────────
 
     @JvmStatic
-    fun getName(element: FshMapping): String? =
-        element.name?.text
+    fun getName(element: FshMapping): String? = element.nameToken?.text
 
     @JvmStatic
     fun getMetadata(element: FshMapping): List<FshMappingEntityMetadata> =
         PsiTreeUtil.getChildrenOfTypeAsList(element, FshMappingEntityMetadata::class.java)
 
     @JvmStatic
-    fun getRules(element: FshMapping): List<FshMappingRule> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshMappingRule::class.java)
+    fun getRules(element: FshMapping): List<FshMappingRule> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshMappingRule::class.java)
 
     // ─── RuleSet ───────────────────────────────────────
 
     @JvmStatic
-    fun getName(element: FshRuleSet): String? =
-        element.ruleSetId?.text
+    fun getName(element: FshRuleSet): String? = element.ruleSetId?.text
 
     @JvmStatic
-    fun getRules(element: FshRuleSet): List<FshRuleSetRule> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshRuleSetRule::class.java)
+    fun getRules(element: FshRuleSet): List<FshRuleSetRule> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshRuleSetRule::class.java)
 
     // ─── Invariant ─────────────────────────────────────
 
     @JvmStatic
-    fun getName(element: FshInvariant): String? =
-        element.name?.text
+    fun getName(element: FshInvariant): String? = element.nameToken?.text
 
     @JvmStatic
     fun getMetadata(element: FshInvariant): List<FshInvariantMetadata> =
@@ -177,76 +153,23 @@ object FshPsiImplUtil {
     // ─── Rules ─────────────────────────────────────────
 
     @JvmStatic
-    fun getPath(element: FshCardRule): FshPath? =
-        PsiTreeUtil.getChildOfType(element, FshPath::class.java)
+    fun getFlags(element: FshCardRule): List<FshFlag> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshFlag::class.java)
 
     @JvmStatic
-    fun getCardinality(element: FshCardRule): FshCardinality? =
-        PsiTreeUtil.getChildOfType(element, FshCardinality::class.java)
+    fun getFlags(element: FshFlagRule): List<FshFlag> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshFlag::class.java)
 
     @JvmStatic
-    fun getFlags(element: FshCardRule): List<FshFlag> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshFlag::class.java)
+    fun isExactly(element: FshFixedValueRule): Boolean = element.node.findChildByType(FshTypes.KW_EXACTLY) != null
 
     @JvmStatic
-    fun getPath(element: FshFlagRule): FshPath? =
-        PsiTreeUtil.getChildOfType(element, FshPath::class.java)
+    fun getBindingName(element: FshBindingRule): FshNameToken? = PsiTreeUtil.getChildOfType(element, FshNameToken::class.java)
 
     @JvmStatic
-    fun getFlags(element: FshFlagRule): List<FshFlag> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshFlag::class.java)
+    fun getInvariantNames(element: FshObeysRule): List<FshNameToken> =
+        PsiTreeUtil.getChildrenOfTypeAsList(element, FshNameToken::class.java)
 
     @JvmStatic
-    fun getPath(element: FshValueAssignmentRule): FshPath? =
-        PsiTreeUtil.getChildOfType(element, FshPath::class.java)
-
-    @JvmStatic
-    fun getValue(element: FshValueAssignmentRule): FshValue? =
-        PsiTreeUtil.getChildOfType(element, FshValue::class.java)
-
-    @JvmStatic
-    fun getPath(element: FshFixedValueRule): FshPath? =
-        PsiTreeUtil.getChildOfType(element, FshPath::class.java)
-
-    @JvmStatic
-    fun getValue(element: FshFixedValueRule): FshValue? =
-        PsiTreeUtil.getChildOfType(element, FshValue::class.java)
-
-    @JvmStatic
-    fun isExactly(element: FshFixedValueRule): Boolean =
-        element.node.findChildByType(FshTypes.KW_EXACTLY) != null
-
-    @JvmStatic
-    fun getPath(element: FshBindingRule): FshPath? =
-        PsiTreeUtil.getChildOfType(element, FshPath::class.java)
-
-    @JvmStatic
-    fun getBindingName(element: FshBindingRule): FshName? =
-        PsiTreeUtil.getChildOfType(element, FshName::class.java)
-
-    @JvmStatic
-    fun getBindingStrength(element: FshBindingRule): FshBindingStrength? =
-        PsiTreeUtil.getChildOfType(element, FshBindingStrength::class.java)
-
-    @JvmStatic
-    fun getPath(element: FshObeysRule): FshPath? =
-        PsiTreeUtil.getChildOfType(element, FshPath::class.java)
-
-    @JvmStatic
-    fun getInvariantNames(element: FshObeysRule): List<FshName> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshName::class.java)
-
-    @JvmStatic
-    fun getPath(element: FshOnlyRule): FshPath? =
-        PsiTreeUtil.getChildOfType(element, FshPath::class.java)
-
-    @JvmStatic
-    fun getTargetTypes(element: FshOnlyRule): List<FshTargetType> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshTargetType::class.java)
-
-    @JvmStatic
-    fun getPath(element: FshContainsRule): FshPath? =
-        PsiTreeUtil.getChildOfType(element, FshPath::class.java)
+    fun getTargetTypes(element: FshOnlyRule): List<FshTargetType> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshTargetType::class.java)
 
     @JvmStatic
     fun getContainsItems(element: FshContainsRule): List<FshContainsItem> =
@@ -265,74 +188,37 @@ object FshPsiImplUtil {
     }
 
     @JvmStatic
-    fun getValue(element: FshCaretValueRule): FshValue? =
-        PsiTreeUtil.getChildOfType(element, FshValue::class.java)
-
-    @JvmStatic
-    fun getRuleSetReference(element: FshInsertRule): FshRuleSetReference? =
-        PsiTreeUtil.getChildOfType(element, FshRuleSetReference::class.java)
-
-    @JvmStatic
-    fun getPath(element: FshPathRule): FshPath? =
-        PsiTreeUtil.getChildOfType(element, FshPath::class.java)
-
-    @JvmStatic
-    fun getPath(element: FshAddElementRule): FshPath? =
-        PsiTreeUtil.getChildOfType(element, FshPath::class.java)
-
-    @JvmStatic
-    fun getCardinality(element: FshAddElementRule): FshCardinality? =
-        PsiTreeUtil.getChildOfType(element, FshCardinality::class.java)
-
-    @JvmStatic
-    fun getFlags(element: FshAddElementRule): List<FshFlag> =
-        PsiTreeUtil.getChildrenOfTypeAsList(element, FshFlag::class.java)
+    fun getFlags(element: FshAddElementRule): List<FshFlag> = PsiTreeUtil.getChildrenOfTypeAsList(element, FshFlag::class.java)
 
     @JvmStatic
     fun getTargetTypes(element: FshAddElementRule): List<FshTargetType> =
         PsiTreeUtil.getChildrenOfTypeAsList(element, FshTargetType::class.java)
 
     @JvmStatic
-    fun getDescription(element: FshAddElementRule): PsiElement? {
-        return element.node.findChildByType(FshTypes.STRING)?.psi
-            ?: element.node.findChildByType(FshTypes.MULTILINE_STRING)?.psi
-    }
-
-    @JvmStatic
-    fun getPath(element: FshMappingEntityRule): FshPath? =
-        PsiTreeUtil.getChildOfType(element, FshPath::class.java)
-
-    @JvmStatic
-    fun getTarget(element: FshMappingEntityRule): PsiElement? =
+    fun getDescription(element: FshAddElementRule): PsiElement? =
         element.node.findChildByType(FshTypes.STRING)?.psi
+            ?: element.node.findChildByType(FshTypes.MULTILINE_STRING)?.psi
+
+    @JvmStatic
+    fun getTarget(element: FshMappingEntityRule): PsiElement? = element.node.findChildByType(FshTypes.STRING)?.psi
 
     @JvmStatic
     fun getComment(element: FshMappingEntityRule): PsiElement? {
-        val strings = element.node.getChildren(com.intellij.psi.tree.TokenSet.create(FshTypes.STRING))
-        return if (strings.size >= 2) strings[1].psi else null
-    }
-
-    @JvmStatic
-    fun getCode(element: FshMappingEntityRule): PsiElement? =
-        element.node.findChildByType(FshTypes.CODE)?.psi
-            ?: element.node.findChildByType(FshTypes.QUOTED_CODE)?.psi
-
-    // ─── Concept rule ──────────────────────────────────
-
-    @JvmStatic
-    fun getCode(element: FshConceptRule): PsiElement? =
-        element.node.findChildByType(FshTypes.CODE)?.psi
-
-    @JvmStatic
-    fun getDisplay(element: FshConceptRule): PsiElement? {
-        val strings = element.node.getChildren(com.intellij.psi.tree.TokenSet.create(FshTypes.STRING))
+        val strings =
+            element.node.getChildren(
+                com.intellij.psi.tree.TokenSet
+                    .create(FshTypes.STRING),
+            )
         return strings.firstOrNull()?.psi
     }
 
     @JvmStatic
     fun getDefinition(element: FshConceptRule): PsiElement? {
-        val strings = element.node.getChildren(com.intellij.psi.tree.TokenSet.create(FshTypes.STRING))
+        val strings =
+            element.node.getChildren(
+                com.intellij.psi.tree.TokenSet
+                    .create(FshTypes.STRING),
+            )
         return if (strings.size >= 2) strings[1].psi else null
     }
 }
-

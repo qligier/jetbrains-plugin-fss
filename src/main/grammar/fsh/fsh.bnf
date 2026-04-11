@@ -143,7 +143,7 @@
     DATE                = 'regexp:\d{4}(-\d{2}(-\d{2})?)?'
     DATETIME            = 'regexp:\d{4}(-\d{2}(-\d{2}(T\d{2}(:\d{2}(:\d{2}(\.\d+)?)?)?(Z|[+-]\d{2}:\d{2})?)?)?)?'
     TIME                = 'regexp:\d{2}:\d{2}(:\d{2}(\.\d+)?)?'
-    CARDINALITY         = 'regexp:\d+\.\.((\d+)|\*)'
+    CARDINALITY_TOKEN   = 'regexp:\d+\.\.((\d+)|\*)'
     REGEX_LITERAL       = 'regexp:/([^/\\]|\\.)+/'
     SEQUENCE            = 'regexp:[A-Za-z0-9_]+'
     IDENTIFIER          = 'regexp:[A-Za-z][A-Za-z0-9_-]*'
@@ -187,7 +187,7 @@ entity ::= alias
 // ─── Alias ───────────────────────────────────────────
 // Alias: $name = url|urn
 alias ::= KW_ALIAS COLON ALIAS_REF EQUALS (URL | IDENTIFIER | SEQUENCE) {
-  methods = [getName getAliasRef getAliasValue]
+  methods = [getName getAliasValue]
   pin = 1
 }
 
@@ -195,49 +195,49 @@ alias ::= KW_ALIAS COLON ALIAS_REF EQUALS (URL | IDENTIFIER | SEQUENCE) {
 // Profile: Name
 //   Parent: ...
 //   * ...
-profile ::= KW_PROFILE COLON name profileMetadata* sdRule* {
+profile ::= KW_PROFILE COLON nameToken profileMetadata* sdRule* {
   methods = [getName getMetadata getRules]
   pin = 1
 }
 
 // ─── Extension ───────────────────────────────────────
-extension ::= KW_EXTENSION COLON name extensionMetadata* sdRule* {
+extension ::= KW_EXTENSION COLON nameToken extensionMetadata* sdRule* {
   methods = [getName getMetadata getRules]
   pin = 1
 }
 
 // ─── Resource ────────────────────────────────────────
-resource ::= KW_RESOURCE COLON name resourceMetadata* sdRule* {
+resource ::= KW_RESOURCE COLON nameToken resourceMetadata* sdRule* {
   methods = [getName getMetadata getRules]
   pin = 1
 }
 
 // ─── Logical ─────────────────────────────────────────
-logical ::= KW_LOGICAL COLON name logicalMetadata* sdRule* {
+logical ::= KW_LOGICAL COLON nameToken logicalMetadata* sdRule* {
   methods = [getName getMetadata getRules]
   pin = 1
 }
 
 // ─── Instance ────────────────────────────────────────
-instance ::= KW_INSTANCE COLON name instanceMetadata* instanceRule* {
+instance ::= KW_INSTANCE COLON nameToken instanceMetadata* instanceRule* {
   methods = [getName getMetadata getRules]
   pin = 1
 }
 
 // ─── ValueSet ────────────────────────────────────────
-valueSet ::= KW_VALUESET COLON name vsMetadata* vsRule* {
+valueSet ::= KW_VALUESET COLON nameToken vsMetadata* vsRule* {
   methods = [getName getMetadata getRules]
   pin = 1
 }
 
 // ─── CodeSystem ──────────────────────────────────────
-codeSystem ::= KW_CODESYSTEM COLON name csMetadata* csRule* {
+codeSystem ::= KW_CODESYSTEM COLON nameToken csMetadata* csRule* {
   methods = [getName getMetadata getRules]
   pin = 1
 }
 
 // ─── Mapping ─────────────────────────────────────────
-mapping ::= KW_MAPPING COLON name mappingEntityMetadata* mappingRule* {
+mapping ::= KW_MAPPING COLON nameToken mappingEntityMetadata* mappingRule* {
   methods = [getName getMetadata getRules]
   pin = 1
 }
@@ -250,7 +250,7 @@ ruleSet ::= KW_RULESET COLON ruleSetId ruleSetRule* {
 }
 
 // ─── Invariant ───────────────────────────────────────
-invariant ::= KW_INVARIANT COLON name invariantMetadata* {
+invariant ::= KW_INVARIANT COLON nameToken invariantMetadata* {
   methods = [getName getMetadata]
   pin = 1
 }
@@ -261,33 +261,35 @@ invariant ::= KW_INVARIANT COLON name invariantMetadata* {
 // ════════════════════════════════════════════════════════
 
 // Shared metadata items
-idMetadata          ::= KW_ID COLON name                       { pin = 1 }
+idMetadata          ::= KW_ID COLON nameToken                       { pin = 1 }
 titleMetadata       ::= KW_TITLE COLON STRING                  { pin = 1 }
 descriptionMetadata ::= KW_DESCRIPTION COLON (STRING | MULTILINE_STRING) { pin = 1 }
-parentMetadata      ::= KW_PARENT COLON name                   { pin = 1 }
+parentMetadata      ::= KW_PARENT COLON nameToken                   { pin = 1 }
 
 // Instance metadata
-instanceOfMetadata  ::= KW_INSTANCEOF COLON name               { pin = 1 }
-usageMetadata       ::= KW_USAGE COLON name                    { pin = 1 }
+instanceOfMetadata  ::= KW_INSTANCEOF COLON nameToken               { pin = 1 }
+// Usage accepts a code value (e.g. #example, #definition, #inline) or a plain name for flexibility.
+usageMetadata       ::= KW_USAGE COLON (codeValue | nameToken)      { pin = 1 }
 
 // Mapping metadata
-sourceMetadata      ::= KW_SOURCE COLON name                   { pin = 1 }
-targetMetadata      ::= KW_TARGET COLON (STRING | URL | name)  { pin = 1 }
+sourceMetadata      ::= KW_SOURCE COLON nameToken                   { pin = 1 }
+targetMetadata      ::= KW_TARGET COLON (STRING | URL | nameToken)  { pin = 1 }
 
 // Invariant metadata
-severityMetadata    ::= KW_SEVERITY COLON name                 { pin = 1 }
+// Severity accepts a code value (e.g. #error, #warning, #guideline) or a plain name for flexibility.
+severityMetadata    ::= KW_SEVERITY COLON (codeValue | nameToken)   { pin = 1 }
 expressionMetadata  ::= KW_EXPRESSION COLON STRING             { pin = 1 }
 xpathMetadata       ::= KW_XPATH COLON STRING                  { pin = 1 }
 
 // Extension metadata
 contextMetadata     ::= KW_CONTEXT COLON contextItem (COMMA contextItem)* { pin = 1 }
-contextItem         ::= STRING | name
+contextItem         ::= STRING | nameToken
 
 // Logical metadata
-characteristicsMetadata ::= KW_CHARACTERISTICS COLON name (COMMA name)* { pin = 1 }
+characteristicsMetadata ::= KW_CHARACTERISTICS COLON nameToken (COMMA nameToken)* { pin = 1 }
 
 // Profile/Resource/Logical metadata
-mixinsMetadata      ::= KW_MIXINS COLON name (COMMA name)*     { pin = 1 }
+mixinsMetadata      ::= KW_MIXINS COLON nameToken (COMMA nameToken)*     { pin = 1 }
 
 
 // ════════════════════════════════════════════════════════
@@ -350,9 +352,9 @@ invariantMetadata   ::= descriptionMetadata
 //  RuleSet identifier (may be parameterized)
 // ════════════════════════════════════════════════════════
 
-ruleSetId ::= name (LPAREN ruleSetParam (COMMA ruleSetParam)* RPAREN)?
+ruleSetId ::= nameToken (LPAREN ruleSetParam (COMMA ruleSetParam)* RPAREN)?
 
-ruleSetParam ::= name
+ruleSetParam ::= nameToken
 
 
 // ════════════════════════════════════════════════════════
@@ -417,7 +419,7 @@ ruleSetRule ::= caretValueRule
 // ─── Cardinality rule ────────────────────────────────
 // * path N..M [flags]
 cardRule ::= STAR path cardinality flag* {
-  methods = [getPath getCardinality getFlags]
+  methods = [getFlags]
   pin = 1
 }
 
@@ -425,77 +427,75 @@ cardRule ::= STAR path cardinality flag* {
 // * path MS SU ...
 // * path flag and flag ...
 flagRule ::= STAR path flag (KW_AND flag)* {
-  methods = [getPath getFlags]
+  methods = [getFlags]
   pin = 1
 }
 
 // ─── Fixed/assignment value rule ─────────────────────
 // * path = value [(exactly)]
 fixedValueRule ::= STAR path EQUALS value (LPAREN KW_EXACTLY RPAREN)? {
-  methods = [getPath getValue isExactly]
+  methods = [isExactly]
   pin = 3
 }
 
 // ─── Binding rule ────────────────────────────────────
 // * path from ValueSetName [(strength)]
-bindingRule ::= STAR path KW_FROM name (LPAREN bindingStrength RPAREN)? {
-  methods = [getPath getBindingName getBindingStrength]
+bindingRule ::= STAR path KW_FROM nameToken (LPAREN bindingStrength RPAREN)? {
+  methods = [getBindingName]
   pin = 3
 }
 
 // ─── Obeys rule ──────────────────────────────────────
 // * path? obeys inv-1 and inv-2
-obeysRule ::= STAR path? KW_OBEYS name (KW_AND name)* {
-  methods = [getPath getInvariantNames]
+obeysRule ::= STAR path? KW_OBEYS nameToken (KW_AND nameToken)* {
+  methods = [getInvariantNames]
   pin = 3
 }
 
 // ─── Only (type) rule ────────────────────────────────
 // * path only Type1 or Type2
 onlyRule ::= STAR path KW_ONLY targetType (KW_OR targetType)* {
-  methods = [getPath getTargetTypes]
+  methods = [getTargetTypes]
   pin = 3
 }
 
 // ─── Contains rule ───────────────────────────────────
 // * path contains SliceName N..M and AnotherSlice N..M
 containsRule ::= STAR path KW_CONTAINS containsItem (KW_AND containsItem)* {
-  methods = [getPath getContainsItems]
+  methods = [getContainsItems]
   pin = 3
 }
 
 // ─── Caret (element) value rule ──────────────────────
 // * path? ^elementPath = value
 caretValueRule ::= STAR path? CARET path EQUALS value {
-  methods = [getElementPath getCaretPath getValue]
+  methods = [getElementPath getCaretPath]
   pin = 3
 }
 
 // ─── Insert rule ─────────────────────────────────────
 // * insert RuleSetName or * insert RuleSetName(arg1, arg2)
 insertRule ::= STAR KW_INSERT ruleSetReference {
-  methods = [getRuleSetReference]
   pin = 2
 }
 
 // ─── Path rule (standalone path) ─────────────────────
 // * path
 pathRule ::= STAR path {
-  methods = [getPath]
   pin = 1
 }
 
 // ─── Add element rule (Logical/Resource) ─────────────
 // * path N..M [flags] Type1 or Type2 "description"
 addElementRule ::= STAR path cardinality flag* targetType (KW_OR targetType)* (STRING | MULTILINE_STRING)? {
-  methods = [getPath getCardinality getFlags getTargetTypes getDescription]
+  methods = [getFlags getTargetTypes getDescription]
   pin = 1
 }
 
 // ─── Mapping entity rule ─────────────────────────────
 // * path? -> "target" "comment" #code
 mappingEntityRule ::= STAR path? ARROW STRING (STRING | MULTILINE_STRING)? (CODE | QUOTED_CODE)? {
-  methods = [getPath getTarget getComment getCode]
+  methods = [getTarget getComment]
   pin = 3
 }
 
@@ -510,8 +510,8 @@ vsComponent ::= STAR (vsConceptComponent | vsFilterComponent) {
 }
 
 vsConceptComponent ::= codeValue KW_FROM vsComponentFrom
-                      | KW_INCLUDE codeValue (KW_AND codeValue)*
-                      | KW_EXCLUDE codeValue (KW_AND codeValue)*
+                      | KW_INCLUDE codeValue (KW_AND codeValue)* (KW_FROM vsComponentFrom)?
+                      | KW_EXCLUDE codeValue (KW_AND codeValue)* (KW_FROM vsComponentFrom)?
                       | codeValue
 
 vsFilterComponent ::= KW_INCLUDE KW_CODES KW_FROM vsComponentFrom (KW_WHERE vsFilterList)?
@@ -523,11 +523,11 @@ vsComponentFrom ::= vsFromSystem KW_AND vsFromValueSets
                    | vsFromSystem
                    | vsFromValueSets
 
-vsFromSystem    ::= KW_SYSTEM name
-vsFromValueSets ::= KW_VS_VALUESET name (KW_AND name)*
+vsFromSystem    ::= KW_SYSTEM nameToken
+vsFromValueSets ::= KW_VS_VALUESET nameToken (KW_AND nameToken)*
 
 vsFilterList    ::= vsFilterItem (KW_AND vsFilterItem)*
-vsFilterItem    ::= name vsFilterOperator vsFilterValue
+vsFilterItem    ::= nameToken vsFilterOperator vsFilterValue
 
 vsFilterOperator ::= EQUALS
                    | KW_IS_A
@@ -545,7 +545,7 @@ vsFilterValue ::= CODE
                 | KW_TRUE
                 | KW_FALSE
                 | REGEX_LITERAL
-                | name
+                | nameToken
 
 
 // ════════════════════════════════════════════════════════
@@ -554,7 +554,7 @@ vsFilterValue ::= CODE
 
 // * #code "display" "definition"
 conceptRule ::= STAR CODE (STRING (STRING)?)? {
-  methods = [getCode getDisplay getDefinition]
+  methods = [getDisplay getDefinition]
   pin = 2
 }
 
@@ -570,8 +570,8 @@ codeCaretValueRule ::= STAR CODE? CARET path EQUALS value {
 
 // TypeName named SliceName N..M
 // or just SliceName N..M
-containsItem ::= name KW_NAMED name cardinality
-               | name cardinality
+containsItem ::= nameToken KW_NAMED nameToken cardinality
+               | nameToken cardinality
 
 
 // ════════════════════════════════════════════════════════
@@ -604,18 +604,18 @@ flag ::= KW_MS
 targetType ::= referenceType
              | canonicalType
              | codeableReferenceType
-             | name
+             | nameToken
 
 // Reference(Type1 or Type2)
-referenceType ::= KW_REFERENCE LPAREN name (KW_OR name)* RPAREN
+referenceType ::= KW_REFERENCE LPAREN nameToken (KW_OR nameToken)* RPAREN
 
 // Canonical(Type1|version or Type2)
 canonicalType ::= KW_CANONICAL LPAREN canonicalTarget (KW_OR canonicalTarget)* RPAREN
 
-canonicalTarget ::= name (PIPE name)?
+canonicalTarget ::= nameToken (PIPE nameToken)?
 
 // CodeableReference(Type1 or Type2)
-codeableReferenceType ::= KW_CODEABLE_REF LPAREN name (KW_OR name)* RPAREN
+codeableReferenceType ::= KW_CODEABLE_REF LPAREN nameToken (KW_OR nameToken)* RPAREN
 
 
 // ════════════════════════════════════════════════════════
@@ -623,7 +623,7 @@ codeableReferenceType ::= KW_CODEABLE_REF LPAREN name (KW_OR name)* RPAREN
 // ════════════════════════════════════════════════════════
 
 // RuleSetName or RuleSetName(arg1, [[complex arg]])
-ruleSetReference ::= name (LPAREN ruleSetArgument (COMMA ruleSetArgument)* RPAREN)?
+ruleSetReference ::= nameToken (LPAREN ruleSetArgument (COMMA ruleSetArgument)* RPAREN)?
 
 ruleSetArgument ::= DBL_LBRACKET ruleSetArgContent DBL_RBRACKET
                   | value
@@ -631,7 +631,7 @@ ruleSetArgument ::= DBL_LBRACKET ruleSetArgContent DBL_RBRACKET
 // Content within [[ ... ]] delimiters: essentially free-form text (any tokens)
 ruleSetArgContent ::= (IDENTIFIER | SEQUENCE | STRING | CODE | QUOTED_CODE | STAR | DOT | EQUALS
                       | COLON | COMMA | LPAREN | RPAREN | LBRACKET | RBRACKET | URL | ALIAS_REF
-                      | INTEGER | DECIMAL | CARDINALITY | UCUM_UNIT
+                      | INTEGER | DECIMAL | CARDINALITY_TOKEN | UCUM_UNIT
                       | KW_AND | KW_OR | KW_FROM | KW_ONLY | KW_CONTAINS
                       | KW_NAMED | KW_OBEYS | KW_TRUE | KW_FALSE
                       | KW_MS | KW_SU | KW_TU | KW_NORMATIVE | KW_DRAFT
@@ -648,9 +648,9 @@ path ::= pathPart (DOT pathPart)* {
   methods = [getPathString]
 }
 
-pathPart ::= name bracketSuffix?
+pathPart ::= nameToken bracketSuffix?
 
-bracketSuffix ::= LBRACKET (name | URL | INTEGER) RBRACKET
+bracketSuffix ::= LBRACKET (nameToken | URL | INTEGER) RBRACKET
 
 
 // ════════════════════════════════════════════════════════
@@ -658,7 +658,7 @@ bracketSuffix ::= LBRACKET (name | URL | INTEGER) RBRACKET
 // ════════════════════════════════════════════════════════
 
 // e.g., 0..1, 1..*, 0..*
-cardinality ::= CARDINALITY
+cardinality ::= CARDINALITY_TOKEN
 
 
 // ════════════════════════════════════════════════════════
@@ -681,7 +681,7 @@ value ::= MULTILINE_STRING
         | INTEGER
         | URL
         | ALIAS_REF
-        | name
+        | nameToken
 
 booleanValue  ::= KW_TRUE | KW_FALSE
 
@@ -693,7 +693,7 @@ dateValue     ::= DATE
 timeValue     ::= TIME
 
 // e.g., #code, http://system.org#code "display", $alias#code
-codeValue ::= (URL | ALIAS_REF | name)? CODE STRING?
+codeValue ::= (URL | ALIAS_REF | nameToken)? CODE STRING?
             | QUOTED_CODE STRING?
 
 // e.g., 5 'mg' : 1 'mL'
@@ -706,5 +706,5 @@ ratioValue ::= quantity COLON quantity
 
 // A 'name' can be a plain identifier, a numeric sequence, an alias reference, or a URL.
 // This is intentionally permissive; validation of name content is done in annotators.
-name ::= IDENTIFIER | SEQUENCE | ALIAS_REF | URL
+nameToken ::= IDENTIFIER | SEQUENCE | ALIAS_REF | URL
 
