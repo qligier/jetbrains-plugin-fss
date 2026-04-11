@@ -1,0 +1,710 @@
+/*
+ * Copyright 2026 Quentin Ligier. Use of this source code is governed by the MIT license.
+ */
+
+/*
+ * A Grammar-Kit BNF grammar for the FHIR Shorthand (FSH) language.
+ * See https://build.fhir.org/ig/HL7/fhir-shorthand/
+ * See https://plugins.jetbrains.com/docs/intellij/grammar-and-parser.html
+ * See https://plugins.jetbrains.com/docs/intellij/implementing-parser-and-psi.html
+ */
+
+{
+  parserClass="ch.qligier.jetbrains.plugin.fss.fsh.language.parser.FshParser"
+  parserUtilClass="ch.qligier.jetbrains.plugin.fss.fsh.language.parser.FshParserUtil"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Fsh"
+  psiImplClassSuffix="Impl"
+  psiPackage="ch.qligier.jetbrains.plugin.fss.fsh.language.psi"
+  psiImplPackage="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.impl"
+
+  elementTypeHolderClass="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTypes"
+  elementTypeClass="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshElementType"
+  tokenTypeClass="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTokenType"
+
+  psiImplUtilClass="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.impl.FshPsiImplUtil"
+
+  // Token definitions.
+  // The regex patterns are documentation hints only; actual tokenization is done by the JFlex lexer (fsh.flex).
+  tokens = [
+    // Comments
+    LINE_COMMENT        = 'regexp://[^\r\n]*'
+    BLOCK_COMMENT       = 'regexp:/\*([^*]|\*[^/])*\*/'
+
+    // Entity declaration keywords
+    KW_ALIAS            = 'Alias'
+    KW_PROFILE          = 'Profile'
+    KW_EXTENSION        = 'Extension'
+    KW_RESOURCE         = 'Resource'
+    KW_LOGICAL          = 'Logical'
+    KW_INSTANCE         = 'Instance'
+    KW_VALUESET         = 'ValueSet'
+    KW_CODESYSTEM       = 'CodeSystem'
+    KW_MAPPING          = 'Mapping'
+    KW_RULESET          = 'RuleSet'
+    KW_INVARIANT        = 'Invariant'
+
+    // Metadata keywords
+    KW_ID               = 'Id'
+    KW_TITLE            = 'Title'
+    KW_DESCRIPTION      = 'Description'
+    KW_PARENT           = 'Parent'
+    KW_INSTANCEOF       = 'InstanceOf'
+    KW_USAGE            = 'Usage'
+    KW_SOURCE           = 'Source'
+    KW_TARGET           = 'Target'
+    KW_SEVERITY         = 'Severity'
+    KW_EXPRESSION       = 'Expression'
+    KW_XPATH            = 'XPath'
+    KW_CONTEXT          = 'Context'
+    KW_CHARACTERISTICS  = 'Characteristics'
+    KW_MIXINS           = 'Mixins'
+
+    // Rule keywords
+    KW_FROM             = 'from'
+    KW_OBEYS            = 'obeys'
+    KW_ONLY             = 'only'
+    KW_CONTAINS         = 'contains'
+    KW_NAMED            = 'named'
+    KW_AND              = 'and'
+    KW_OR               = 'or'
+    KW_INSERT           = 'insert'
+    KW_INCLUDE          = 'include'
+    KW_EXCLUDE          = 'exclude'
+    KW_WHERE            = 'where'
+    KW_CODES            = 'codes'
+    KW_SYSTEM           = 'system'
+    KW_UNITS            = 'units'
+    KW_CONTENTREFERENCE = 'contentReference'
+
+    // Binding strength keywords
+    KW_EXACTLY          = 'exactly'
+    KW_EXAMPLE          = 'example'
+    KW_EXTENSIBLE       = 'extensible'
+    KW_PREFERRED        = 'preferred'
+    KW_REQUIRED         = 'required'
+
+    // Flag keywords
+    KW_MS               = 'MS'
+    KW_SU               = 'SU'
+    KW_TU               = 'TU'
+    KW_NORMATIVE        = 'N'
+    KW_DRAFT            = 'D'
+    KW_MODIFIEREXT      = '?!'
+
+    // Type keywords
+    KW_REFERENCE        = 'Reference'
+    KW_CANONICAL        = 'Canonical'
+    KW_CODEABLE_REF     = 'CodeableReference'
+
+    // Boolean literals
+    KW_TRUE             = 'true'
+    KW_FALSE            = 'false'
+
+    // ValueSet filter operators
+    KW_IS_A             = 'is-a'
+    KW_IS_NOT_A         = 'is-not-a'
+    KW_DESCENDENT_OF    = 'descendent-of'
+    KW_GENERALIZES      = 'generalizes'
+    KW_NOT_IN           = 'not-in'
+    KW_IN               = 'in'
+    KW_REGEX            = 'regex'
+    KW_EXISTS           = 'exists'
+    KW_VS_VALUESET      = 'valueset'       // lowercase "valueset" used in VS filter 'from' clauses
+
+    // Operators & punctuation
+    EQUALS              = '='
+    COLON               = ':'
+    STAR                = '*'
+    ARROW               = '->'
+    PLUS                = '+'
+    DOT_DOT             = '..'
+    DOT                 = '.'
+    COMMA               = ','
+    LPAREN              = '('
+    RPAREN              = ')'
+    LBRACKET            = '['
+    RBRACKET            = ']'
+    CARET               = '^'
+    PIPE                = '|'
+
+    // Literal tokens
+    STRING              = 'regexp:"([^"\\]|\\.)*"'
+    MULTILINE_STRING    = 'regexp:"""[\s\S]*?"""'
+    CODE                = 'regexp:#[^\s,]*'
+    QUOTED_CODE         = 'regexp:#"([^"\\]|\\.)*"'
+    UCUM_UNIT           = "regexp:'[^']*'"
+    URL                 = 'regexp:https?://[^\s|,)\]]*'
+    ALIAS_REF           = 'regexp:\$[A-Za-z0-9_.-]+'
+    INTEGER             = 'regexp:-?\d+'
+    DECIMAL             = 'regexp:-?\d+\.\d+'
+    DATE                = 'regexp:\d{4}(-\d{2}(-\d{2})?)?'
+    DATETIME            = 'regexp:\d{4}(-\d{2}(-\d{2}(T\d{2}(:\d{2}(:\d{2}(\.\d+)?)?)?(Z|[+-]\d{2}:\d{2})?)?)?)?'
+    TIME                = 'regexp:\d{2}:\d{2}(:\d{2}(\.\d+)?)?'
+    CARDINALITY         = 'regexp:\d+\.\.((\d+)|\*)'
+    REGEX_LITERAL       = 'regexp:/([^/\\]|\\.)+/'
+    SEQUENCE            = 'regexp:[A-Za-z0-9_]+'
+    IDENTIFIER          = 'regexp:[A-Za-z][A-Za-z0-9_-]*'
+
+    // Bracket delimiters for parameterized RuleSet insert
+    DBL_LBRACKET        = '[['
+    DBL_RBRACKET        = ']]'
+  ]
+}
+
+// ════════════════════════════════════════════════════════
+//  File root
+// ════════════════════════════════════════════════════════
+
+fshFile ::= item_*
+
+private item_ ::= entity | LINE_COMMENT | BLOCK_COMMENT {
+  recoverWhile = item_recover_
+}
+
+private item_recover_ ::= !(KW_ALIAS | KW_PROFILE | KW_EXTENSION | KW_RESOURCE | KW_LOGICAL
+                           | KW_INSTANCE | KW_VALUESET | KW_CODESYSTEM | KW_MAPPING | KW_RULESET
+                           | KW_INVARIANT | <<eof>>)
+
+// ════════════════════════════════════════════════════════
+//  Entity declarations
+// ════════════════════════════════════════════════════════
+
+entity ::= alias
+         | profile
+         | extension
+         | resource
+         | logical
+         | instance
+         | valueSet
+         | codeSystem
+         | mapping
+         | ruleSet
+         | invariant
+
+// ─── Alias ───────────────────────────────────────────
+// Alias: $name = url|urn
+alias ::= KW_ALIAS COLON ALIAS_REF EQUALS (URL | IDENTIFIER | SEQUENCE) {
+  methods = [getName getAliasRef getAliasValue]
+  pin = 1
+}
+
+// ─── Profile ─────────────────────────────────────────
+// Profile: Name
+//   Parent: ...
+//   * ...
+profile ::= KW_PROFILE COLON name profileMetadata* sdRule* {
+  methods = [getName getMetadata getRules]
+  pin = 1
+}
+
+// ─── Extension ───────────────────────────────────────
+extension ::= KW_EXTENSION COLON name extensionMetadata* sdRule* {
+  methods = [getName getMetadata getRules]
+  pin = 1
+}
+
+// ─── Resource ────────────────────────────────────────
+resource ::= KW_RESOURCE COLON name resourceMetadata* sdRule* {
+  methods = [getName getMetadata getRules]
+  pin = 1
+}
+
+// ─── Logical ─────────────────────────────────────────
+logical ::= KW_LOGICAL COLON name logicalMetadata* sdRule* {
+  methods = [getName getMetadata getRules]
+  pin = 1
+}
+
+// ─── Instance ────────────────────────────────────────
+instance ::= KW_INSTANCE COLON name instanceMetadata* instanceRule* {
+  methods = [getName getMetadata getRules]
+  pin = 1
+}
+
+// ─── ValueSet ────────────────────────────────────────
+valueSet ::= KW_VALUESET COLON name vsMetadata* vsRule* {
+  methods = [getName getMetadata getRules]
+  pin = 1
+}
+
+// ─── CodeSystem ──────────────────────────────────────
+codeSystem ::= KW_CODESYSTEM COLON name csMetadata* csRule* {
+  methods = [getName getMetadata getRules]
+  pin = 1
+}
+
+// ─── Mapping ─────────────────────────────────────────
+mapping ::= KW_MAPPING COLON name mappingEntityMetadata* mappingRule* {
+  methods = [getName getMetadata getRules]
+  pin = 1
+}
+
+// ─── RuleSet ─────────────────────────────────────────
+// RuleSet: Name or RuleSet: Name(param1, param2)
+ruleSet ::= KW_RULESET COLON ruleSetId ruleSetRule* {
+  methods = [getName getRules]
+  pin = 1
+}
+
+// ─── Invariant ───────────────────────────────────────
+invariant ::= KW_INVARIANT COLON name invariantMetadata* {
+  methods = [getName getMetadata]
+  pin = 1
+}
+
+
+// ════════════════════════════════════════════════════════
+//  Metadata keyword rules
+// ════════════════════════════════════════════════════════
+
+// Shared metadata items
+idMetadata          ::= KW_ID COLON name                       { pin = 1 }
+titleMetadata       ::= KW_TITLE COLON STRING                  { pin = 1 }
+descriptionMetadata ::= KW_DESCRIPTION COLON (STRING | MULTILINE_STRING) { pin = 1 }
+parentMetadata      ::= KW_PARENT COLON name                   { pin = 1 }
+
+// Instance metadata
+instanceOfMetadata  ::= KW_INSTANCEOF COLON name               { pin = 1 }
+usageMetadata       ::= KW_USAGE COLON name                    { pin = 1 }
+
+// Mapping metadata
+sourceMetadata      ::= KW_SOURCE COLON name                   { pin = 1 }
+targetMetadata      ::= KW_TARGET COLON (STRING | URL | name)  { pin = 1 }
+
+// Invariant metadata
+severityMetadata    ::= KW_SEVERITY COLON name                 { pin = 1 }
+expressionMetadata  ::= KW_EXPRESSION COLON STRING             { pin = 1 }
+xpathMetadata       ::= KW_XPATH COLON STRING                  { pin = 1 }
+
+// Extension metadata
+contextMetadata     ::= KW_CONTEXT COLON contextItem (COMMA contextItem)* { pin = 1 }
+contextItem         ::= STRING | name
+
+// Logical metadata
+characteristicsMetadata ::= KW_CHARACTERISTICS COLON name (COMMA name)* { pin = 1 }
+
+// Profile/Resource/Logical metadata
+mixinsMetadata      ::= KW_MIXINS COLON name (COMMA name)*     { pin = 1 }
+
+
+// ════════════════════════════════════════════════════════
+//  Grouped metadata per entity type
+// ════════════════════════════════════════════════════════
+
+profileMetadata     ::= idMetadata
+                      | parentMetadata
+                      | titleMetadata
+                      | descriptionMetadata
+                      | mixinsMetadata
+
+extensionMetadata   ::= idMetadata
+                      | parentMetadata
+                      | titleMetadata
+                      | descriptionMetadata
+                      | contextMetadata
+                      | mixinsMetadata
+
+resourceMetadata    ::= idMetadata
+                      | parentMetadata
+                      | titleMetadata
+                      | descriptionMetadata
+                      | mixinsMetadata
+
+logicalMetadata     ::= idMetadata
+                      | parentMetadata
+                      | titleMetadata
+                      | descriptionMetadata
+                      | characteristicsMetadata
+                      | mixinsMetadata
+
+instanceMetadata    ::= idMetadata
+                      | instanceOfMetadata
+                      | titleMetadata
+                      | descriptionMetadata
+                      | usageMetadata
+
+vsMetadata          ::= idMetadata
+                      | titleMetadata
+                      | descriptionMetadata
+
+csMetadata          ::= idMetadata
+                      | titleMetadata
+                      | descriptionMetadata
+
+mappingEntityMetadata ::= idMetadata
+                        | sourceMetadata
+                        | targetMetadata
+                        | titleMetadata
+                        | descriptionMetadata
+
+invariantMetadata   ::= descriptionMetadata
+                      | expressionMetadata
+                      | xpathMetadata
+                      | severityMetadata
+
+
+// ════════════════════════════════════════════════════════
+//  RuleSet identifier (may be parameterized)
+// ════════════════════════════════════════════════════════
+
+ruleSetId ::= name (LPAREN ruleSetParam (COMMA ruleSetParam)* RPAREN)?
+
+ruleSetParam ::= name
+
+
+// ════════════════════════════════════════════════════════
+//  Rule groupings per entity type
+// ════════════════════════════════════════════════════════
+
+// SD rules (Profile, Extension, Resource, Logical)
+// Ordering matters for the PEG parser: more specific rules first to avoid ambiguous matches.
+sdRule ::= caretValueRule
+         | bindingRule
+         | obeysRule
+         | onlyRule
+         | containsRule
+         | insertRule
+         | addElementRule
+         | cardRule
+         | flagRule
+         | fixedValueRule
+         | pathRule
+
+// Instance rules
+instanceRule ::= fixedValueRule
+               | insertRule
+               | pathRule
+
+// ValueSet rules
+vsRule ::= vsComponent
+         | caretValueRule
+         | insertRule
+
+// CodeSystem rules
+csRule ::= conceptRule
+         | codeCaretValueRule
+         | insertRule
+
+// Mapping rules
+mappingRule ::= mappingEntityRule
+              | insertRule
+
+// RuleSet rules (union of all rule types, since a RuleSet can be used anywhere)
+ruleSetRule ::= caretValueRule
+              | codeCaretValueRule
+              | bindingRule
+              | obeysRule
+              | onlyRule
+              | containsRule
+              | insertRule
+              | addElementRule
+              | mappingEntityRule
+              | cardRule
+              | flagRule
+              | fixedValueRule
+              | vsComponent
+              | conceptRule
+              | pathRule
+
+
+// ════════════════════════════════════════════════════════
+//  Individual rule definitions
+// ════════════════════════════════════════════════════════
+
+// ─── Cardinality rule ────────────────────────────────
+// * path N..M [flags]
+cardRule ::= STAR path cardinality flag* {
+  methods = [getPath getCardinality getFlags]
+  pin = 1
+}
+
+// ─── Flag rule ───────────────────────────────────────
+// * path MS SU ...
+// * path flag and flag ...
+flagRule ::= STAR path flag (KW_AND flag)* {
+  methods = [getPath getFlags]
+  pin = 1
+}
+
+// ─── Fixed/assignment value rule ─────────────────────
+// * path = value [(exactly)]
+fixedValueRule ::= STAR path EQUALS value (LPAREN KW_EXACTLY RPAREN)? {
+  methods = [getPath getValue isExactly]
+  pin = 3
+}
+
+// ─── Binding rule ────────────────────────────────────
+// * path from ValueSetName [(strength)]
+bindingRule ::= STAR path KW_FROM name (LPAREN bindingStrength RPAREN)? {
+  methods = [getPath getBindingName getBindingStrength]
+  pin = 3
+}
+
+// ─── Obeys rule ──────────────────────────────────────
+// * path? obeys inv-1 and inv-2
+obeysRule ::= STAR path? KW_OBEYS name (KW_AND name)* {
+  methods = [getPath getInvariantNames]
+  pin = 3
+}
+
+// ─── Only (type) rule ────────────────────────────────
+// * path only Type1 or Type2
+onlyRule ::= STAR path KW_ONLY targetType (KW_OR targetType)* {
+  methods = [getPath getTargetTypes]
+  pin = 3
+}
+
+// ─── Contains rule ───────────────────────────────────
+// * path contains SliceName N..M and AnotherSlice N..M
+containsRule ::= STAR path KW_CONTAINS containsItem (KW_AND containsItem)* {
+  methods = [getPath getContainsItems]
+  pin = 3
+}
+
+// ─── Caret (element) value rule ──────────────────────
+// * path? ^elementPath = value
+caretValueRule ::= STAR path? CARET path EQUALS value {
+  methods = [getElementPath getCaretPath getValue]
+  pin = 3
+}
+
+// ─── Insert rule ─────────────────────────────────────
+// * insert RuleSetName or * insert RuleSetName(arg1, arg2)
+insertRule ::= STAR KW_INSERT ruleSetReference {
+  methods = [getRuleSetReference]
+  pin = 2
+}
+
+// ─── Path rule (standalone path) ─────────────────────
+// * path
+pathRule ::= STAR path {
+  methods = [getPath]
+  pin = 1
+}
+
+// ─── Add element rule (Logical/Resource) ─────────────
+// * path N..M [flags] Type1 or Type2 "description"
+addElementRule ::= STAR path cardinality flag* targetType (KW_OR targetType)* (STRING | MULTILINE_STRING)? {
+  methods = [getPath getCardinality getFlags getTargetTypes getDescription]
+  pin = 1
+}
+
+// ─── Mapping entity rule ─────────────────────────────
+// * path? -> "target" "comment" #code
+mappingEntityRule ::= STAR path? ARROW STRING (STRING | MULTILINE_STRING)? (CODE | QUOTED_CODE)? {
+  methods = [getPath getTarget getComment getCode]
+  pin = 3
+}
+
+
+// ════════════════════════════════════════════════════════
+//  ValueSet components
+// ════════════════════════════════════════════════════════
+
+// ValueSet component: include/exclude codes or filter
+vsComponent ::= STAR (vsConceptComponent | vsFilterComponent) {
+  pin = 1
+}
+
+vsConceptComponent ::= codeValue KW_FROM vsComponentFrom
+                      | KW_INCLUDE codeValue (KW_AND codeValue)*
+                      | KW_EXCLUDE codeValue (KW_AND codeValue)*
+                      | codeValue
+
+vsFilterComponent ::= KW_INCLUDE KW_CODES KW_FROM vsComponentFrom (KW_WHERE vsFilterList)?
+                     | KW_EXCLUDE KW_CODES KW_FROM vsComponentFrom (KW_WHERE vsFilterList)?
+                     | KW_CODES KW_FROM vsComponentFrom (KW_WHERE vsFilterList)?
+
+vsComponentFrom ::= vsFromSystem KW_AND vsFromValueSets
+                   | vsFromValueSets KW_AND vsFromSystem
+                   | vsFromSystem
+                   | vsFromValueSets
+
+vsFromSystem    ::= KW_SYSTEM name
+vsFromValueSets ::= KW_VS_VALUESET name (KW_AND name)*
+
+vsFilterList    ::= vsFilterItem (KW_AND vsFilterItem)*
+vsFilterItem    ::= name vsFilterOperator vsFilterValue
+
+vsFilterOperator ::= EQUALS
+                   | KW_IS_A
+                   | KW_IS_NOT_A
+                   | KW_DESCENDENT_OF
+                   | KW_GENERALIZES
+                   | KW_NOT_IN
+                   | KW_IN
+                   | KW_REGEX
+                   | KW_EXISTS
+
+vsFilterValue ::= CODE
+                | QUOTED_CODE
+                | STRING
+                | KW_TRUE
+                | KW_FALSE
+                | REGEX_LITERAL
+                | name
+
+
+// ════════════════════════════════════════════════════════
+//  CodeSystem rules
+// ════════════════════════════════════════════════════════
+
+// * #code "display" "definition"
+conceptRule ::= STAR CODE (STRING (STRING)?)? {
+  methods = [getCode getDisplay getDefinition]
+  pin = 2
+}
+
+// * #code? ^path = value
+codeCaretValueRule ::= STAR CODE? CARET path EQUALS value {
+  pin = 3
+}
+
+
+// ════════════════════════════════════════════════════════
+//  Contains rule item
+// ════════════════════════════════════════════════════════
+
+// TypeName named SliceName N..M
+// or just SliceName N..M
+containsItem ::= name KW_NAMED name cardinality
+               | name cardinality
+
+
+// ════════════════════════════════════════════════════════
+//  Binding strength
+// ════════════════════════════════════════════════════════
+
+bindingStrength ::= KW_EXACTLY
+                  | KW_EXAMPLE
+                  | KW_EXTENSIBLE
+                  | KW_PREFERRED
+                  | KW_REQUIRED
+
+
+// ════════════════════════════════════════════════════════
+//  Flags
+// ════════════════════════════════════════════════════════
+
+flag ::= KW_MS
+       | KW_SU
+       | KW_TU
+       | KW_NORMATIVE
+       | KW_DRAFT
+       | KW_MODIFIEREXT
+
+
+// ════════════════════════════════════════════════════════
+//  Target types (for 'only' and 'contains' rules)
+// ════════════════════════════════════════════════════════
+
+targetType ::= referenceType
+             | canonicalType
+             | codeableReferenceType
+             | name
+
+// Reference(Type1 or Type2)
+referenceType ::= KW_REFERENCE LPAREN name (KW_OR name)* RPAREN
+
+// Canonical(Type1|version or Type2)
+canonicalType ::= KW_CANONICAL LPAREN canonicalTarget (KW_OR canonicalTarget)* RPAREN
+
+canonicalTarget ::= name (PIPE name)?
+
+// CodeableReference(Type1 or Type2)
+codeableReferenceType ::= KW_CODEABLE_REF LPAREN name (KW_OR name)* RPAREN
+
+
+// ════════════════════════════════════════════════════════
+//  RuleSet reference (may be parameterized)
+// ════════════════════════════════════════════════════════
+
+// RuleSetName or RuleSetName(arg1, [[complex arg]])
+ruleSetReference ::= name (LPAREN ruleSetArgument (COMMA ruleSetArgument)* RPAREN)?
+
+ruleSetArgument ::= DBL_LBRACKET ruleSetArgContent DBL_RBRACKET
+                  | value
+
+// Content within [[ ... ]] delimiters: essentially free-form text (any tokens)
+ruleSetArgContent ::= (IDENTIFIER | SEQUENCE | STRING | CODE | QUOTED_CODE | STAR | DOT | EQUALS
+                      | COLON | COMMA | LPAREN | RPAREN | LBRACKET | RBRACKET | URL | ALIAS_REF
+                      | INTEGER | DECIMAL | CARDINALITY | UCUM_UNIT
+                      | KW_AND | KW_OR | KW_FROM | KW_ONLY | KW_CONTAINS
+                      | KW_NAMED | KW_OBEYS | KW_TRUE | KW_FALSE
+                      | KW_MS | KW_SU | KW_TU | KW_NORMATIVE | KW_DRAFT
+                      | KW_REFERENCE | KW_CANONICAL | KW_CODEABLE_REF
+                      | CARET | ARROW | PIPE | PLUS)*
+
+
+// ════════════════════════════════════════════════════════
+//  Path expressions
+// ════════════════════════════════════════════════════════
+
+// e.g., status, code.coding, extension[MySlice].value[x], valueString
+path ::= pathPart (DOT pathPart)* {
+  methods = [getPathString]
+}
+
+pathPart ::= name bracketSuffix?
+
+bracketSuffix ::= LBRACKET (name | URL | INTEGER) RBRACKET
+
+
+// ════════════════════════════════════════════════════════
+//  Cardinality
+// ════════════════════════════════════════════════════════
+
+// e.g., 0..1, 1..*, 0..*
+cardinality ::= CARDINALITY
+
+
+// ════════════════════════════════════════════════════════
+//  Values
+// ════════════════════════════════════════════════════════
+
+value ::= MULTILINE_STRING
+        | STRING
+        | booleanValue
+        | quantity
+        | dateTimeValue
+        | dateValue
+        | timeValue
+        | codeValue
+        | referenceType
+        | canonicalType
+        | codeableReferenceType
+        | ratioValue
+        | DECIMAL
+        | INTEGER
+        | URL
+        | ALIAS_REF
+        | name
+
+booleanValue  ::= KW_TRUE | KW_FALSE
+
+// e.g., 3.14 'mg', 5 #mg
+quantity ::= (INTEGER | DECIMAL) (UCUM_UNIT | codeValue)
+
+dateTimeValue ::= DATETIME
+dateValue     ::= DATE
+timeValue     ::= TIME
+
+// e.g., #code, http://system.org#code "display", $alias#code
+codeValue ::= (URL | ALIAS_REF | name)? CODE STRING?
+            | QUOTED_CODE STRING?
+
+// e.g., 5 'mg' : 1 'mL'
+ratioValue ::= quantity COLON quantity
+
+
+// ════════════════════════════════════════════════════════
+//  Name (identifiers, sequences, and qualified references)
+// ════════════════════════════════════════════════════════
+
+// A 'name' can be a plain identifier, a numeric sequence, an alias reference, or a URL.
+// This is intentionally permissive; validation of name content is done in annotators.
+name ::= IDENTIFIER | SEQUENCE | ALIAS_REF | URL
+
