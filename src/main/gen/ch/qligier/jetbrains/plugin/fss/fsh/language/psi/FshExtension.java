@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshExtension extends PsiElement {
+public interface FshExtension extends FshNamedElement {
 
   @NotNull
   List<FshExtensionMetadata> getExtensionMetadataList();

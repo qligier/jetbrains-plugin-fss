@@ -8,10 +8,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import ch.qligier.jetbrains.plugin.fss.fsh.language.psi.*;
 
-public class FshMappingImpl extends ASTWrapperPsiElement implements FshMapping {
+public class FshMappingImpl extends FshNamedElementImpl implements FshMapping {
 
   public FshMappingImpl(@NotNull ASTNode node) {
     super(node);
