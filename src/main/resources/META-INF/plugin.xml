@@ -52,6 +52,8 @@
                                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.language.parser.FshParserDefinition"/>
         <lang.syntaxHighlighterFactory language="FSH"
                                        implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.highlighter.FshSyntaxHighlighterFactory"/>
+        <lang.psiStructureViewFactory language="FSH"
+                                      implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.structure.FshStructureViewFactory"/>
 
         <defaultLiveTemplates file="/fsh/liveTemplates.xml"/>
         <liveTemplateContext
