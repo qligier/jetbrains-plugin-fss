@@ -12,7 +12,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitAlias(@NotNull FshAlias o) {
-    visitNamedElement(o);
+    visitEntity(o);
   }
 
   public void visitBindingRule(@NotNull FshBindingRule o) {
@@ -60,7 +60,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitCodeSystem(@NotNull FshCodeSystem o) {
-    visitNamedElement(o);
+    visitEntity(o);
   }
 
   public void visitCodeValue(@NotNull FshCodeValue o) {
@@ -112,7 +112,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitEntity(@NotNull FshEntity o) {
-    visitPsiElement(o);
+    visitNamedElement(o);
   }
 
   public void visitExpressionMetadata(@NotNull FshExpressionMetadata o) {
@@ -120,7 +120,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitExtension(@NotNull FshExtension o) {
-    visitNamedElement(o);
+    visitEntity(o);
   }
 
   public void visitExtensionMetadata(@NotNull FshExtensionMetadata o) {
@@ -148,7 +148,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitInstance(@NotNull FshInstance o) {
-    visitNamedElement(o);
+    visitEntity(o);
   }
 
   public void visitInstanceMetadata(@NotNull FshInstanceMetadata o) {
@@ -164,7 +164,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitInvariant(@NotNull FshInvariant o) {
-    visitNamedElement(o);
+    visitEntity(o);
   }
 
   public void visitInvariantMetadata(@NotNull FshInvariantMetadata o) {
@@ -172,7 +172,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitLogical(@NotNull FshLogical o) {
-    visitNamedElement(o);
+    visitEntity(o);
   }
 
   public void visitLogicalMetadata(@NotNull FshLogicalMetadata o) {
@@ -180,7 +180,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitMapping(@NotNull FshMapping o) {
-    visitNamedElement(o);
+    visitEntity(o);
   }
 
   public void visitMappingEntityMetadata(@NotNull FshMappingEntityMetadata o) {
@@ -228,7 +228,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitProfile(@NotNull FshProfile o) {
-    visitNamedElement(o);
+    visitEntity(o);
   }
 
   public void visitProfileMetadata(@NotNull FshProfileMetadata o) {
@@ -248,7 +248,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitResource(@NotNull FshResource o) {
-    visitNamedElement(o);
+    visitEntity(o);
   }
 
   public void visitResourceMetadata(@NotNull FshResourceMetadata o) {
@@ -256,7 +256,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitRuleSet(@NotNull FshRuleSet o) {
-    visitNamedElement(o);
+    visitEntity(o);
   }
 
   public void visitRuleSetArgContent(@NotNull FshRuleSetArgContent o) {
@@ -320,7 +320,7 @@ public class FshVisitor extends PsiElementVisitor {
   }
 
   public void visitValueSet(@NotNull FshValueSet o) {
-    visitNamedElement(o);
+    visitEntity(o);
   }
 
   public void visitVsComponent(@NotNull FshVsComponent o) {

@@ -10,12 +10,13 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTypes.*;
 import ch.qligier.jetbrains.plugin.fss.fsh.language.psi.*;
 
-public class FshCodeSystemImpl extends FshNamedElementImpl implements FshCodeSystem {
+public class FshCodeSystemImpl extends FshEntityImpl implements FshCodeSystem {
 
   public FshCodeSystemImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull FshVisitor visitor) {
     visitor.visitCodeSystem(this);
   }

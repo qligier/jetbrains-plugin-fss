@@ -10,12 +10,13 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTypes.*;
 import ch.qligier.jetbrains.plugin.fss.fsh.language.psi.*;
 
-public class FshResourceImpl extends FshNamedElementImpl implements FshResource {
+public class FshResourceImpl extends FshEntityImpl implements FshResource {
 
   public FshResourceImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull FshVisitor visitor) {
     visitor.visitResource(this);
   }

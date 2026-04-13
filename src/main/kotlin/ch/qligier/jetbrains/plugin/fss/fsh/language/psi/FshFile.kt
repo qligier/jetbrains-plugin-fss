@@ -6,6 +6,7 @@ package ch.qligier.jetbrains.plugin.fss.fsh.language.psi
 
 import ch.qligier.jetbrains.plugin.fss.fsh.FshFileType
 import ch.qligier.jetbrains.plugin.fss.fsh.FshLanguage
+import ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshEntity
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
@@ -17,7 +18,7 @@ class FshFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, FshLan
 
     override fun toString(): String = "FSH file"
 
-    fun getEntities(): List<FshNamedElement> = PsiTreeUtil.getChildrenOfTypeAsList(this, FshNamedElement::class.java)
+    fun getEntities(): List<FshEntity> = PsiTreeUtil.getChildrenOfTypeAsList(this, FshNamedElement::class.java)
 
     fun getAliases(): List<FshAlias> = PsiTreeUtil.getChildrenOfTypeAsList(this, FshAlias::class.java)
 

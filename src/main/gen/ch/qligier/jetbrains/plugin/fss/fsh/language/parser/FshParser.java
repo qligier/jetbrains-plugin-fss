@@ -21,7 +21,7 @@ public class FshParser implements PsiParser, LightPsiParser {
 
   public void parseLight(IElementType t, PsiBuilder b) {
     boolean r;
-    b = adapt_builder_(t, b, this, null);
+    b = adapt_builder_(t, b, this, EXTENDS_SETS_);
     Marker m = enter_section_(b, 0, _COLLAPSE_, null);
     r = parse_root_(t, b);
     exit_section_(b, 0, m, t, r, true, TRUE_CONDITION);
@@ -34,6 +34,12 @@ public class FshParser implements PsiParser, LightPsiParser {
   static boolean parse_root_(IElementType t, PsiBuilder b, int l) {
     return fshFile(b, l + 1);
   }
+
+  public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
+    create_token_set_(ALIAS, CODE_SYSTEM, ENTITY, EXTENSION,
+      INSTANCE, INVARIANT, LOGICAL, MAPPING,
+      PROFILE, RESOURCE, RULE_SET, VALUE_SET),
+  };
 
   /* ********************************************************** */
   // STAR path cardinality flag* targetType (KW_OR targetType)* (STRING | MULTILINE_STRING)?
@@ -811,7 +817,7 @@ public class FshParser implements PsiParser, LightPsiParser {
   public static boolean entity(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "entity")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ENTITY, "<entity>");
+    Marker m = enter_section_(b, l, _COLLAPSE_, ENTITY, "<entity>");
     r = alias(b, l + 1);
     if (!r) r = profile(b, l + 1);
     if (!r) r = extension(b, l + 1);

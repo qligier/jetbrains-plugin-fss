@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshInvariant extends FshNamedElement {
+public interface FshInvariant extends FshEntity {
 
   @NotNull
   List<FshInvariantMetadata> getInvariantMetadataList();

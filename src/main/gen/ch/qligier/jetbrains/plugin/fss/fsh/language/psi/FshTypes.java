@@ -282,9 +282,6 @@ public interface FshTypes {
       else if (type == DESCRIPTION_METADATA) {
         return new FshDescriptionMetadataImpl(node);
       }
-      else if (type == ENTITY) {
-        return new FshEntityImpl(node);
-      }
       else if (type == EXPRESSION_METADATA) {
         return new FshExpressionMetadataImpl(node);
       }

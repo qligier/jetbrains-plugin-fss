@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshLogical extends FshNamedElement {
+public interface FshLogical extends FshEntity {
 
   @NotNull
   List<FshLogicalMetadata> getLogicalMetadataList();

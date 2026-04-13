@@ -26,8 +26,9 @@
 
   psiImplUtilClass="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.impl.FshPsiImplUtil"
 
-  implements("alias|profile|extension|resource|logical|instance|valueSet|codeSystem|mapping|ruleSet|invariant")="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshNamedElement"
-  mixin("alias|profile|extension|resource|logical|instance|valueSet|codeSystem|mapping|ruleSet|invariant")="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.impl.FshNamedElementImpl"
+  implements("entity")="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshNamedElement"
+  mixin("entity")="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.impl.FshNamedElementImpl"
+  extends("alias|profile|extension|resource|logical|instance|valueSet|codeSystem|mapping|ruleSet|invariant")="entity"
 
   // Token definitions.
   // The regex patterns are documentation hints only; actual tokenization is done by the JFlex lexer (fsh.flex).

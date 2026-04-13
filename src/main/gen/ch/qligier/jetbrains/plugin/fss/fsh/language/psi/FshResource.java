@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshResource extends FshNamedElement {
+public interface FshResource extends FshEntity {
 
   @Nullable
   FshNameToken getNameToken();

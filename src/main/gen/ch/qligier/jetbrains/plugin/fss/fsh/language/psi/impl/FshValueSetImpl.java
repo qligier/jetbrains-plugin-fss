@@ -10,12 +10,13 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTypes.*;
 import ch.qligier.jetbrains.plugin.fss.fsh.language.psi.*;
 
-public class FshValueSetImpl extends FshNamedElementImpl implements FshValueSet {
+public class FshValueSetImpl extends FshEntityImpl implements FshValueSet {
 
   public FshValueSetImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull FshVisitor visitor) {
     visitor.visitValueSet(this);
   }

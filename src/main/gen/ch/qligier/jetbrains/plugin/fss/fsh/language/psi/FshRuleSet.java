@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FshRuleSet extends FshNamedElement {
+public interface FshRuleSet extends FshEntity {
 
   @Nullable
   FshRuleSetId getRuleSetId();
