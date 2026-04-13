@@ -58,7 +58,9 @@ CODE_TOKEN      = \# [^\s,\"]*
 QUOTED_CODE_START = \# \"
 
 // Regex literal: /regex/
-REGEX_LITERAL   = \/ ([^\/\\] | \\.)+ \/
+// The first character after '/' must not be '*' (to avoid matching block comments '/* ... */').
+// Newlines are excluded because FSH regex literals are single-line.
+REGEX_LITERAL   = \/ ([^\/\\*\r\n] | \\.) ([^\/\\\r\n] | \\.)* \/
 
 // Identifier: starts with a letter
 IDENTIFIER      = {LETTER} {IDENTIFIER_CHAR}*

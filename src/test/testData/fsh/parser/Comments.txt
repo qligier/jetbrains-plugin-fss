@@ -1,6 +1,4 @@
 FSH file(0,58)
   PsiComment(FshTokenType.LINE_COMMENT)('// This is a line comment')(0,25)
   PsiWhiteSpace('\n')(25,26)
-  PsiErrorElement:<entity>, FshTokenType.BLOCK_COMMENT or FshTokenType.LINE_COMMENT expected, got '/* This is a
-   bloc...'(26,58)
-    PsiElement(FshTokenType.REGEX_LITERAL)('/* This is a\n   block comment */')(26,58)
+  PsiComment(FshTokenType.BLOCK_COMMENT)('/* This is a\n   block comment */')(26,58)

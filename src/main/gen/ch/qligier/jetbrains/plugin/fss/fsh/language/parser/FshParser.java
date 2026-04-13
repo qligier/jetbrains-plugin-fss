@@ -1163,14 +1163,12 @@ public class FshParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // entity | LINE_COMMENT | BLOCK_COMMENT
+  // entity
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_);
     r = entity(b, l + 1);
-    if (!r) r = consumeToken(b, LINE_COMMENT);
-    if (!r) r = consumeToken(b, BLOCK_COMMENT);
     exit_section_(b, l, m, r, false, FshParser::item_recover_);
     return r;
   }

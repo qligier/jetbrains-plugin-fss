@@ -160,7 +160,7 @@
 
 fshFile ::= item_*
 
-private item_ ::= entity | LINE_COMMENT | BLOCK_COMMENT {
+private item_ ::= entity {
   recoverWhile = item_recover_
 }
 
