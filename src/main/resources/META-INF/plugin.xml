@@ -51,13 +51,12 @@
         <lang.parserDefinition language="FSH"
                                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.language.parser.FshParserDefinition"/>
         <lang.syntaxHighlighterFactory language="FSH"
-                                       implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.language.highlighter.FshSyntaxHighlighterFactory"/>
+                                       implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.highlighter.FshSyntaxHighlighterFactory"/>
 
         <defaultLiveTemplates file="/fsh/liveTemplates.xml"/>
         <liveTemplateContext
                 contextId="FSH"
                 implementation="ch.qligier.jetbrains.plugin.fss.fsh.FshTemplateContextType"/>
-
 
         <!-- The ig.ini file -->
         <fileType

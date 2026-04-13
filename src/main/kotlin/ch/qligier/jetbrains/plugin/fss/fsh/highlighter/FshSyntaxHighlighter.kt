@@ -2,7 +2,7 @@
  * Copyright 2026 Quentin Ligier. Use of this source code is governed by the MIT license.
  */
 
-package ch.qligier.jetbrains.plugin.fss.fsh.language.highlighter
+package ch.qligier.jetbrains.plugin.fss.fsh.highlighter
 
 import ch.qligier.jetbrains.plugin.fss.fsh.language.lexer.FshLexerAdapter
 import ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTypes
