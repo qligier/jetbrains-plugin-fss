@@ -13,12 +13,12 @@ import com.intellij.psi.util.PsiTreeUtil
 
 object IniPsiImplUtil {
     @JvmStatic
-    fun getSections(file: IniFile?): MutableList<IniSection> {
+    fun getSections(file: IniFile?): List<IniSection> {
         return PsiTreeUtil.getChildrenOfTypeAsList(file, IniSection::class.java)
     }
 
     @JvmStatic
-    fun getProperties(file: IniFile?): MutableList<IniProperty> {
+    fun getProperties(file: IniFile?): List<IniProperty> {
         return PsiTreeUtil.getChildrenOfTypeAsList(file, IniProperty::class.java)
     }
 
@@ -34,7 +34,7 @@ object IniPsiImplUtil {
     fun getSectionName(element: IniSection): String? = element.node.findChildByType(IniTypes.SECTION_NAME)?.text
 
     @JvmStatic
-    fun getProperties(section: IniSection?): MutableList<IniProperty> {
+    fun getProperties(section: IniSection?): List<IniProperty> {
         return PsiTreeUtil.getChildrenOfTypeAsList(section, IniProperty::class.java)
     }
 }
