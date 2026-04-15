@@ -6,6 +6,7 @@ package ch.qligier.jetbrains.plugin.fss.fsh.language.psi
 
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
+import javax.swing.Icon
 
 /**
  * Common interface for FSH entity PSI elements (Profile, Extension, Resource, Logical, Instance, ValueSet, CodeSystem,
@@ -14,5 +15,10 @@ import com.intellij.psi.PsiNameIdentifierOwner
  *
  * @author Quentin Ligier
  */
-interface FshNamedElement : NavigatablePsiElement, PsiNameIdentifierOwner
+interface FshNamedElement :
+    NavigatablePsiElement,
+    PsiNameIdentifierOwner {
+    fun getEntityType(): String
 
+    fun getIcon(): Icon?
+}
