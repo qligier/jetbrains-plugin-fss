@@ -38,6 +38,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <fileIconProvider implementation="ch.qligier.jetbrains.plugin.fss.common.FssIconProvider"/>
+        <breadcrumbsInfoProvider implementation="ch.qligier.jetbrains.plugin.fss.common.languages.structure.FssBreadcrumbProvider"/>
 
         <!-- The FSH language -->
         <lang.commenter language="FSH"
