@@ -2,6 +2,7 @@
  * Copyright 2026 Quentin Ligier. Use of this source code is governed by the MIT license.
  */
 
+import com.github.javaparser.printer.concretesyntaxmodel.CsmElement.token
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
@@ -27,6 +28,7 @@ repositories {
 // Configure project's dependencies
 dependencies {
     compileOnly("org.jetbrains:annotations:26.1.0")
+    implementation("dev.ohs.fhir:fhir-model:1.0.0-beta03")
 
     testImplementation("junit:junit:4.13.2")
 
