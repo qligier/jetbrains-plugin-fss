@@ -97,4 +97,20 @@
 
     <applicationListeners>
     </applicationListeners>
+
+    <actions>
+        <group id="Fss.Tools" text="FHIR® and SUSHI Support Tools"/>
+        <action class="ch.qligier.jetbrains.plugin.fss.tools.resourcevisualizer.ResourceVisualizerFromOpenFileAction"
+                id="Fss.Tools.ResourceVisualizerFromOpenFile"
+                text="Visualize a FHIR Resource from open file"
+                description="Parse the content of the open file as a FHIR resource and visualize it in a human-friendly way.">
+            <add-to-group group-id="Fss.Tools" anchor="last"/>
+        </action>
+        <action class="ch.qligier.jetbrains.plugin.fss.tools.resourcevisualizer.ResourceVisualizerFromClipboardAction"
+                id="Fss.Tools.ResourceVisualizerFromClipboard"
+                text="Visualize a FHIR Resource from Clipboard"
+                description="Parse the content of the clipboard as a FHIR resource and visualize it in a human-friendly way.">
+            <add-to-group group-id="Fss.Tools" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>
