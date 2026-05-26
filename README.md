@@ -1,4 +1,4 @@
-# ![FSH Tooklit](src/main/resources/META-INF/pluginIcon.svg) JetBrains Plugin: FSH Toolkit
+# ![FSH Toolkit](src/main/resources/META-INF/pluginIcon.svg) JetBrains Plugin: FSH Toolkit
 
 <!-- Plugin description -->
 A plugin that add supports for the [FHIR® Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html)
