@@ -64,7 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial scaffold created
   from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.8...HEAD
+[Unreleased]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.7...HEAD
 
 [0.0.7]: https://github.com/qligier/jetbrains-plugin-fss/compare/v0.0.6...v0.0.7
 
