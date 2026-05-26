@@ -8,8 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Rename the plugin to "FSH Toolkit", to respect both the FHIR® Trademark and JetBrain's guideline not to use the word
-  "support" in the plugin name.
+- Rename the plugin to "FSH Toolkit", to respect both the FHIR® Trademark and JetBrains' guidelines against using the
+  word "support" in the plugin name.
 
 ## [0.0.7] - 2026-04-01
 
