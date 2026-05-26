@@ -1,7 +1,7 @@
-# ![FHIR® and SUSHI Support Logo](src/main/resources/META-INF/pluginIcon.svg) JetBrains Plugin: FHIR® and SUSHI Support
+# ![FSH Tooklit](src/main/resources/META-INF/pluginIcon.svg) JetBrains Plugin: FSH Toolkit
 
 <!-- Plugin description -->
-A plugin that add supports for the [FHIR Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html)
+A plugin that add supports for the [FHIR® Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html)
 (_FSH_), the [IG Publisher](https://github.com/HL7/fhir-ig-publisher) and [SUSHI](https://github.com/FHIR/sushi/)
 tools.
 <!-- Plugin description end -->
@@ -15,7 +15,7 @@ tools.
 [![JETBRAINS-Marketplace](https://img.shields.io/badge/JETBRAINS-Marketplace-f8015f)](https://plugins.jetbrains.com/plugin/25435-fhir-and-sushi-support)
 </p>
 
-## FHIR® and SUSHI Support
+## FSH Toolkit
 
 This plugin adds, for FSH files:
 
@@ -91,4 +91,5 @@ For the `sushi-config.yaml` file:
 The logo is derived from [Burn Fire Flame Hot](https://www.svgrepo.com/svg/404501/burn-fire-flame-hot), published
 under [Creative Commons Zero](https://creativecommons.org/publicdomain/zero/1.0/) license.
 
-_FHIR® is the registered trademark of HL7 and is used with the permission of HL7._
+_FHIR® is the registered trademark of HL7. This project is not officially endorsed by or affiliated with HL7, the
+FHIR® community, or any related organizations._
