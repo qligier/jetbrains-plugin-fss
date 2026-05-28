@@ -1,10 +1,8 @@
 # ![FSH Toolkit](src/main/resources/META-INF/pluginIcon.svg) JetBrains Plugin: FSH Toolkit
 
-<!-- Plugin description -->
 A plugin that adds support for the [FHIR® Shorthand language](https://build.fhir.org/ig/HL7/fhir-shorthand/index.html)
 (_FSH_), the [IG Publisher](https://github.com/HL7/fhir-ig-publisher) and [SUSHI](https://github.com/FHIR/sushi/)
-tools.
-<!-- Plugin description end -->
+tools, the _ig.ini_ file, and provides some FHIR® utilities.
 
 <p align="center">
 
