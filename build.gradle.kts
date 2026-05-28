@@ -5,8 +5,6 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
-import org.jetbrains.intellij.platform.gradle.providers.ProductReleasesValueSource
-import org.jetbrains.kotlin.gradle.internal.backend.common.serialization.metadata.DynamicTypeDeserializer.id
 
 plugins {
     id("java") // Java support
