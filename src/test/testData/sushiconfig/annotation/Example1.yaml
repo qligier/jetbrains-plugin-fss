@@ -7,9 +7,8 @@ description: FHIR implementation guide to the Swiss EPR (Electronic Patient Reco
 status: current
 experimental: false
 date: 2025-12-18
-version: 5.0.0
 fhirVersion: 4.0.1
-copyrightYear: 2020+
 <warning descr="Both 'releaselabel' and 'releaseLabel' are used, choose only one.">releaselabel: trial-use</warning>
 <warning descr="Both 'releaselabel' and 'releaseLabel' are used, choose only one.">releaseLabel: trial-use</warning>
 <error descr="The property 'copyrightLabel' was added in FHIR R5.">copyrightLabel: label</error>
+version: <warning descr="The property 'copyrightYear' should be set in the configuration file.">5.0.0</warning>

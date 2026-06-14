@@ -4,6 +4,7 @@
 
 package ch.qligier.jetbrains.plugin.fss.sushiconfig
 
+import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.jetbrains.jsonSchema.extension.JsonSchemaFileProvider
@@ -28,6 +29,8 @@ class SushiConfigSchemaProvider : JsonSchemaFileProvider {
     override fun getSchemaFile(): VirtualFile? = JsonSchemaProviderFactory.getResourceFile(javaClass, "/sushiconfig/schema.json")
 }
 
-class SushiConfigSchemaProviderFactory : JsonSchemaProviderFactory {
+internal class SushiConfigSchemaProviderFactory :
+    JsonSchemaProviderFactory,
+    DumbAware {
     override fun getProviders(project: Project): List<JsonSchemaFileProvider> = listOf(SushiConfigSchemaProvider())
 }

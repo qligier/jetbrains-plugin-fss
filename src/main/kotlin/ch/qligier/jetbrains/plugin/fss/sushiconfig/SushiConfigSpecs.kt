@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
+ * Copyright 2026 Quentin Ligier. Use of this source code is governed by the MIT license.
  */
 
 package ch.qligier.jetbrains.plugin.fss.sushiconfig
@@ -49,4 +49,11 @@ object SushiConfigSpecs {
         "path-suppressed-warnings" to "",
         "path-test" to "",
     )
+
+    // Some property names
+    const val KEY_COPYRIGHT_YEAR = "copyrightYear"
+    const val KEY_COPYRIGHT_YEAR_LOWERCASE = "copyrightyear"
+    const val KEY_RELEASE_LABEL = "releaseLabel"
+    const val KEY_RELEASE_LABEL_LOWERCASE = "releaselabel"
+    const val KEY_DEPENDENCIES = "dependencies"
 }

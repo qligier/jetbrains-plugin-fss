@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
+ * Copyright 2026 Quentin Ligier. Use of this source code is governed by the MIT license.
  */
 
 package ch.qligier.jetbrains.plugin.fss.sushiconfig
@@ -30,6 +30,7 @@ class SushiConfigFileType : LanguageFileType(YAMLLanguage.INSTANCE) {
     override fun getIcon() = FssIcons.FSH_FLAME
 
     companion object {
+        @JvmStatic
         val INSTANCE: SushiConfigFileType = SushiConfigFileType()
     }
 }
