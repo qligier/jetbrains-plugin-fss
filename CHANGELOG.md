@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Rename the plugin to "FSH Toolkit", to respect both the FHIR® Trademark and JetBrains' guidelines against using the
   word "support" in the plugin name.
+- Update the `sushi-config.yaml` specifications to v3.20.0.
 
 ## [0.0.7] - 2026-04-01
 

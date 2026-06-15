@@ -1,19 +1,28 @@
 /*
- * Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
+ * Copyright 2026 Quentin Ligier. Use of this source code is governed by the MIT license.
  */
 
 package ch.qligier.jetbrains.plugin.fss.sushiconfig
 
+import ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigSpecs.KEY_COPYRIGHT_YEAR
+import ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigSpecs.KEY_COPYRIGHT_YEAR_LOWERCASE
+import ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigSpecs.KEY_DEPENDENCIES
+import ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigSpecs.KEY_RELEASE_LABEL
+import ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigSpecs.KEY_RELEASE_LABEL_LOWERCASE
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity.ERROR
 import com.intellij.lang.annotation.HighlightSeverity.WARNING
 import com.intellij.openapi.diagnostic.logger
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
+import com.intellij.psi.util.lastLeaf
 import org.jetbrains.yaml.psi.YAMLFile
 import org.jetbrains.yaml.psi.YAMLMapping
 import org.jetbrains.yaml.psi.YAMLScalar
+import org.jetbrains.yaml.psi.YAMLSequence
+import java.time.Year
 
 val LOG = logger<SushiConfigAnnotator>()
 
@@ -22,7 +31,9 @@ val LOG = logger<SushiConfigAnnotator>()
  * @see [Annotator](https://plugins.jetbrains.com/docs/intellij/annotator.html)
  * @see [SUSHI Configuration](https://fshschool.org/docs/sushi/configuration/)
  */
-class SushiConfigAnnotator : Annotator {
+internal class SushiConfigAnnotator :
+    Annotator,
+    DumbAware {
     override fun annotate(
         element: PsiElement,
         holder: AnnotationHolder,
@@ -31,7 +42,7 @@ class SushiConfigAnnotator : Annotator {
             LOG.trace("Not a YAML file: ${element.javaClass.canonicalName}")
             return
         }
-        LOG.debug("Annotating YAML file: ${element.name}")
+        LOG.trace("Annotating YAML file: ${element.name}")
 
         element.documents.forEach { document ->
             (document.topLevelValue as? YAMLMapping)?.let { annotate(it, holder) }
@@ -45,14 +56,42 @@ class SushiConfigAnnotator : Annotator {
         LOG.trace("Annotating sushi-config.yaml document")
         val keys = mapping.keyValues.map { it.keyText }.toSet()
 
-        warnOnDuplicateKeyUse(holder, mapping, keys, "copyrightyear", "copyrightYear")
-        warnOnDuplicateKeyUse(holder, mapping, keys, "releaselabel", "releaseLabel")
+        warnOnDuplicateKeyUse(holder, mapping, keys, KEY_COPYRIGHT_YEAR_LOWERCASE, KEY_COPYRIGHT_YEAR)
+        warnOnDuplicateKeyUse(holder, mapping, keys, KEY_RELEASE_LABEL_LOWERCASE, KEY_RELEASE_LABEL)
 
         // If we can extract the declared FHIR version, we can run additional checks
         val fhirVersion = getFhirVersion(mapping)
         if (fhirVersion != null) {
             warnOnYetUndefinedPropertyUse(holder, mapping, "copyrightLabel", fhirVersion, FhirVersion.R5)
             warnOnDeprecatedPropertyUse(holder, mapping, "jurisdiction", fhirVersion, FhirVersion.R5)
+        }
+
+        // As of SUSHI v3.19.0, the old cross-version dependencies are automatically replaced by the new ones
+        (mapping.getKeyValueByKey(KEY_DEPENDENCIES)?.value as? YAMLSequence)?.let { sequence ->
+            sequence.items.forEach { item ->
+                if (item.text.contains("hl7.fhir.extensions.r")) {
+                    val message =
+                        "The 'hl7.fhir.extensions.*' dependencies are deprecated and will " +
+                            "be automatically replaced by the new 'hl7.fhir.uv.xver-*.*' dependencies."
+                    holder
+                        .newAnnotation(WARNING, message)
+                        .tooltip(
+                            "$message<br/>See " +
+                                "<a href=\"https://confluence.hl7.org/spaces/FHIRI/pages/413256623/FAQs\">" +
+                                "Cross-Version Extensions</a> for more details.",
+                        ).range(item.textRange)
+                        .create()
+                }
+            }
+        }
+
+        // As of SUSHI v3.20.0, 'copyrightYear' and 'releaseLabel' are now optional, but their absence is warned
+        // https://github.com/FHIR/sushi/pull/1626
+        if (KEY_COPYRIGHT_YEAR !in keys && KEY_COPYRIGHT_YEAR_LOWERCASE !in keys) {
+            warnOnMissingProperty(holder, mapping, KEY_COPYRIGHT_YEAR, "${Year.now().value}+")
+        }
+        if (KEY_RELEASE_LABEL !in keys && KEY_RELEASE_LABEL_LOWERCASE !in keys) {
+            warnOnMissingProperty(holder, mapping, KEY_RELEASE_LABEL, "ci-build")
         }
     }
 
@@ -129,6 +168,24 @@ class SushiConfigAnnotator : Annotator {
                 "The property '$key' is deprecated in FHIR $deprecatedInVersion.",
             ).range(value)
             .withFix(RemoveValueKeyQuickFix(key))
+            .create()
+    }
+
+    /**
+     * Warns when a property is missing but should be specified.
+     */
+    private fun warnOnMissingProperty(
+        holder: AnnotationHolder,
+        mapping: YAMLMapping,
+        key: String,
+        defaultValueForQuickFix: String,
+    ) {
+        holder
+            .newAnnotation(
+                WARNING,
+                "The property '$key' should be set in the configuration file.",
+            ).range(mapping.lastLeaf())
+            .withFix(AddValueKeyQuickFix(key, defaultValueForQuickFix))
             .create()
     }
 
