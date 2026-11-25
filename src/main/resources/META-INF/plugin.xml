@@ -51,6 +51,8 @@
 
         <lang.parserDefinition language="FSH"
                                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.language.parser.FshParserDefinition"/>
+        <lang.psiStructureViewFactory language="FSH"
+                                      implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.structure.FshStructureViewFactory"/>
         <stubElementTypeHolder class="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTypes"
                                externalIdPrefix="fsh."/>
         <stubIndex implementation="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.stubs.FshEntityNameIndex"/>
