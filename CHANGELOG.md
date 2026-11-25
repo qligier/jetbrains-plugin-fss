@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update the `sushi-config.yaml` specifications to v3.20.0.
 - Replace the TextMate grammar of FSH files with a native lexer, parser and syntax highlighter. The plugin no longer
   depends on the TextMate Bundles plugin.
+- Update the list of template suggestions in the `ig.ini` file.
 
 ### Fixed
 
