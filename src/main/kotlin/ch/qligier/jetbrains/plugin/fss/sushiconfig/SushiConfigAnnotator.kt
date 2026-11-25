@@ -38,11 +38,8 @@ internal class SushiConfigAnnotator :
         element: PsiElement,
         holder: AnnotationHolder,
     ) {
-        if (element !is YAMLFile) {
-            LOG.trace("Not a YAML file: ${element.javaClass.canonicalName}")
-            return
-        }
-        LOG.trace("Annotating YAML file: ${element.name}")
+        if (element !is YAMLFile) return
+        if (element.virtualFile?.fileType != SushiConfigFileType.INSTANCE) return
 
         element.documents.forEach { document ->
             (document.topLevelValue as? YAMLMapping)?.let { annotate(it, holder) }
@@ -53,7 +50,6 @@ internal class SushiConfigAnnotator :
         mapping: YAMLMapping,
         holder: AnnotationHolder,
     ) {
-        LOG.trace("Annotating sushi-config.yaml document")
         val keys = mapping.keyValues.map { it.keyText }.toSet()
 
         warnOnDuplicateKeyUse(holder, mapping, keys, KEY_COPYRIGHT_YEAR_LOWERCASE, KEY_COPYRIGHT_YEAR)
