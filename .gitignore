@@ -13,6 +13,9 @@ jflex*.jar
 .idea/compiler.xml
 .idea/libraries/
 .idea/sonarlint/
+.idea/AndroidProjectSystem.xml
+.idea/workspace.xml
+.idea/copilot.data.migration.*
 *.iws
 *.iml
 *.ipr
@@ -23,5 +26,3 @@ out/
 
 ### Mac OS ###
 .DS_Store
-
-.idea/copilot.data.migration.*
