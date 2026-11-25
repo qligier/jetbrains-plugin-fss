@@ -4,6 +4,7 @@
 
 package ch.qligier.jetbrains.plugin.fss.sushiconfig
 
+import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.vfs.newvfs.impl.VfsRootAccess
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
@@ -34,6 +35,12 @@ class SushiConfigInsightTest : BasePlatformTestCase() {
     fun testSingleQuotedFhirVersionR5() {
         loadSushiConfigFile("SingleQuotedFhirVersionR5.yaml")
         myFixture.checkHighlighting(true, true, true)
+    }
+
+    fun `Verify other YAML file is not annotated`() {
+        myFixture.configureByText("docker-compose.yaml", "services:\n  web:\n    image: nginx\n")
+        val warnings = myFixture.doHighlighting(HighlightSeverity.WARNING).map { it.description }
+        assertEmpty(warnings)
     }
 
     private fun loadSushiConfigFile(fileName: String) {
