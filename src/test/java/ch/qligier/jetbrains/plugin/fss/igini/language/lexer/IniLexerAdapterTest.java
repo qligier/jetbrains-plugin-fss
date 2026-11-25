@@ -5,6 +5,10 @@ package ch.qligier.jetbrains.plugin.fss.igini.language.lexer;
 import com.intellij.testFramework.EditorTestUtil;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 /**
  * jetbrains-plugin-fss
  *
@@ -12,14 +16,22 @@ import com.intellij.testFramework.fixtures.BasePlatformTestCase;
  **/
 public class IniLexerAdapterTest extends BasePlatformTestCase {
 
-    public void testExample1() {
-        final var testFile = this.myFixture.configureByFile("Example1.ini");
-        EditorTestUtil.testFileSyntaxHighlighting(testFile, this.getTestDataPath() + "Example1.txt", true);
+    public void testExample1() throws IOException {
+        this.checkHighlighting("Example1");
     }
 
-    public void testExample2() {
-        final var testFile = this.myFixture.configureByFile("Example2.ini");
-        EditorTestUtil.testFileSyntaxHighlighting(testFile, this.getTestDataPath() + "Example2.txt", true);
+    public void testExample2() throws IOException {
+        this.checkHighlighting("Example2");
+    }
+
+    /*
+     * The example files are not named "ig.ini", so they would not get the ig.ini file type (and its highlighter). Thus, their
+     * content is loaded in a file named "ig.ini".
+     */
+    private void checkHighlighting(final String name) throws IOException {
+        final var text = Files.readString(Path.of(this.getTestDataPath(), name + ".ini"));
+        final var testFile = this.myFixture.configureByText("ig.ini", text);
+        EditorTestUtil.testFileSyntaxHighlighting(testFile, this.getTestDataPath() + name + ".txt", true);
     }
 
     /**

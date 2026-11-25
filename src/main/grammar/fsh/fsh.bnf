@@ -1,0 +1,361 @@
+// Grammar-Kit grammar for FHIR Shorthand (FSH). Design: docs/grammar-kit-design.md. Language reference: docs/fsh-language.md.
+// - D9: rules share a left-factored prefix (STAR head?) and `upper` tail rules turn the generic RULE node into the specific kind.
+// - D10: one rule grammar for every entity; shapes only the entity can disambiguate share a node (CONCEPT_RULE).
+// - D11: pin on STAR / declaration / metadata keywords, recoverWhile up to the next line-start '*', declaration or metadata.
+// - D13: in parameterized RuleSets, a rule line is typed when it parses completely, and raw otherwise.
+// - D14: names and paths accept rule keywords; the external `nameToken` remaps them to WORD.
+{
+  parserClass="ch.qligier.jetbrains.plugin.fss.fsh.language.parser.FshParser"
+  parserUtilClass="ch.qligier.jetbrains.plugin.fss.fsh.language.parser.FshParserUtil"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Fsh"
+  psiImplClassSuffix="Impl"
+  psiPackage="ch.qligier.jetbrains.plugin.fss.fsh.language.psi"
+  psiImplPackage="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.impl"
+
+  elementTypeHolderClass="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTypes"
+  elementTypeClass="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshElementType"
+  tokenTypeClass="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTokenType"
+
+  tokens=[
+    // trivia (WHITE_SPACE is TokenType.WHITE_SPACE)
+    LINE_COMMENT='LINE_COMMENT'
+    BLOCK_COMMENT='BLOCK_COMMENT'
+    // rule marker and symbols
+    STAR='STAR'
+    EQUAL='='
+    ARROW='->'
+    COLON=':'
+    COMMA=','
+    LPAREN='('
+    RPAREN=')'
+    // words with a shape
+    WORD='WORD'
+    NUMBER='NUMBER'
+    DATE_TIME='DATE_TIME'
+    TIME='TIME'
+    CARD='CARD'
+    CODE='CODE'
+    CARET_PATH='CARET_PATH'
+    UNIT='UNIT'
+    REGEX='REGEX'
+    STRING='STRING'
+    MULTILINE_STRING='MULTILINE_STRING'
+    // insert and RuleSet arguments
+    ARG_TEXT='ARG_TEXT'
+    ARG_BRACKETED='ARG_BRACKETED'
+    // declaration keywords (followed by ':')
+    KW_ALIAS='Alias'
+    KW_PROFILE='Profile'
+    KW_EXTENSION='Extension'
+    KW_INSTANCE='Instance'
+    KW_INVARIANT='Invariant'
+    KW_VALUESET='ValueSet'
+    KW_CODESYSTEM='CodeSystem'
+    KW_RULESET='RuleSet'
+    KW_MAPPING='Mapping'
+    KW_LOGICAL='Logical'
+    KW_RESOURCE='Resource'
+    // metadata keywords (followed by ':')
+    KW_PARENT='Parent'
+    KW_ID='Id'
+    KW_TITLE='Title'
+    KW_DESCRIPTION='Description'
+    KW_EXPRESSION='Expression'
+    KW_XPATH='XPath'
+    KW_SEVERITY='Severity'
+    KW_INSTANCEOF='InstanceOf'
+    KW_USAGE='Usage'
+    KW_SOURCE='Source'
+    KW_TARGET='Target'
+    KW_CONTEXT='Context'
+    KW_CHARACTERISTICS='Characteristics'
+    // reference forms (followed by '(')
+    KW_REFERENCE='Reference'
+    KW_CANONICAL='Canonical'
+    KW_CODEABLE_REFERENCE='CodeableReference'
+    // parenthesized keywords
+    KW_EXAMPLE='(example)'
+    KW_PREFERRED='(preferred)'
+    KW_EXTENSIBLE='(extensible)'
+    KW_REQUIRED='(required)'
+    KW_EXACTLY='(exactly)'
+    // rule keywords (also accepted as names)
+    KW_FROM='from'
+    KW_CONTAINS='contains'
+    KW_NAMED='named'
+    KW_AND='and'
+    KW_OR='or'
+    KW_ONLY='only'
+    KW_OBEYS='obeys'
+    KW_INSERT='insert'
+    KW_INCLUDE='include'
+    KW_EXCLUDE='exclude'
+    KW_CODES='codes'
+    KW_WHERE='where'
+    KW_VALUESET_REF='valueset'
+    KW_SYSTEM='system'
+    KW_CONTENT_REFERENCE='contentReference'
+    KW_TRUE='true'
+    KW_FALSE='false'
+    // flags
+    KW_MS='MS'
+    KW_SU='SU'
+    KW_TU='TU'
+    KW_N='N'
+    KW_D='D'
+    KW_MOD='?!'
+  ]
+
+  extends(".*_entity")=entity
+  extends(".*_metadata")=metadata
+  extends(".*_rule")=rule
+
+  // PSI API (M6): entities are named, navigable, stub-based elements (FshNamedElement, FshEntityMixin); every entity node type is a
+  // stub element type, created by FshStubElementTypes.factory
+  implements("entity|.*_entity")="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshNamedElement"
+  mixin("entity")="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.impl.FshEntityMixin"
+  stubClass("entity|.*_entity")="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.stubs.FshEntityStub"
+  elementTypeFactory(".*_entity")="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.stubs.FshStubElementTypes.factory"
+  // Nodes that host references contributed by the plugin (FshReferenceHostMixin, design doc §7)
+  mixin("name_ref|value_set_ref|invariant_ref|rule_set_ref|type_ref|extension_ref|system_ref|reference_target|path|code_value|content_reference_target|context_item|alias_value")="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.impl.FshReferenceHostMixin"
+
+  // Comment binding (D11, FshBinders): comment lines right above an entity belong to it; a comment at the end of a rule or
+  // metadata line belongs to that rule or metadata
+  parserImports=["static ch.qligier.jetbrains.plugin.fss.fsh.language.parser.FshBinders.*"]
+  // (on `entity`, not on its kinds: `entity` collapses into the kind node, which would drop a hook registered on the kind)
+  hooks("entity")=[leftBinder="ENTITY_LEFT"]
+  hooks("rule|typed_param_line|raw_rule|metadata")=[rightBinder="TRAILING_COMMENT"]
+}
+
+fshFile ::= file_item*
+
+// Rules before the first declaration are accepted (annotators report them); other text is an error.
+// `rule` and `metadata` are only called on their first token: a rule with recoverWhile runs its recovery even when it does not
+// start, which would swallow the text up to the next recovery stop (and end the file loop).
+private file_item ::= entity | &STAR rule | <<orphanTokens>>
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Entities: one node type per declaration keyword, all extending ENTITY
+// ---------------------------------------------------------------------------------------------------------------------
+
+entity ::= alias_entity
+         | profile_entity
+         | extension_entity
+         | logical_entity
+         | resource_entity
+         | instance_entity
+         | invariant_entity
+         | value_set_entity
+         | code_system_entity
+         | param_rule_set_entity
+         | rule_set_entity
+         | mapping_entity
+
+alias_entity ::= KW_ALIAS COLON entity_name? alias_value? junk? { pin=1 }
+profile_entity ::= KW_PROFILE COLON entity_name? entity_item* { pin=1 }
+extension_entity ::= KW_EXTENSION COLON entity_name? entity_item* { pin=1 }
+logical_entity ::= KW_LOGICAL COLON entity_name? entity_item* { pin=1 }
+resource_entity ::= KW_RESOURCE COLON entity_name? entity_item* { pin=1 }
+instance_entity ::= KW_INSTANCE COLON entity_name? entity_item* { pin=1 }
+invariant_entity ::= KW_INVARIANT COLON entity_name? entity_item* { pin=1 }
+value_set_entity ::= KW_VALUESET COLON entity_name? entity_item* { pin=1 }
+code_system_entity ::= KW_CODESYSTEM COLON entity_name? entity_item* { pin=1 }
+mapping_entity ::= KW_MAPPING COLON entity_name? entity_item* { pin=1 }
+rule_set_entity ::= KW_RULESET COLON entity_name? entity_item* { pin=1 }
+// Parameterized RuleSet: SUSHI keeps its body as text and parses it only after substitution, so placeholders can stand for anything
+param_rule_set_entity ::= KW_RULESET COLON entity_name parameter_list param_rule_set_item* { pin=4 }
+
+entity_name ::= <<nameToken>>
+
+alias_value ::= EQUAL (CODE | <<nameToken>>) { pin=1 }
+
+parameter_list ::= LPAREN parameter? (COMMA parameter?)* RPAREN { pin=1 }
+parameter ::= (ARG_TEXT | ARG_BRACKETED)+
+
+// Metadata is accepted in any entity and after rules (annotators report misplaced metadata)
+private entity_item ::= &metadata_keyword metadata | &STAR rule | junk
+private param_rule_set_item ::= &metadata_keyword metadata | typed_param_line | raw_rule | junk
+
+// Text that is neither a rule nor metadata: an error up to the next rule, metadata or declaration
+private junk ::= <<junkTokens>>
+
+// Metadata: one node type per keyword, all extending METADATA (`upper` tails retype the node, as for rules). Values are lenient:
+// any value, or several, and annotators check the kind each keyword expects (a string for Title, a code for Severity, ...).
+metadata ::= metadata_body { pin=1 recoverWhile=metadata_recover }
+private metadata_recover ::= !(STAR | declaration_keyword | metadata_keyword)
+private metadata_body ::= parent_metadata | id_metadata | title_metadata | description_metadata | expression_metadata
+                        | xpath_metadata | severity_metadata | instance_of_metadata | usage_metadata | source_metadata
+                        | target_metadata | context_metadata | characteristics_metadata
+
+upper parent_metadata ::= KW_PARENT COLON metadata_value { pin=1 }
+upper id_metadata ::= KW_ID COLON metadata_value { pin=1 }
+upper title_metadata ::= KW_TITLE COLON metadata_value { pin=1 }
+upper description_metadata ::= KW_DESCRIPTION COLON metadata_value { pin=1 }
+upper expression_metadata ::= KW_EXPRESSION COLON metadata_value { pin=1 }
+upper xpath_metadata ::= KW_XPATH COLON metadata_value { pin=1 }
+upper severity_metadata ::= KW_SEVERITY COLON metadata_value { pin=1 }
+upper instance_of_metadata ::= KW_INSTANCEOF COLON metadata_value { pin=1 }
+upper usage_metadata ::= KW_USAGE COLON metadata_value { pin=1 }
+upper source_metadata ::= KW_SOURCE COLON metadata_value { pin=1 }
+upper target_metadata ::= KW_TARGET COLON metadata_value { pin=1 }
+upper characteristics_metadata ::= KW_CHARACTERISTICS COLON metadata_value { pin=1 }
+// Context items are element paths, extension URLs or names (unquoted, as words or codes) or FHIRPath expressions (quoted). The
+// comma is often glued to an unquoted item (`Patient,`): PSI utilities strip it, as SUSHI's list lexer mode does.
+upper context_metadata ::= KW_CONTEXT COLON context_item (COMMA? context_item)* { pin=1 }
+context_item ::= STRING | CODE | <<nameToken>>
+
+private declaration_keyword ::= KW_ALIAS | KW_PROFILE | KW_EXTENSION | KW_INSTANCE | KW_INVARIANT | KW_VALUESET
+                              | KW_CODESYSTEM | KW_RULESET | KW_MAPPING | KW_LOGICAL | KW_RESOURCE
+
+private metadata_keyword ::= KW_PARENT | KW_ID | KW_TITLE | KW_DESCRIPTION | KW_EXPRESSION | KW_XPATH | KW_SEVERITY
+                           | KW_INSTANCEOF | KW_USAGE | KW_SOURCE | KW_TARGET | KW_CONTEXT | KW_CHARACTERISTICS
+
+private metadata_value ::= value (COMMA? value)*
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Rules: STAR, an optional head (codes, include/exclude or path), and a tail whose `upper` rule decides the node type (D9)
+// ---------------------------------------------------------------------------------------------------------------------
+
+rule ::= STAR rule_body? { pin=1 recoverWhile=rule_recover }
+// Metadata keywords also stop recovery: metadata after rules is accepted by the entity (lenient, annotated later)
+private rule_recover ::= !(STAR | declaration_keyword | metadata_keyword)
+private rule_end ::= STAR | declaration_keyword | metadata_keyword | <<eof>>
+
+// In a parameterized RuleSet: a rule line that parses completely is typed (it shares the RULE node type) ...
+// (`name` gives it a parser frame, which the `upper` tails need: without it they would retype the enclosing entity)
+typed_param_line ::= STAR rule_body? &rule_end { elementType=rule name="rule" }
+// ... and any other line is kept raw, without errors
+raw_rule ::= STAR raw_token* { pin=1 }
+private raw_token ::= !metadata_keyword <<junkToken>>
+
+// Order matters (PEG):
+// - head-less tails first, so that `* obeys inv-1` is not read as the path `obeys` (D14);
+// - `include`/`exclude` and `codes from system|valueset` before paths, for the same reason.
+private rule_body ::= headless_tail
+                    | vs_include_component
+                    | vs_filter_rule
+                    | codes code_tail
+                    | path rule_tail?
+private headless_tail ::= caret_value_rule | insert_rule | headless_obeys | mapping_rule
+
+// `obeys` is also a path name: like SUSHI, `* obeys obeys inv-1`, `* obeys 1..1 boolean "…"` and a bare `* obeys` have the path
+// `obeys`. So `obeys` starts a head-less rule only when what follows cannot start a tail after a path.
+private headless_obeys ::= &(KW_OBEYS !(path_tail_start | rule_end)) obeys_rule
+private path_tail_start ::= EQUAL | CARET_PATH | KW_FROM | KW_ONLY | KW_CONTAINS | KW_OBEYS | KW_INSERT | ARROW | KW_AND | CARD | flag
+
+codes ::= CODE+
+
+path ::= <<nameToken>>
+
+// After codes: a code caret value rule, a code insert rule, a ValueSet concept component (it has `from`), or a concept (D10:
+// CodeSystem concepts and ValueSet concepts without `from` share CONCEPT_RULE)
+private code_tail ::= caret_value_rule | insert_rule | &(STRING? KW_FROM) vs_concept_rule | concept_rule
+
+// Tails with a distinctive first token first; the cardinality-led tails last
+private rule_tail ::= assignment_rule
+                    | caret_value_rule
+                    | binding_rule
+                    | only_rule
+                    | contains_rule
+                    | obeys_rule
+                    | insert_rule
+                    | mapping_rule
+                    | flag_rule
+                    | card_tail
+
+// After a cardinality, an add-element rule (Logical models and Resources) has a type, or contentReference, and a short description
+private card_tail ::= add_cr_element_rule | add_element_rule | card_rule
+
+upper assignment_rule ::= EQUAL value KW_EXACTLY? { pin=1 }
+upper caret_value_rule ::= CARET_PATH EQUAL value KW_EXACTLY? { pin=1 }
+upper binding_rule ::= KW_FROM value_set_ref strength? { pin=1 }
+upper only_rule ::= KW_ONLY type_ref (KW_OR type_ref)* { pin=1 }
+upper contains_rule ::= KW_CONTAINS contains_item (KW_AND contains_item)* { pin=1 }
+upper obeys_rule ::= KW_OBEYS invariant_ref (KW_AND invariant_ref)* { pin=1 }
+upper insert_rule ::= KW_INSERT rule_set_ref argument_list? { pin=1 }
+upper mapping_rule ::= ARROW STRING (STRING | MULTILINE_STRING)? CODE? { pin=1 }
+upper flag_rule ::= (KW_AND path)* flag+
+upper add_cr_element_rule ::= CARD flag* KW_CONTENT_REFERENCE content_reference_target STRING (STRING | MULTILINE_STRING)? { pin=3 }
+// Flags are also type names: like SUSHI, a flag right before the short description is the type (`* a 0..1 N TU "Short"` has the
+// type `TU`, which annotators report)
+upper add_element_rule ::= CARD (flag !STRING)* type_ref (KW_OR type_ref)* STRING (STRING | MULTILINE_STRING)? { pin=3 }
+upper card_rule ::= CARD flag* { pin=1 }
+upper concept_rule ::= (STRING (STRING | MULTILINE_STRING)? | MULTILINE_STRING)?
+
+private strength ::= KW_EXAMPLE | KW_PREFERRED | KW_EXTENSIBLE | KW_REQUIRED
+private flag ::= KW_MS | KW_SU | KW_TU | KW_N | KW_D | KW_MOD
+
+value_set_ref ::= <<nameToken>>
+invariant_ref ::= <<nameToken>>
+rule_set_ref ::= WORD
+type_ref ::= reference_type | canonical_type | <<nameToken>>
+content_reference_target ::= CODE | <<nameToken>>
+
+// `X named Y 0..1`: X is the extension, Y the slice name; `Y 0..1`: Y is the slice name (or an extension SUSHI resolves)
+contains_item ::= (extension_ref KW_NAMED)? slice_name CARD flag*
+extension_ref ::= <<nameToken>>
+slice_name ::= <<nameToken>>
+
+argument_list ::= LPAREN argument? (COMMA argument?)* RPAREN { pin=1 }
+argument ::= (ARG_TEXT | ARG_BRACKETED)+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// ValueSet components
+// ---------------------------------------------------------------------------------------------------------------------
+
+// `include`/`exclude` start a component only when `codes` or a code follows: both are also valid path names
+private vs_include_component ::= (KW_INCLUDE | KW_EXCLUDE) (vs_filter_rule | codes vs_concept_rule)
+
+upper vs_concept_rule ::= STRING? vs_component_from?
+upper vs_filter_rule ::= KW_CODES vs_component_from vs_filter_list? { pin=2 }
+
+// Only `system` or `valueset` after `from` makes a component: `* codes from SomeValueSet` is a binding rule on the path `codes`
+vs_component_from ::= KW_FROM &(KW_SYSTEM | KW_VALUESET_REF) vs_from_item (KW_AND vs_from_item)* { pin=2 }
+private vs_from_item ::= vs_from_system | vs_from_value_set
+vs_from_system ::= KW_SYSTEM system_ref { pin=1 }
+vs_from_value_set ::= KW_VALUESET_REF value_set_ref (KW_AND !(KW_SYSTEM | KW_VALUESET_REF) value_set_ref)* { pin=1 }
+system_ref ::= <<nameToken>>
+
+vs_filter_list ::= KW_WHERE vs_filter (KW_AND vs_filter)* { pin=1 }
+vs_filter ::= filter_property filter_operator vs_filter_value?
+filter_property ::= <<nameToken>>
+filter_operator ::= EQUAL | <<nameToken>>
+private vs_filter_value ::= code_value | KW_TRUE | KW_FALSE | REGEX | STRING
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Values
+// ---------------------------------------------------------------------------------------------------------------------
+
+value ::= ratio
+        | quantity
+        | STRING
+        | MULTILINE_STRING
+        | NUMBER
+        | DATE_TIME
+        | TIME
+        | reference_value
+        | canonical_value
+        | code_value
+        | KW_TRUE
+        | KW_FALSE
+        | REGEX
+        | name_ref
+
+ratio ::= ratio_part COLON ratio_part { pin=2 }
+private ratio_part ::= quantity | NUMBER
+quantity ::= NUMBER (UNIT | CODE) STRING? | UNIT STRING?
+code_value ::= CODE STRING?
+
+// References and canonicals: `*_value` in values (a reference can have a display string), `*_type` in `only` and add-element types
+reference_value ::= reference_parens STRING?
+reference_type ::= reference_parens
+private reference_parens ::= (KW_REFERENCE | KW_CODEABLE_REFERENCE) LPAREN reference_target (KW_OR reference_target)* RPAREN { pin=2 }
+canonical_value ::= canonical_parens
+canonical_type ::= canonical_parens
+private canonical_parens ::= KW_CANONICAL LPAREN reference_target (KW_OR reference_target)* RPAREN { pin=2 }
+reference_target ::= WORD
+
+name_ref ::= <<nameToken>>

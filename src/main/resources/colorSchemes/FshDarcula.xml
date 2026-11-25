@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright 2026 Quentin Ligier. Use of this source code is governed by the MIT license.
+  -->
+
+<!-- FSH colors that differ from their fallback in the dark schemes (Darcula and the schemes based on it) -->
+<list>
+    <!-- Flags (MS, SU, TU, N, D, ?!): bold teal -->
+    <option name="FSH_FLAG">
+        <value>
+            <option name="FOREGROUND" value="20999D"/>
+            <option name="FONT_TYPE" value="1"/>
+        </value>
+    </option>
+</list>
