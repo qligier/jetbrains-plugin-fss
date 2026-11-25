@@ -56,6 +56,9 @@
         <lang.braceMatcher
                 language="FSH"
                 implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.structure.FshPairedBraceMatcher"/>
+        <codeInsight.lineMarkerProvider
+                language="FSH"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.structure.FshLineMarkerProvider"/>
         <stubElementTypeHolder class="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTypes"
                                externalIdPrefix="fsh."/>
         <stubIndex implementation="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.stubs.FshEntityNameIndex"/>

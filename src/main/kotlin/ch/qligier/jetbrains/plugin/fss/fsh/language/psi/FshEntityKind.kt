@@ -3,7 +3,7 @@
  */
 package ch.qligier.jetbrains.plugin.fss.fsh.language.psi
 
-import com.intellij.openapi.util.IconLoader
+import ch.qligier.jetbrains.plugin.fss.common.FssIcons
 import javax.swing.Icon
 
 /**
@@ -11,27 +11,24 @@ import javax.swing.Icon
  * [FshParamRuleSetEntity] for the parameters).
  *
  * @property keyword the declaration keyword, also used as the entity type shown to users
- * @property iconName the icon in the plugin's resources (`icons/<name>.svg`)
+ * @property icon the icon for this entity kind
  */
 enum class FshEntityKind(
     val keyword: String,
-    private val iconName: String,
+    val icon: Icon,
 ) {
-    ALIAS("Alias", "alias"),
-    PROFILE("Profile", "profile"),
-    EXTENSION("Extension", "extension"),
-    LOGICAL("Logical", "logical"),
-    RESOURCE("Resource", "resource"),
-    INSTANCE("Instance", "instance"),
-    INVARIANT("Invariant", "invariant"),
-    VALUE_SET("ValueSet", "valueset"),
-    CODE_SYSTEM("CodeSystem", "codesystem"),
-    RULE_SET("RuleSet", "ruleset"),
-    MAPPING("Mapping", "mapping"),
+    ALIAS("Alias", FssIcons.FSH_ALIAS),
+    PROFILE("Profile", FssIcons.FSH_PROFILE),
+    EXTENSION("Extension", FssIcons.FSH_EXTENSION),
+    LOGICAL("Logical", FssIcons.FSH_LOGICAL),
+    RESOURCE("Resource", FssIcons.FSH_RESOURCE),
+    INSTANCE("Instance", FssIcons.FSH_INSTANCE),
+    INVARIANT("Invariant", FssIcons.FSH_INVARIANT),
+    VALUE_SET("ValueSet", FssIcons.FSH_VALUESET),
+    CODE_SYSTEM("CodeSystem", FssIcons.FSH_CODESYSTEM),
+    RULE_SET("RuleSet", FssIcons.FSH_RULESET),
+    MAPPING("Mapping", FssIcons.FSH_MAPPING),
     ;
-
-    /** The icon, or null when the resources lack it (the sandbox has no icons; the plugin has them all). */
-    val icon: Icon? by lazy { IconLoader.findIcon("icons/$iconName.svg", FshEntityKind::class.java.classLoader) }
 
     companion object {
         /** The kind of entity element type (`PROFILE_ENTITY`, `PARAM_RULE_SET_ENTITY`, …), by its debug name. */

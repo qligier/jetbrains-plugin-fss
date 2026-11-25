@@ -64,10 +64,10 @@ abstract class FshEntityMixin :
 
             override fun getLocationString(): String = getEntityType()
 
-            override fun getIcon(unused: Boolean): Icon? = getEntityKind().icon
+            override fun getIcon(unused: Boolean): Icon = getEntityKind().icon
         }
 
-    override fun getIcon(flags: Int): Icon? = getEntityKind().icon ?: super.getIcon(flags)
+    override fun getIcon(flags: Int): Icon? = getEntityKind().icon
 
     override fun getIdValue(): String? = greenStub?.idValue ?: metadataValue(FshIdMetadata::class.java)
 

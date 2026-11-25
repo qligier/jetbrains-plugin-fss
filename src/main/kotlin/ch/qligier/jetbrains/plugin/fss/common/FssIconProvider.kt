@@ -9,7 +9,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import javax.swing.Icon
 
-class FssIconProvider : FileIconProvider {
+internal class FssIconProvider : FileIconProvider {
     /**
      * Provides a custom icon for the given virtual file, or {@code null} it there is no icon to provide.
      *
@@ -21,7 +21,7 @@ class FssIconProvider : FileIconProvider {
     override fun getIcon(
         file: VirtualFile,
         flags: Int,
-        project: Project?
+        project: Project?,
     ): Icon? {
         when (file.name) {
             "ig.ini" -> return FssIcons.FHIR_FLAME
