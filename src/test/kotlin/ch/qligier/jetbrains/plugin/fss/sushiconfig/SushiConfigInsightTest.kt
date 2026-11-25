@@ -26,6 +26,16 @@ class SushiConfigInsightTest : BasePlatformTestCase() {
         myFixture.checkHighlighting(true, true, true)
     }
 
+    fun testQuotedFhirVersionR4() {
+        loadSushiConfigFile("QuotedFhirVersionR4.yaml")
+        myFixture.checkHighlighting(true, true, true)
+    }
+
+    fun testSingleQuotedFhirVersionR5() {
+        loadSushiConfigFile("SingleQuotedFhirVersionR5.yaml")
+        myFixture.checkHighlighting(true, true, true)
+    }
+
     private fun loadSushiConfigFile(fileName: String) {
         val file = File(getTestDataPath(), fileName)
         myFixture.configureByText(SushiConfigSpecs.FILENAME, file.readText())

@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace the TextMate grammar of FSH files with a native lexer, parser and syntax highlighter. The plugin no longer
   depends on the TextMate Bundles plugin.
 
+### Fixed
+
+- Fix the FHIR version detection in the `sushi-config.yaml` file annotator. Version-dependent properties are now
+  correctly checked.
+
 ## [0.0.7] - 2026-04-01
 
 ### Added

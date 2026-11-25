@@ -1,0 +1,5 @@
+id: example
+fhirVersion: '5.0.0'
+copyrightYear: 2026+
+releaseLabel: ci-build
+<warning descr="The property 'jurisdiction' is deprecated in FHIR R5.">jurisdiction: urn:iso:std:iso:3166#CH</warning>
