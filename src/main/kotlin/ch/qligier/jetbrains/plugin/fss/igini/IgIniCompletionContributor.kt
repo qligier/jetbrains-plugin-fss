@@ -25,7 +25,9 @@ import com.intellij.util.ProcessingContext
  * A contributor that provides completion variants for the ig.ini file.
  * @see [Completion Contributor](https://plugins.jetbrains.com/docs/intellij/completion-contributor.html)
  */
-class IgIniCompletionContributor : CompletionContributor(), DumbAware {
+internal class IgIniCompletionContributor :
+    CompletionContributor(),
+    DumbAware {
     init {
         // Provide completion for keys
         this.extend(
@@ -98,9 +100,12 @@ class IgIniCompletionContributor : CompletionContributor(), DumbAware {
     }
 }
 
+/**
+ * Adds the template suggestions to the completion result set.
+ * We only add the trusted/recommended templates here.
+ */
 private fun CompletionResultSet.addTemplateSuggestions() {
-    // List from https://build.fhir.org/ig/FHIR/ig-guidance/
-    this.addElement(LookupElementBuilder.create("fhir.base.template"))
+    // List from https://build.fhir.org/ig/FHIR/ig-guidance/en/
     this.addElement(LookupElementBuilder.create("hl7.base.template"))
     this.addElement(LookupElementBuilder.create("hl7.fhir.template"))
     this.addElement(LookupElementBuilder.create("hl7.davinci.template"))
@@ -108,18 +113,17 @@ private fun CompletionResultSet.addTemplateSuggestions() {
     this.addElement(LookupElementBuilder.create("hl7.other.template"))
 
     // List of the trusted templates
-    // https://github.com/HL7/fhir-ig-publisher/blob/master/org.hl7.fhir.publisher.core/src/main/java/org/hl7/fhir/igtools/templates/TemplateManager.java#L275
-    this.addElement(LookupElementBuilder.create("fhir.test.template"))
-    this.addElement(LookupElementBuilder.create("fhir.base.template"))
+    // https://github.com/HL7/fhir-ig-publisher/blob/master/org.hl7.fhir.publisher.core/src/main/java/org/hl7/fhir/igtools/templates/TrustedTemplates.java#L24
     this.addElement(LookupElementBuilder.create("fhir2.base.template"))
-    this.addElement(LookupElementBuilder.create("hl7.base.template"))
-    this.addElement(LookupElementBuilder.create("hl7.fhir.template"))
+    // hl7.base.template is already added
+    // hl7.fhir.template is already added
     this.addElement(LookupElementBuilder.create("hl7.au.base.template"))
     this.addElement(LookupElementBuilder.create("hl7.au.fhir.template"))
+    this.addElement(LookupElementBuilder.create("hl7.au.sparked.template"))
     this.addElement(LookupElementBuilder.create("hl7.utg.template"))
     this.addElement(LookupElementBuilder.create("hl7.be.fhir.template"))
-    this.addElement(LookupElementBuilder.create("hl7.cda.template"))
-    this.addElement(LookupElementBuilder.create("hl7.davinci.template"))
+    // hl7.cda.template is already added
+    // hl7.davinci.template is already added
     this.addElement(LookupElementBuilder.create("hl7.sdc.template"))
     this.addElement(LookupElementBuilder.create("openhie.fhir.template"))
     this.addElement(LookupElementBuilder.create("who.fhir.template"))
@@ -128,6 +132,7 @@ private fun CompletionResultSet.addTemplateSuggestions() {
     this.addElement(LookupElementBuilder.create("ihe.fhir.template"))
     this.addElement(LookupElementBuilder.create("cqf.fhir.template"))
     this.addElement(LookupElementBuilder.create("ans.fr.template"))
+    this.addElement(LookupElementBuilder.create("ans.cda.fr.template"))
     this.addElement(LookupElementBuilder.create("openehr.fhir.template"))
     this.addElement(LookupElementBuilder.create("ch.fhir.ig.template"))
 }
