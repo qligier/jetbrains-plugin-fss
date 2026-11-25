@@ -9,6 +9,7 @@ import ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshNamedElement
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProviderDescriptor
 import com.intellij.openapi.editor.markup.GutterIconRenderer
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
@@ -23,7 +24,7 @@ import javax.swing.Icon
  *
  * @author Quentin Ligier
  **/
-internal class FshLineMarkerProvider : LineMarkerProviderDescriptor() {
+internal class FshLineMarkerProvider : LineMarkerProviderDescriptor(), DumbAware {
     override fun getName(): String = "FSH entity"
 
     override fun getIcon(): Icon = FssIcons.FSH_FILE

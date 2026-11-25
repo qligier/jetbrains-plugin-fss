@@ -13,6 +13,7 @@ import com.intellij.codeInsight.completion.CompletionProvider
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.openapi.project.DumbAware
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.CompositeElement
@@ -24,7 +25,7 @@ import com.intellij.util.ProcessingContext
  * A contributor that provides completion variants for the ig.ini file.
  * @see [Completion Contributor](https://plugins.jetbrains.com/docs/intellij/completion-contributor.html)
  */
-class IgIniCompletionContributor : CompletionContributor() {
+class IgIniCompletionContributor : CompletionContributor(), DumbAware {
     init {
         // Provide completion for keys
         this.extend(

@@ -9,13 +9,14 @@ import ch.qligier.jetbrains.plugin.fss.igini.language.psi.IniProperty
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 
 /**
  * An annotator for the 'ig.ini' file.
  * @see [Annotator](https://plugins.jetbrains.com/docs/intellij/annotator.html)
  */
-class IgIniAnnotator : Annotator {
+class IgIniAnnotator : Annotator, DumbAware {
     /**
      * Annotates the specified PSI element. It is guaranteed to be executed in non-reentrant fashion. I.e there will be
      * no call of this method for this instance before previous call get completed. Multiple instances of the annotator
