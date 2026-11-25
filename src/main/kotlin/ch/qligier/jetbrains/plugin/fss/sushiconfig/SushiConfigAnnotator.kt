@@ -194,7 +194,7 @@ internal class SushiConfigAnnotator :
      */
     private fun getFhirVersion(mapping: YAMLMapping): FhirVersion? {
         val value = mapping.getKeyValueByKey("fhirVersion")
-        val versionTest = (value?.value as? YAMLScalar)?.text
+        val versionTest = (value?.value as? YAMLScalar)?.textValue
         return when (versionTest) {
             "3.2.0", "3.3.0", "3.5.0", "3.5a.0", "4.0.1" -> FhirVersion.R4
 

@@ -1,0 +1,5 @@
+id: example
+fhirVersion: "4.0.1"
+copyrightYear: 2026+
+releaseLabel: ci-build
+<error descr="The property 'copyrightLabel' was added in FHIR R5.">copyrightLabel: label</error>
