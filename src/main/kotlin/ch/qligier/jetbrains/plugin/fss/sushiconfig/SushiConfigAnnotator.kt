@@ -189,6 +189,9 @@ internal class SushiConfigAnnotator :
             .create()
     }
 
+    /**
+     * @see [Publication (Version) History](https://hl7.org/fhir/directory.html)
+     */
     private fun getFhirVersion(mapping: YAMLMapping): FhirVersion? {
         val value = mapping.getKeyValueByKey("fhirVersion")
         val versionTest = (value?.value as? YAMLScalar)?.text
@@ -201,7 +204,7 @@ internal class SushiConfigAnnotator :
             "5.0.0-draft-final", "5.0.0",
             -> FhirVersion.R5
 
-            "6.0.0-ballot1", "6.0.0-ballot2", "6.0.0-ballot3" -> FhirVersion.R6
+            "6.0.0-ballot1", "6.0.0-ballot2", "6.0.0-ballot3", "6.0.0-ballot4", "6.0.0-ballot5", "6.0.0-snapshot1" -> FhirVersion.R6
 
             else -> null
         }
