@@ -30,7 +30,6 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
-    <depends>org.jetbrains.plugins.textmate</depends>
     <depends optional="true" config-file="plugin_with_json.xml">com.intellij.modules.json</depends>
     <depends optional="true" config-file="plugin_with_yaml.xml">org.jetbrains.plugins.yaml</depends>
 
@@ -49,17 +48,22 @@
                 fieldName="INSTANCE"
                 language="FSH"
                 extensions="fsh"/>
-        <textmate.bundleProvider
-                implementation="ch.qligier.jetbrains.plugin.fss.fsh.FshTextMateBundleProvider"/>
-        <!-- The following two ("editorHighlighterProvider" and "lang.syntaxHighlighterFactory") are required
-            because defining a custom file type breaks the association of a TextMate grammar with a file extension.
-            https://intellij-support.jetbrains.com/hc/en-us/community/posts/360008202719/comments/8966725380242 -->
-        <editorHighlighterProvider
-                filetype="FSH"
-                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateEditorHighlighterProvider"/>
+
+        <lang.parserDefinition language="FSH"
+                               implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.language.parser.FshParserDefinition"/>
+        <stubElementTypeHolder class="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.FshTypes"
+                               externalIdPrefix="fsh."/>
+        <stubIndex implementation="ch.qligier.jetbrains.plugin.fss.fsh.language.psi.stubs.FshEntityNameIndex"/>
         <lang.syntaxHighlighterFactory
                 language="FSH"
-                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateSyntaxHighlighterFactory"/>
+                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.language.highlighter.FshSyntaxHighlighterFactory"/>
+        <annotator
+                language="FSH"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.fsh.language.highlighter.FshHighlightingAnnotator"/>
+        <colorSettingsPage
+                implementation="ch.qligier.jetbrains.plugin.fss.fsh.language.highlighter.FshColorSettingsPage"/>
+        <additionalTextAttributes scheme="Default" file="colorSchemes/FshDefault.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/FshDarcula.xml"/>
 
         <defaultLiveTemplates file="/fsh/liveTemplates.xml"/>
         <liveTemplateContext

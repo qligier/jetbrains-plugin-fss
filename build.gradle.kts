@@ -46,7 +46,6 @@ dependencies {
         // Plugin Dependencies. Uses `platformBundledPlugins` property from the gradle.properties file for bundled IntelliJ Platform plugins.
         bundledPlugin("org.jetbrains.plugins.yaml")
         bundledPlugin("com.intellij.modules.json")
-        bundledPlugin("org.jetbrains.plugins.textmate")
 
         // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file for plugin from JetBrains Marketplace.
 
@@ -79,7 +78,6 @@ intellijPlatform {
         ideaVersion {
             // Supported build number ranges and IntelliJ Platform versions
             // https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html
-            // To depend on the TextMate bundle API, the plugin must start build from 241
             sinceBuild = "242"
 
             // Do not set `untilBuild` here but in the Marketplace directly.
@@ -168,17 +166,6 @@ tasks {
 
     publishPlugin {
         dependsOn(patchChangelog)
-    }
-
-    prepareSandbox {
-        from("src/main/resources/fsh/fsh.tmbundle") {
-            into(pluginName.map { "$it/fsh/fsh.tmbundle" })
-        }
-    }
-    prepareTestSandbox {
-        from("src/main/resources/fsh/fsh.tmbundle") {
-            into(pluginName.map { "$it/fsh/fsh.tmbundle" })
-        }
     }
 }
 

@@ -11,13 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rename the plugin to "FSH Toolkit", to respect both the FHIR® Trademark and JetBrains' guidelines against using the
   word "support" in the plugin name.
 - Update the `sushi-config.yaml` specifications to v3.20.0.
+- Replace the TextMate grammar of FSH files with a native lexer, parser and syntax highlighter. The plugin no longer
+  depends on the TextMate Bundles plugin.
 
 ## [0.0.7] - 2026-04-01
 
 ### Added
 
-- Implement support for the `sushi-config.yaml` file: annotations, auto-completion and validation of properties
-  (when possible)
+- Implement support for the `sushi-config.yaml` file: annotations, auto-completion and validation of properties (when
+  possible)
 
 ## [0.0.6] - 2025-12-21
 
