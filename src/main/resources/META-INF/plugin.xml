@@ -83,9 +83,33 @@
                 fieldName="INSTANCE"
                 language="IG_INI"
                 fileNames="ig.ini"/>
-        <annotator
+        <localInspection
                 language="IG_INI"
-                implementationClass="ch.qligier.jetbrains.plugin.fss.igini.IgIniAnnotator"/>
+                shortName="IgIniMissingRequiredEntry"
+                displayName="Missing [IG] section or required property"
+                groupPath="FHIR"
+                groupName="ig.ini"
+                enabledByDefault="true"
+                level="ERROR"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.igini.IgIniMissingRequiredEntryInspection"/>
+        <localInspection
+                language="IG_INI"
+                shortName="IgIniUnsupportedSection"
+                displayName="Section not supported by the IG Publisher"
+                groupPath="FHIR"
+                groupName="ig.ini"
+                enabledByDefault="true"
+                level="WEAK WARNING"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.igini.IgIniUnsupportedSectionInspection"/>
+        <localInspection
+                language="IG_INI"
+                shortName="IgIniUnsupportedProperty"
+                displayName="Property not supported by the IG Publisher"
+                groupPath="FHIR"
+                groupName="ig.ini"
+                enabledByDefault="true"
+                level="WEAK WARNING"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.igini.IgIniUnsupportedPropertyInspection"/>
         <lang.parserDefinition
                 language="IG_INI"
                 implementationClass="ch.qligier.jetbrains.plugin.fss.igini.language.parser.IniParserDefinition"/>
@@ -100,7 +124,7 @@
                 implementationClass="ch.qligier.jetbrains.plugin.fss.igini.IgIniCompletionContributor"/>
 
         <!-- The sushi-config.yaml file -->
-        <!-- The annotator is only loaded when the YAML plugin is available -->
+        <!-- The inspection is only loaded when the YAML plugin is available -->
         <!-- The JSON schema provider factory is only loaded when the JSON plugin is available -->
     </extensions>
 </idea-plugin>

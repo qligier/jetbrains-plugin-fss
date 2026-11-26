@@ -4,41 +4,30 @@
 
 package ch.qligier.jetbrains.plugin.fss.sushiconfig
 
-import com.intellij.codeInsight.intention.impl.BaseIntentionAction
+import com.intellij.codeInspection.LocalQuickFix
+import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.util.IntentionFamilyName
-import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.project.DumbAware
+import com.intellij.codeInspection.util.IntentionName
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
-import com.intellij.util.IncorrectOperationException
 import org.jetbrains.yaml.psi.YAMLFile
 import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.YAMLMapping
 
 class RemoveValueKeyQuickFix(
     private val keyName: String,
-) : BaseIntentionAction(),
-    DumbAware {
-    override fun isAvailable(
+) : LocalQuickFix {
+    override fun applyFix(
         project: Project,
-        editor: Editor?,
-        psiFile: PsiFile?,
-    ): Boolean = true
-
-    @Throws(IncorrectOperationException::class)
-    override fun invoke(
-        project: Project,
-        editor: Editor?,
-        psiFile: PsiFile?,
+        descriptor: ProblemDescriptor,
     ) {
-        if (psiFile !is YAMLFile) return
-        psiFile.documents.forEach { document ->
+        val file = descriptor.psiElement?.containingFile as? YAMLFile ?: return
+        file.documents.forEach { document ->
             (document.topLevelValue as? YAMLMapping)?.let { mapping ->
                 val keyValue: YAMLKeyValue = mapping.getKeyValueByKey(keyName) ?: return@let
-                if (keyValue.nextSibling is PsiElement && keyValue.nextSibling.text == "\n") {
+                val next = keyValue.nextSibling
+                if (next != null && next.text == "\n") {
                     // Also delete the newline after the key-value pair to avoid keeping an empty line
-                    keyValue.nextSibling.delete()
+                    next.delete()
                 }
                 keyValue.delete()
             }
@@ -47,32 +36,24 @@ class RemoveValueKeyQuickFix(
 
     override fun getFamilyName(): @IntentionFamilyName String = "Remove property"
 
-    override fun getText(): String = "Remove property '$keyName'"
+    override fun getName(): @IntentionName String = "Remove property '$keyName'"
 }
 
 class AddValueKeyQuickFix(
     private val keyName: String,
     private val keyValue: String,
-) : BaseIntentionAction(),
-    DumbAware {
-    override fun isAvailable(
+) : LocalQuickFix {
+    override fun applyFix(
         project: Project,
-        editor: Editor?,
-        psiFile: PsiFile?,
-    ): Boolean = true
-
-    override fun invoke(
-        project: Project,
-        editor: Editor?,
-        psiFile: PsiFile?,
+        descriptor: ProblemDescriptor,
     ) {
-        if (psiFile !is YAMLFile) return
-        psiFile.documents.forEach { document ->
+        val file = descriptor.psiElement?.containingFile as? YAMLFile ?: return
+        file.documents.forEach { document ->
             (document.topLevelValue as? YAMLMapping)?.putKeyValue(createKeyValue(project, keyName, keyValue))
         }
     }
 
     override fun getFamilyName(): @IntentionFamilyName String = "Add property"
 
-    override fun getText(): String = "Add property '$keyName'"
+    override fun getName(): @IntentionName String = "Add property '$keyName'"
 }
