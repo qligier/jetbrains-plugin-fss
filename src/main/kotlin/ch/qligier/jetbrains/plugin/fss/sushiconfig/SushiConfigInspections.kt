@@ -74,7 +74,7 @@ internal class SushiConfigDuplicatePropertyInspection : SushiConfigInspectionBas
         val keyValue1 = mapping.getKeyValueByKey(key1) ?: return
         val keyValue2 = mapping.getKeyValueByKey(key2) ?: return
         val message = "Both '$key1' and '$key2' are used, choose only one."
-        val quickFix = RemoveValueKeyQuickFix(key2)
+        val quickFix = RemoveValueKeyQuickFix(mapping, key2).asQuickFix()
         holder.registerProblem(keyValue1, message, quickFix)
         holder.registerProblem(keyValue2, message, quickFix)
     }
@@ -104,7 +104,7 @@ internal class SushiConfigUndefinedInFhirVersionInspection : SushiConfigInspecti
         holder.registerProblem(
             value,
             "The property '$key' was added in FHIR $addedInVersion.",
-            RemoveValueKeyQuickFix(key),
+            RemoveValueKeyQuickFix(mapping, key).asQuickFix(),
         )
     }
 }
@@ -133,7 +133,7 @@ internal class SushiConfigDeprecatedInFhirVersionInspection : SushiConfigInspect
         holder.registerProblem(
             value,
             "The property '$key' is deprecated in FHIR $deprecatedInVersion.",
-            RemoveValueKeyQuickFix(key),
+            RemoveValueKeyQuickFix(mapping, key).asQuickFix(),
         )
     }
 }
@@ -187,7 +187,7 @@ internal class SushiConfigMissingRecommendedPropertyInspection : SushiConfigInsp
         holder.registerProblem(
             mapping.lastLeaf(),
             "The property '$key' should be set in the configuration file.",
-            AddValueKeyQuickFix(key, defaultValueForQuickFix),
+            AddValueKeyQuickFix(mapping, key, defaultValueForQuickFix).asQuickFix(),
         )
     }
 }
