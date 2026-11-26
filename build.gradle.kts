@@ -7,20 +7,11 @@ import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 
 plugins {
-    id("java") // Java support
-    id("org.jetbrains.kotlin.jvm") version "2.3.20" // Kotlin support
-    id("org.jetbrains.intellij.platform") version "2.13.1" // IntelliJ Platform Gradle Plugin
+    id("org.jetbrains.kotlin.jvm") version "2.4.21" // Kotlin support
+    id("org.jetbrains.intellij.platform") version "2.20.1" // IntelliJ Platform Gradle Plugin
     id("org.jetbrains.changelog") version "2.5.0" // Gradle Changelog Plugin
-    id("org.jetbrains.qodana") version "2025.3.2" // Gradle Qodana Plugin
-    id("org.jetbrains.kotlinx.kover") version "0.9.7" // Gradle Kover Plugin
-}
-
-group = "ch.qligier.jetbrains.plugin.fss"
-version = providers.gradleProperty("pluginVersion").get()
-
-// Set the JVM language level used to build the project.
-kotlin {
-    jvmToolchain(21)
+    id("org.jetbrains.qodana") version "2026.3.1" // Gradle Qodana Plugin
+    id("org.jetbrains.kotlinx.kover") version "0.9.11" // Gradle Kover Plugin
 }
 
 // Configure project's dependencies
@@ -33,9 +24,9 @@ repositories {
     }
 }
 
-// Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
+// Configure project's dependencies
 dependencies {
-    implementation("org.jetbrains:annotations:26.0.2-1")
+    compileOnly("org.jetbrains:annotations:26.1.0")
 
     testImplementation("junit:junit:4.13.2")
 
@@ -43,11 +34,9 @@ dependencies {
     intellijPlatform {
         intellijIdea("2025.3")
 
-        // Plugin Dependencies. Uses `platformBundledPlugins` property from the gradle.properties file for bundled IntelliJ Platform plugins.
+        // Bundled IntelliJ Platform plugins this plugin depends on
         bundledPlugin("org.jetbrains.plugins.yaml")
         bundledPlugin("com.intellij.modules.json")
-
-        // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file for plugin from JetBrains Marketplace.
 
         pluginVerifier()
         zipSigner()
@@ -58,13 +47,12 @@ dependencies {
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
 intellijPlatform {
     pluginConfiguration {
-        id = "jetbrains-plugin-fss"
-        version = providers.gradleProperty("pluginVersion")
+        version = providers.gradleProperty("version")
 
         val changelog = project.changelog // local variable for configuration cache compatibility
         // Get the latest available change notes from the changelog file
         changeNotes =
-            providers.gradleProperty("pluginVersion").map { pluginVersion ->
+            providers.gradleProperty("version").map { pluginVersion ->
                 with(changelog) {
                     renderItem(
                         (getOrNull(pluginVersion) ?: getUnreleased())
@@ -92,20 +80,13 @@ intellijPlatform {
         }
     }
 
-    signing {
-        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
-        privateKey = providers.environmentVariable("PRIVATE_KEY")
-        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
-    }
-
     publishing {
-        token = providers.environmentVariable("PUBLISH_TOKEN")
         // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
         // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels =
             providers
-                .gradleProperty("pluginVersion")
+                .gradleProperty("version")
                 .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
 
@@ -117,20 +98,11 @@ intellijPlatform {
             // the storage used by the downloaded IDEs. This is especially important for GitHub actions, which have
             // limited resources.
             // https://github.com/JetBrains/intellij-platform-plugin-template/issues/462#issuecomment-4172769399
-            create(
-                ProductReleasesValueSource().map {
-                    listOf(it.first(), it.last()).distinct()
-                },
-            )
-            // In the future, we'll be able to reuse the current IDE: create(current())
+            current() // Use the current IDE because it's already downloaded
+            latest { untilBuild = "242.*" } // This is the earliest supported build
+            latest() // This is the latest supported build
         }
     }
-}
-
-// Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
-changelog {
-    groups.empty()
-    repositoryUrl = "https://github.com/qligier/jetbrains-plugin-fss"
 }
 
 // Configure Gradle Kover Plugin - read more: https://github.com/Kotlin/kotlinx-kover#configuration
@@ -147,46 +119,13 @@ kover {
 sourceSets {
     main {
         java {
-            srcDir("src/main/kotlin")
             srcDir("src/main/gen")
         }
     }
 }
 
 tasks {
-    // Set the JVM compatibility versions
-    withType<JavaCompile> {
-        sourceCompatibility = "21"
-        targetCompatibility = "21"
-    }
-
-    wrapper {
-        gradleVersion = providers.gradleProperty("gradleVersion").get()
-    }
-
     publishPlugin {
         dependsOn(patchChangelog)
-    }
-}
-
-intellijPlatformTesting {
-    runIde {
-        register("runIdeForUiTests") {
-            task {
-                jvmArgumentProviders +=
-                    CommandLineArgumentProvider {
-                        listOf(
-                            "-Drobot-server.port=8082",
-                            "-Dide.mac.message.dialogs.as.sheets=false",
-                            "-Djb.privacy.policy.text=<!--999.999-->",
-                            "-Djb.consents.confirmation.enabled=false",
-                        )
-                    }
-            }
-
-            plugins {
-                robotServerPlugin()
-            }
-        }
     }
 }
