@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace the TextMate grammar of FSH files with a native lexer, parser and syntax highlighter. The plugin no longer
   depends on the TextMate Bundles plugin.
 - Update the list of template suggestions in the `ig.ini` file.
+- Turn the `ig.ini` and `sushi-config.yaml` annotations into inspections (one per check, under "FHIR"), so they can be
+  disabled,  re-leveled or suppressed in the inspection settings.
 
 ### Fixed
 

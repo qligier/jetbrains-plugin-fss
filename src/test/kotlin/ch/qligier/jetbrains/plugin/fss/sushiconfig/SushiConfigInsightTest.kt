@@ -15,6 +15,13 @@ class SushiConfigInsightTest : BasePlatformTestCase() {
 
     override fun setUp() {
         super.setUp()
+        myFixture.enableInspections(
+            SushiConfigDuplicatePropertyInspection(),
+            SushiConfigUndefinedInFhirVersionInspection(),
+            SushiConfigDeprecatedInFhirVersionInspection(),
+            SushiConfigDeprecatedXverDependencyInspection(),
+            SushiConfigMissingRecommendedPropertyInspection(),
+        )
         // Allow access to the JAR file itself.
         // This is necessary for the test to access the embedded JSON schema resource.
         PathManager.getJarPathForClass(SushiConfigSchemaProvider::class.java)?.let { jarOrClassesPath ->
@@ -37,7 +44,7 @@ class SushiConfigInsightTest : BasePlatformTestCase() {
         myFixture.checkHighlighting(true, true, true)
     }
 
-    fun `Verify other YAML file is not annotated`() {
+    fun testOtherYamlFileIsNotInspected() {
         myFixture.configureByText("docker-compose.yaml", "services:\n  web:\n    image: nginx\n")
         val warnings = myFixture.doHighlighting(HighlightSeverity.WARNING).map { it.description }
         assertEmpty(warnings)

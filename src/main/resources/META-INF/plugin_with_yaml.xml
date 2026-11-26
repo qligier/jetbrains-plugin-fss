@@ -13,8 +13,50 @@
                 fieldName="INSTANCE"
                 language="yaml"
                 fileNames="sushi-config.yaml"/>
-        <annotator
+        <localInspection
                 language="yaml"
-                implementationClass="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigAnnotator"/>
+                shortName="SushiConfigDuplicateProperty"
+                displayName="Property set under both spellings"
+                groupPath="FHIR"
+                groupName="sushi-config.yaml"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigDuplicatePropertyInspection"/>
+        <localInspection
+                language="yaml"
+                shortName="SushiConfigUndefinedInFhirVersion"
+                displayName="Property not defined in the FHIR version"
+                groupPath="FHIR"
+                groupName="sushi-config.yaml"
+                enabledByDefault="true"
+                level="ERROR"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigUndefinedInFhirVersionInspection"/>
+        <localInspection
+                language="yaml"
+                shortName="SushiConfigDeprecatedInFhirVersion"
+                displayName="Property deprecated in the FHIR version"
+                groupPath="FHIR"
+                groupName="sushi-config.yaml"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigDeprecatedInFhirVersionInspection"/>
+        <localInspection
+                language="yaml"
+                shortName="SushiConfigDeprecatedXverDependency"
+                displayName="Deprecated cross-version extensions dependency"
+                groupPath="FHIR"
+                groupName="sushi-config.yaml"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigDeprecatedXverDependencyInspection"/>
+        <localInspection
+                language="yaml"
+                shortName="SushiConfigMissingRecommendedProperty"
+                displayName="Missing recommended property"
+                groupPath="FHIR"
+                groupName="sushi-config.yaml"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigMissingRecommendedPropertyInspection"/>
     </extensions>
 </idea-plugin>

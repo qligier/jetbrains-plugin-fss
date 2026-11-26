@@ -13,12 +13,21 @@ import java.nio.file.Files;
  *
  * @author Quentin Ligier
  **/
-public class IgIniAnnotatorTest extends BasePlatformTestCase {
+public class IgIniInspectionTest extends BasePlatformTestCase {
 
     /*
      * Since the example files are not named "ig.ini", the fixture editor is not configured with the correct file type.
      * Thus, we load the file manually with the correct file type.
      */
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        this.myFixture.enableInspections(
+                new IgIniMissingRequiredEntryInspection(),
+                new IgIniUnsupportedSectionInspection(),
+                new IgIniUnsupportedPropertyInspection());
+    }
 
     public void testExample1() throws IOException {
         this.configureIgIni("Example1.ini");
