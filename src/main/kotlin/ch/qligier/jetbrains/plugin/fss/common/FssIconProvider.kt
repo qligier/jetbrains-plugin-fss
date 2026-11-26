@@ -1,9 +1,11 @@
 /*
- * Copyright 2025 Quentin Ligier. Use of this source code is governed by the MIT license.
+ * Copyright 2026 Quentin Ligier. Use of this source code is governed by the MIT license.
  */
 
 package ch.qligier.jetbrains.plugin.fss.common
 
+import ch.qligier.jetbrains.plugin.fss.igini.IgIniFileType
+import ch.qligier.jetbrains.plugin.fss.sushiconfig.SushiConfigSpecs
 import com.intellij.ide.FileIconProvider
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
@@ -24,8 +26,8 @@ internal class FssIconProvider : FileIconProvider {
         project: Project?,
     ): Icon? {
         when (file.name) {
-            "ig.ini" -> return FssIcons.FHIR_FLAME
-            "sushi-config.json" -> return FssIcons.FSH_FLAME
+            IgIniFileType.INSTANCE.name -> return FssIcons.FHIR_FLAME
+            SushiConfigSpecs.FILENAME -> return FssIcons.FSH_FLAME
         }
 
         if (file.path.endsWith("/input/includes/menu.xml")) {
